@@ -1,0 +1,85 @@
+# Base
+pytz==2018.7
+python-slugify==1.2.6
+Pillow==5.3.0
+
+# Django
+django==2.2.7
+
+# Environment
+django-environ==0.4.5
+
+# Django REST Framework
+djangorestframework==3.9.0
+django-filter==2.1.0
+# djangorestframework-filters==0.11.1
+
+# JWT
+pyjwt==1.7.1
+
+# Passwords security
+argon2-cffi==20.1.0
+
+# Static files
+whitenoise==4.1.2
+
+importlib-metadata==4.13.0
+
+# Django
+Cython==0.29.24
+cffi==1.15.0 
+django-import-export==1.0.0
+# cairocffi==0.8.0
+# CairoSVG==2.1.3
+certifi==2018.1.18
+django-cors-headers==3.0.2
+cssselect2==0.2.1
+django-afip==7.1.2
+django-templated-email==2.2.0
+html5lib==1.0.1
+# lxml==4.2.1
+# numpy==1.17.4
+pandas==0.23.4
+django-pandas==0.6.6
+Pyphen==0.9.4
+python-barcode==0.8.1
+setuptools-git==1.2
+setuptools-scm==2.0.0
+tablib==0.12.1
+tinycss2==0.6.1
+tornado==5.1.1
+WeasyPrint==0.42.2
+xlrd==1.1.0
+xlwt==1.3.0
+cryptography==3.2.0
+paramiko==2.7.2
+django-extensions==3.1.3
+ptpython==3.0.20
+xlsxwriter==3.0.3
+plotly==5.8.2
+
+# Debugging
+ipdb==0.11
+
+# Testing
+mypy==0.650
+pytest==4.0.2
+pytest-sugar==0.9.2
+pytest-django==3.4.4
+factory-boy==2.11.1
+
+# Code quality
+flake8==3.6.0
+
+# For production
+gunicorn==19.9.0
+
+# Static files
+django-storages[boto3]==1.7.1
+
+# Email
+django-anymail[mailgun]==5.0
+
+# Mysql
+mysql-connector==2.2.9
+mysqlclient==2.1.1

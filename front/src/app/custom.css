@@ -1,0 +1,78 @@
+.bg-gradient {
+    background: linear-gradient(270deg,#33e1d9,#5691c8)!important;
+}
+.monitor-head {
+    height: 8vh!important;
+}
+.monitor-body-without-footer {
+    height: 92vh!important;
+    overflow-y: auto;    
+}
+
+
+.monitor-body {
+    height: 83vh!important;
+    overflow-y: auto;
+}
+
+.monitor-footer {
+    height: 9vh!important;
+}
+
+
+.AppendableRowField {
+    position: relative;
+  }
+  
+  .AppendableRowField.disabled::after {
+    content: '';
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background: rgba(255, 255, 255, 0.5);
+  }
+  
+  .AppendableRowField label {
+    overflow-x: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    text-align: center;
+  }
+  
+  .AppendableRowField__fieldsrow {
+    display: grid;
+    grid-column-gap: 6px;
+  }
+  
+  .AppendableRowField__fieldsrow--1 {
+    grid-template-columns: repeat(1, 1fr);
+  }
+  
+  .AppendableRowField__fieldsrow--2 {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  
+  .AppendableRowField__fieldsrow--3 {
+    grid-template-columns: repeat(3, 1fr);
+  }
+  
+  .AppendableRowField__fieldsrow--4 {
+    grid-template-columns: repeat(4, 1fr);
+  }
+  
+  .AppendableRowField__fieldsrow--5 {
+    grid-template-columns: repeat(5, 1fr);
+  }
+  
+  .AppendableRowField__fieldsrow--6 {
+    grid-template-columns: repeat(6, 1fr);
+  }
+  
+  .AppendableRowField__fieldsrow--7 {
+    grid-template-columns: repeat(7, 1fr);
+  }
+  
+  .AppendableRowField__fieldsrow--8 {
+    grid-template-columns: repeat(8, 1fr);
+  }
+  

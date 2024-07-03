@@ -1,0 +1,26 @@
+services:
+  ddbb:
+    image: mysql:8
+    volumes:
+      - ./ddbb:/var/lib/mysql
+    ports:
+      - 3306:3306
+    environment:
+      - MYSQL_ALLOW_EMPTY_PASSWORD=1
+
+  app:
+    build:
+      context: .
+    image: ghcr.io/reflejar/adminorg:latest
+    volumes:
+      - ./api:/api
+      - ./front:/front
+      - /front/node_modules
+    env_file:
+      - .env.local
+    ports:
+      - 8000:8000
+      - 3000:3000
+    links:
+      - ddbb:mysql      
+    command: /run-dev.sh

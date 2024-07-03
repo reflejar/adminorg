@@ -1,0 +1,8 @@
+[
+    {"id": 1, "naturaleza_id": 2, "nombre": "efectivo"},
+    {"id": 2, "naturaleza_id": 2, "nombre": "banco"},
+    {"id": 3, "naturaleza_id": 2, "nombre": "billetera"},
+    {"id": 4, "naturaleza_id": 2, "nombre": "seguimiento"},
+    {"id": 5, "naturaleza_id": 7, "nombre": "tipo_cambio"},
+    {"id": 6, "naturaleza_id": 8, "nombre": "tipo_cambio"}
+]
