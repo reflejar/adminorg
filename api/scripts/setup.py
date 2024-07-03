@@ -1,4 +1,4 @@
-# scripts/initial_data.py
+# /api/scripts/initial_data.py
 import json
 from datetime import date
 from core.models import *
@@ -31,25 +31,25 @@ def crer_superusuario():
 def crear_cosas_de_afip():
 	"""Crear cosas necesarias para el funcionamiento de AFIP"""
 	# Tipos de comprobantes
-	receipt_types = open('scripts/receipt_types.json', 'r')
+	receipt_types = open('/api/scripts/receipt_types.json', 'r')
 	data = json.load(receipt_types)
 	for d in data:
 		ReceiptType.objects.create(**d)
 
 	# Tipos de conceptos
-	concept_types = open('scripts/concept_types.json', 'r')
+	concept_types = open('/api/scripts/concept_types.json', 'r')
 	data = json.load(concept_types)
 	for d in data:
 		ConceptType.objects.create(**d)		
 
 	# Tipos de documento
-	document_types = open('scripts/document_types.json', 'r')
+	document_types = open('/api/scripts/document_types.json', 'r')
 	data = json.load(document_types)
 	for d in data:
 		DocumentType.objects.create(**d)		
 
 	# Tipos de moneda
-	currency_types = open('scripts/currency_types.json', 'r')
+	currency_types = open('/api/scripts/currency_types.json', 'r')
 	data = json.load(currency_types)
 	for d in data:
 		CurrencyType.objects.create(**d)		
@@ -64,25 +64,25 @@ def crear_grupos():
 def crear_cosas_core_de_aplicacion():
 	"""Crear cosas necesarias para el funcionamiento del core"""
 	# Crear Naturalezas
-	naturalezas = open('scripts/naturalezas.json', 'r')
+	naturalezas = open('/api/scripts/naturalezas.json', 'r')
 	data = json.load(naturalezas)
 	for d in data:
 		Naturaleza.objects.create(**d)
 
 	# Crear Taxones
-	taxones = open('scripts/taxones.json', 'r')
+	taxones = open('/api/scripts/taxones.json', 'r')
 	data = json.load(taxones)
 	for d in data:
 		Taxon.objects.create(**d)				
 
 	# Crear Provincias
-	provincias = open('scripts/provincias.json', 'r')
+	provincias = open('/api/scripts/provincias.json', 'r')
 	data = json.load(provincias)
 	for d in data:
 		Provincia.objects.create(**d)		
 
 	# Crear Tipos de comunidad
-	tipos_comunidad = open('scripts/tipos_comunidad.json', 'r')
+	tipos_comunidad = open('/api/scripts/tipos_comunidad.json', 'r')
 	data = json.load(tipos_comunidad)
 	for d in data:
 		TipoComunidad.objects.create(**d)		

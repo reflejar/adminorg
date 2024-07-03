@@ -265,7 +265,7 @@ tags
 
 ### Project template
 
-app/media/
+media/
 
 .pytest_cache/
 

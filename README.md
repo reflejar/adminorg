@@ -25,18 +25,28 @@ Abrí una terminal del sistema en el directorio raiz del proyecto y construí la
 $ docker compose build
 ```
 
-Luego se debe crear una base de datos en mysql que se llame "adminorg"
+Luego se debe crear una base de datos en mysql que se llame "adminorg".
+Para eso necesitamos acceder al contenedor de mysql llamado `ddbb`
 
 ```bash
-$ docker compose run --rm ddbb mysql -u root
+$ docker compose up ddbb -d
+$ docker compose exec ddbb bash
+```
+
+Una vez adentro, accedemos, a su vez, a la consola de mysql. escribimos `mysql -u root`. Luego, en la consola de mysql escribimos `CREATE DATABASE adminorg;`
+
+```bash
+$ bash-5.1# mysql -u root
 $ CREATE DATABASE adminorg;
 ```
+
+Luego cortamos la ejecución 
 
 Luego se debe migrar la base de datos y ejecutar los scripts necesarios para dejar el sistema a punto
 
 ```bash
-$ docker compose run --rm app python manage.py migrate
-$ docker compose run --rm app python manage.py runscript setup
+$ docker compose run app python /api/manage.py migrate
+$ docker compose run app python /api/manage.py runscript setup
 ```
 
 ### Ejecución
@@ -52,7 +62,7 @@ $ docker compose up
 _Si se necesita generar una migración porque se creó o se modificó un modelo hay que hacer lo siguiente_
 
 ```bash
-$ docker compose run --rm app python manage.py makemigrations
+$ docker compose run app python /api/manage.py makemigrations
 ```
 
 _Y luego, al ejecutarse el "up", se migra sola_
