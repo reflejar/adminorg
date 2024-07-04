@@ -16,12 +16,14 @@ La forma de levantar el entorno de desarrollo es a través de Docker debido a qu
 > 
 > Este entorno virtual requiere de:
 > - [Docker](https://docs.docker.com/engine/install/_) y (docker) compose (que en las nuevas versiones ya viene en la instalación de docker)
+> Si estás en Windows es necesario que enciendas Docker Engine que por lo general se hace abriendo Docker Desktop
 
 ### Instalación
 
-Abrí una terminal del sistema en el directorio raiz del proyecto y construí la imagen de docker
+Abrí una terminal del sistema en el directorio raiz del proyecto. Crear las variables de entorno en el archivo `.env.local` partiendo desde `.env.list` y luego construí la imagen de docker
 
 ```bash
+$ cp .env.dist .env.local
 $ docker compose build
 ```
 
