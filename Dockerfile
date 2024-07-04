@@ -6,7 +6,7 @@ FROM python:3.7
 ENV PYTHONUNBUFFERED=1
 
 RUN apt-get update && \
-    apt-get install -y netcat-openbsd npm
+    apt-get install -y --fix-missing netcat-openbsd npm
 
 ADD api/requirements.txt /api/requirements.txt
 RUN pip install -r /api/requirements.txt
