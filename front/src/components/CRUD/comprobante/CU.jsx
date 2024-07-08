@@ -14,7 +14,7 @@ import CHOICES from "./components/choices";
 import { Service } from "@/redux/services/general";
 
 
-export default function Comprobante({ moduleHandler, destinatario, comprobanteId, onClose }) {
+export default function Comprobante({ moduleHandler, destinatario, comprobanteId, comportamiento, onClose }) {
 
     const dispatch = useDispatch();
 
@@ -23,6 +23,7 @@ export default function Comprobante({ moduleHandler, destinatario, comprobanteId
         fecha_operacion: moment().format('YYYY-MM-DD'),
         destinatario: destinatario.id,
         modulo: moduleHandler,
+        comportamiento: comportamiento,
         descripcion: '',
         link: '',
         receipt: {
@@ -172,7 +173,7 @@ export default function Comprobante({ moduleHandler, destinatario, comprobanteId
             />
 
             {/* Seccion de Cargas */}
-            {comprobante.receipt.receipt_type && !comprobante.receipt.receipt_type.includes("Nota de Credito") && ((loadingIngresos || loadingCajas || loadingGastos || loadingProyectos) ? <Spinner /> : <Appendable 
+            {tipoComprobante && tipoComprobante.comportamiento === "aumento" && ((loadingIngresos || loadingCajas || loadingGastos || loadingProyectos) ? <Spinner /> : <Appendable 
                 comprobante={comprobante} 
                 setComprobante={setComprobante} 
                 onlyRead={onlyRead}
@@ -187,12 +188,11 @@ export default function Comprobante({ moduleHandler, destinatario, comprobanteId
                     type: 'select',
                     name: 'concepto',
                     label: comprobante.modulo === "caja" ? "Desde": 'Tipo',
-                    choices: comprobante.modulo === "caja" ? [
-                        ...cajas.map(i => ({...i, full_name: `($) ${i.full_name}`})),
-                    ] : [
-                        ...ingresos.map(i => ({...i, full_name: `(+) ${i.full_name}`})), 
-                        ...gastos.map(i => ({...i, full_name: `(-) ${i.full_name}`})),
-                    ]
+                    choices: {
+                        caja: cajas,
+                        cliente: ingresos,
+                        proveedor: gastos
+                    }[comprobante.modulo]
                     },
                     {
                     type: comprobante.modulo === "caja" ? "hidden": 'select',
@@ -238,11 +238,10 @@ export default function Comprobante({ moduleHandler, destinatario, comprobanteId
             }
 
             {/* Clientes: Seccion de Cobros */}
-            {comprobante.receipt.receipt_type && (['cliente', 'proveedor'].includes(comprobante.modulo) || onlyRead) && (loadingSaldos ? <Spinner /> : <Selectable 
+            {tipoComprobante && tipoComprobante.comportamiento === "disminucion"  && (['cliente', 'proveedor'].includes(comprobante.modulo) || onlyRead) && (loadingSaldos ? <Spinner /> : <Selectable 
                 comprobante={comprobante} 
                 setComprobante={setComprobante} 
                 onlyRead={onlyRead}
-                color='bg-light'
                 title="Saldos adeudados anteriormente"
                 handler="cobros"
                 rows={comprobante.id ? comprobante.cobros: saldos}

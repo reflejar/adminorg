@@ -2,7 +2,6 @@ import { usePuntosDeVenta } from "@/utility/hooks";
 import CHOICES from "./choices";
 import Portlet from "./portlet";
 import { monedas } from "@/utility/options/monedas";
-import { useEffect } from "react";
 
 export default function Encabezado ({
     comprobante,
@@ -11,7 +10,7 @@ export default function Encabezado ({
     onlyRead,
     }) {
 
-    const types = CHOICES.receiptTypes[comprobante.modulo]
+    const types = CHOICES.receiptTypes[comprobante.modulo].filter(x => x.comportamiento === comprobante.comportamiento)
     const [point_of_sales] = usePuntosDeVenta();
 
     const handleChange = (e) => {
@@ -152,6 +151,7 @@ export default function Encabezado ({
                 />
                 </div>}
             </div>
+
         </Portlet>
     )
 };

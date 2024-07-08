@@ -4,7 +4,7 @@ import BasicModal from '@/components/modal';
 import Comprobante from "@/components/CRUD/comprobante/CU";
 
 
-export default function Modal ({selected}) {
+export default function Modal({selected, buttonName, comportamiento}) {
 
   const [modal, setModal] = useState(false)
 
@@ -17,9 +17,9 @@ export default function Modal ({selected}) {
       <BasicModal
         open={modal}
         onToggle={handleToggle}
-        button={(<button className="btn btn-outline-primary mx-1 shadow" disabled={!selected} onClick={handleToggle}> + Comprobante </button>)}
+        button={(<button className="btn btn-outline-primary mx-1 shadow" disabled={!selected} onClick={handleToggle}>{buttonName}</button>)}
         header={`Nuevo Comprobante - ${selected.full_name}`}
-        component={<Comprobante moduleHandler={'cliente'} destinatario={selected} onClose={() => handleToggle()}/>}
+        component={<Comprobante moduleHandler={'cliente'} destinatario={selected} onClose={() => handleToggle()} comportamiento={comportamiento}/>}
         footer={false}
       />
     </>
