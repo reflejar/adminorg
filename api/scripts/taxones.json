@@ -4,5 +4,11 @@
     {"id": 3, "naturaleza_id": 2, "nombre": "billetera"},
     {"id": 4, "naturaleza_id": 2, "nombre": "seguimiento"},
     {"id": 5, "naturaleza_id": 7, "nombre": "tipo_cambio"},
-    {"id": 6, "naturaleza_id": 8, "nombre": "tipo_cambio"}
+    {"id": 6, "naturaleza_id": 8, "nombre": "tipo_cambio"},
+    {"id": 7, "naturaleza_id": 1, "nombre": "clientes"},
+    {"id": 8, "naturaleza_id": 1, "nombre": "donantes"},
+    {"id": 9, "naturaleza_id": 1, "nombre": "socios"},
+    {"id": 10, "naturaleza_id": 5, "nombre": "proveedores"},
+    {"id": 11, "naturaleza_id": 5, "nombre": "equipo"}
+    
 ]
