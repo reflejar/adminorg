@@ -10,8 +10,12 @@ jobs:
     name: Build and push
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
-        name: Check out code
+      - name: Check out code
+        uses: actions/checkout@v2
+        
+      - name: Agregar envs
+        run: |
+          echo "${{ secrets.ENV_LOCAL }}" > .env.local
 
       - uses: mr-smithers-excellent/docker-build-push@v5
         name: Build & push Docker image
