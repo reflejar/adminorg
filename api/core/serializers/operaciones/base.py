@@ -16,18 +16,23 @@ class OperacionModelSerializer(serializers.ModelSerializer):
 
 		fields = (
 			'id',
-			'detalle'
+			'detalle',
 		)
 	def __init__(self, *args, **kwargs):
 		super().__init__(*args, **kwargs)
 		self.fields['monto'] = serializers.DecimalField(decimal_places=2, max_digits=15)
 		self.fields['total_pesos'] = serializers.DecimalField(decimal_places=2, max_digits=15)
 
+		# ReadOnly
+		self.fields['moneda'] = serializers.CharField(read_only=True)
+		self.fields['tipo_cambio'] = serializers.DecimalField(decimal_places=2, max_digits=15, read_only=True)
+		self.fields['saldo'] = serializers.DecimalField(decimal_places=2, max_digits=15, read_only=True)
+		
 
-	def display_vinculo(self, instance):
-		if not instance:
-			return ""
-		return {
-			'descripcion': ' - '.join([str(instance.cuenta), str(instance.concepto), str(instance.periodo())]),
-			'monto': instance.saldo(fecha=self.context['fecha_operacion'])
-		}
+
+	def to_representation(self, instance):
+		representation = super().to_representation(instance)
+		representation['moneda'] = instance.moneda.description
+		representation['comprobante'] = str(instance.comprobante)
+		representation['saldo'] = instance.monto - instance.saldo()
+		return representation

@@ -12,6 +12,6 @@ class CobroModelSerializer(OperacionModelSerializer):
 			self.fields['vinculo'] = serializers.PrimaryKeyRelatedField(
 					queryset=Operacion.objects.filter(cuenta=self.context['cuenta'], vinculo__isnull=True), 
 					allow_null=True,
-				)		
-			self.fields['vinculo'].display_value = self.display_vinculo
+				)
+			# ReadOnly de los atributos de la operación DEL CREDITO para cuando se está solicitando VER la data
 			self.fields['origen'] = CargaModelSerializer(context=self.context, read_only=True, many=False)

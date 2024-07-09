@@ -6,13 +6,13 @@ export default function Selectable ({ comprobante, setComprobante, onlyRead, col
 
     const [grouped, setGrouped] = useState([...rows.filter(s => s.moneda === comprobante.receipt.currency).map(obj=> ({
         vinculo: obj.id, 
-        concepto: `${obj.cuenta ? obj.cuenta + " - " : ''} ${obj.concepto ? obj.concepto + " - " : ""} ${obj.comprobante}`, 
+        concepto: `${obj.concepto ? obj.concepto + " - " : ""} ${obj.comprobante}`, 
         monto:obj.saldo, 
         moneda:obj.moneda, 
         tipo_cambio: obj.tipo_cambio,
         total_pesos: obj.saldo*comprobante.receipt.currency_quote,
         max:obj.saldo, 
-        checked:false,
+        checked:comprobante.id ? true : false,
         detalle: ''
     }))])
 
