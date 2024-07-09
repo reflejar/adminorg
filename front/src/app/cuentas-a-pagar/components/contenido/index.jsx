@@ -62,7 +62,7 @@ function Contenido({ selected }) {
             <section className="monitor-footer p-3 d-flex justify-content-between">
                 <div className="btn-group">
                 {selected && <ModalComprobante selected={selected} buttonName={'+ Comprobante'} comportamiento="aumento" />}
-                {selected && <ModalComprobante selected={selected} buttonName={'+ Pago'} comportamiento="disminucion" />}
+                {selected && <ModalComprobante selected={selected} buttonName={'+ Pagar'} comportamiento="disminucion" />}
                 </div>
                 <div className="btn-group">
                     <ModalRegistros />
