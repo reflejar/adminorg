@@ -128,7 +128,7 @@ export default function Encabezado ({
                     className="form-control"
                     name="receipt.currency" 
                     id="receipt.currency" 
-                    disabled={onlyRead}
+                    disabled={onlyRead || (tipoComprobante && tipoComprobante.receipt_number === "auto")}
                     onChange={handleChange}
                     value={comprobante.receipt.currency || ''}
                     >
@@ -145,7 +145,7 @@ export default function Encabezado ({
                     name="receipt.currency_quote" 
                     type="number" 
                     min={1}
-                    disabled={onlyRead}
+                    disabled={onlyRead || (tipoComprobante && tipoComprobante.receipt_number === "auto")}
                     onChange={(e) => e.target.value >= 1 && handleChange(e) }
                     value={comprobante.receipt.currency_quote || 1}
                 />
