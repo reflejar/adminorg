@@ -33,5 +33,5 @@
     {"code": "303", "description": "Transferencia X"},
     {"code": "400", "description": "Asiento"},
     {"code": "500", "description": "Contrato"},
-    {"code": "501", "description": "Comprobante de Donación"}
+    {"code": "501", "description": "Recibo de Donación"}
 ]
