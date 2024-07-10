@@ -22,7 +22,7 @@ const csvValidations = Yup.object({
     .string('Nombre debe ser un texto valido')
     .required('Nombre es requerido'),  
   "razon social": Yup
-    .string('Razon Social debe ser un texto valido'),
+    .string('Razón Social debe ser un texto valido'),
   "tipo documento": Yup
     .string('Tipo Documento debe ser un texto valido')
     .required('Tipo Documento es requerido'),
@@ -36,7 +36,7 @@ const csvValidations = Yup.object({
     .string('Email debe ser una cuenta valida')
     .email("Email invalido"),
   telefono: Yup
-    .number('Telefono debe ser un numero valido')
+    .number('Teléfono debe ser un numero valido')
     .transform((value, originalValue) => originalValue.trim() === "" ? null: value)
     .nullable(),
   provincia: Yup
@@ -55,8 +55,8 @@ const csvValidations = Yup.object({
 });
 
 const tableHeaders = [
-    'Nombre', 'Razon Social', 'Tipo Documento', 
-    'Numero Documento', 'Fecha Nacimiento', 'Mail', 'Telefono', 
+    'Nombre', 'Razón Social', 'Tipo Documento', 
+    'Numero Documento', 'Fecha Nacimiento', 'Mail', 'Teléfono', 
     'Provincia', 'Localidad', 'Calle', 'Numero', 'Titulo'
 ];
 

@@ -101,7 +101,7 @@ const CU = ({ selected, onClose }) => {
                 {errors.nombre && touched.nombre ? <div className="invalid-feedback">{errors.nombre}</div> : null}
               </FormGroup>
               <FormGroup className='col-sm-4 px-3'>
-                <Label for="razon_social">Razon Social</Label>
+                <Label for="razon_social">Razón Social</Label>
                 <Field name="razon_social" id="razon_social" className={`form-control ${errors.razon_social && touched.razon_social && 'is-invalid'}`} />
                 {errors.razon_social && touched.razon_social ? <div className="invalid-feedback">{errors.razon_social}</div> : null}
               </FormGroup>
@@ -121,13 +121,13 @@ const CU = ({ selected, onClose }) => {
                 {errors.numero_documento && touched.numero_documento ? <div className="invalid-feedback">{errors.numero_documento}</div> : null}
               </FormGroup>
               <FormGroup className='col-sm-4 px-3'>
-                <Label for="mail">Direccion de email</Label>
+                <Label for="mail">Dirección de email</Label>
                 <Field name="mail" type="email" id="mail" className={`form-control ${errors.mail && touched.mail && 'is-invalid'}`} />
                 {errors.mail && touched.mail ? <div className="invalid-feedback">{errors.mail}</div> : null}
               </FormGroup>
 
               <FormGroup className='col-sm-4 px-3'>
-                <Label for="telefono">Telefono</Label>
+                <Label for="telefono">Teléfono</Label>
                 <Field name="telefono" id="telefono" className={`form-control ${errors.telefono && touched.telefono && 'is-invalid'}`} />
                 {errors.telefono && touched.telefono ? <div className="invalid-feedback">{errors.telefono}</div> : null}
               </FormGroup>

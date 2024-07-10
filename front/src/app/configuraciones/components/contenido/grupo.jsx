@@ -49,11 +49,11 @@ function Grupo({
             lista: cliente,
             columnas: [
                 { label: "Nombre", key: "perfil.nombre"},
-                { label: "Razon social", key: "perfil.razon_social" },
+                { label: "Razón social", key: "perfil.razon_social" },
                 { label: "Tipo de documento", key: "perfil.tipo_documento" },
                 { label: "Numero", key: "perfil.numero_documento" },
                 { label: "Mail", key: "perfil.mail" },
-                { label: "Telefono", key: "perfil.telefono" },
+                { label: "Teléfono", key: "perfil.telefono" },
                 { label: "Editar", key: "", onClick: handleModal},
               ],
             modal: <Cliente selected={modal.item} onClose={handleModal} />
@@ -63,11 +63,11 @@ function Grupo({
             lista: proveedor,
             columnas: [
                 { label: "Nombre", key: "perfil.nombre" },
-                { label: "Razon social", key: "perfil.razon_social" },
+                { label: "Razón social", key: "perfil.razon_social" },
                 { label: "Tipo de documento", key: "perfil.tipo_documento" },
                 { label: "Numero", key: "perfil.numero_documento" },
                 { label: "Mail", key: "perfil.mail" },
-                { label: "Telefono", key: "perfil.telefono" },
+                { label: "Teléfono", key: "perfil.telefono" },
                 { label: "Editar", key: "", onClick: handleModal},
               ],
               modal: <Proveedor selected={modal.item} onClose={handleModal} />
