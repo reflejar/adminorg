@@ -64,7 +64,7 @@ const CU = ({ selected, onClose }) => {
         <Form onSubmit={handleSubmit}>
           <Row>
 
-              <h4>Datos del título contable</h4>
+              <h4>Datos de la cuenta contable</h4>
               <FormGroup className='col-sm-4 px-3'>
                 <Label for="nombre">Nombre<span className='text-danger'>*</span></Label>
                 <Field name="nombre" id="nombre" className={`form-control ${errors.nombre && touched.nombre && 'is-invalid'}`} />
