@@ -13,6 +13,7 @@ const receiptTypes = {
     
     ],
     proveedor: [
+        {value: "Orden de Pago X", receipt_number: "auto", comportamiento: "disminucion"},        
         {value: "Factura A", receipt_number: "manual", comportamiento: "aumento"},
         {value: "Nota de Débito A", receipt_number: "manual", comportamiento: "aumento"},
         {value: "Nota de Crédito A", receipt_number: "manual", comportamiento: "disminucion"},
@@ -42,7 +43,6 @@ const receiptTypes = {
         {value: "Ticket Nota de Débito A", receipt_number: "manual", comportamiento: "aumento"},
         {value: "Ticket Nota de Débito B", receipt_number: "manual", comportamiento: "aumento"},
         {value: "Ticket Nota de Débito C", receipt_number: "manual", comportamiento: "aumento"},
-        {value: "Orden de Pago X", receipt_number: "auto", comportamiento: "disminucion"},        
     ],
     caja: [
         {value: "Transferencia X", receipt_number: "auto", comportamiento: "aumento"}
