@@ -21,7 +21,7 @@
     {"code": "81", "description": "Ticket Factura A"},
     {"code": "82", "description": "Ticket Factura B"},
     {"code": "83", "description": "Ticket"},
-    {"code": "111", "description": "Ticket factura C"},
+    {"code": "111", "description": "Ticket Factura C"},
     {"code": "112", "description": "Ticket Nota de Crédito A"},
     {"code": "113", "description": "Ticket Nota de Crédito B"},
     {"code": "114", "description": "Ticket Nota de Crédito C"},

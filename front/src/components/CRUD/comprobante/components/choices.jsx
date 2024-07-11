@@ -36,7 +36,7 @@ const receiptTypes = {
         {value: "Ticket Factura A", receipt_number: "manual", comportamiento: "aumento"},
         {value: "Ticket Factura B", receipt_number: "manual", comportamiento: "aumento"},
         {value: "Ticket", receipt_number: "manual", comportamiento: "aumento"},
-        {value: "Ticket factura C", receipt_number: "manual", comportamiento: "aumento"},
+        {value: "Ticket Factura C", receipt_number: "manual", comportamiento: "aumento"},
         {value: "Ticket Nota de Crédito A", receipt_number: "manual", comportamiento: "disminucion"},
         {value: "Ticket Nota de Crédito B", receipt_number: "manual", comportamiento: "disminucion"},
         {value: "Ticket Nota de Crédito C", receipt_number: "manual", comportamiento: "disminucion"},
