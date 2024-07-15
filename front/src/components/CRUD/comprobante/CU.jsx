@@ -242,7 +242,7 @@ export default function Comprobante({ moduleHandler, destinatario, comprobanteId
                 comprobante={comprobante} 
                 setComprobante={setComprobante} 
                 onlyRead={onlyRead}
-                title="Saldos adeudados anteriormente"
+                title="Saldos adeudados"
                 handler="cobros"
                 rows={comprobante.id ? comprobante.cobros.map(x => ({...x.origen})): saldos}
             />)
