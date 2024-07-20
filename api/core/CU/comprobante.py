@@ -47,7 +47,7 @@ class CU:
 				periodo=self.fecha_operacion,
 			))
 			# Contracuenta de la carga
-			original = o['monto'] * o["tipo-cambio"] # Tipo de cambio original
+			original = o['monto'] * o["tipo_cambio"] # Tipo de cambio original
 			real = o['monto'] * self.tipo_cambio # Tipo de cambio real
 			dif = real - original   
 			moneda = o['concepto'].moneda or self.moneda_comprobante
@@ -62,7 +62,7 @@ class CU:
 				cantidad=o['cantidad'],
 				moneda=moneda,
 				valor=-original*self.direccion if moneda.description == "$ARS" else -o['monto']*self.direccion,
-				tipo_cambio=1 if moneda.description == "$ARS" else o["tipo-cambio"],
+				tipo_cambio=1 if moneda.description == "$ARS" else o["tipo_cambio"],
 				total_pesos=-original*self.direccion,
 				detalle=o['detalle'],
 				periodo=self.fecha_operacion,

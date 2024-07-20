@@ -138,12 +138,12 @@ def crear_comunidad():
 	ACTIVO = Titulo.objects.create(comunidad=comunidad, nombre="ACTIVO", numero=100000)
 	PASIVO = Titulo.objects.create(comunidad=comunidad, nombre="PASIVO", numero=200000)
 	PATRIMONIO_NETO= Titulo.objects.create(comunidad=comunidad, nombre="PATRIMONIO NETO", numero=300000)
-	RECURSOS = Titulo.objects.create(comunidad=comunidad, nombre="RECURSOS", numero=400000, predeterminado_id=7)
-	GASTOS = Titulo.objects.create(comunidad=comunidad, nombre="GASTOS", numero=500000, predeterminado_id=8)
-	TESORERIA = Titulo.objects.create(comunidad=comunidad, nombre="TESORERIA", numero=111101, supertitulo=ACTIVO, predeterminado_id=2)
-	CUENTAS_A_COBRAR = Titulo.objects.create(comunidad=comunidad, nombre="CUENTAS A COBRAR", numero=112101, supertitulo=ACTIVO, predeterminado_id=1)
-	BIENES_DE_CAMBIO = Titulo.objects.create(comunidad=comunidad, nombre="BIENES DE CAMBIO", numero=113101, supertitulo=ACTIVO, predeterminado_id=3)
-	PROVEEDORES = Titulo.objects.create(comunidad=comunidad, nombre="PROVEEDORES", numero=211101, supertitulo=PASIVO, predeterminado_id=5)		
+	RECURSOS = Titulo.objects.create(comunidad=comunidad, nombre="RECURSOS", numero=400000, predeterminado_id=13)
+	GASTOS = Titulo.objects.create(comunidad=comunidad, nombre="GASTOS", numero=500000, predeterminado_id=14)
+	TESORERIA = Titulo.objects.create(comunidad=comunidad, nombre="TESORERIA", numero=111101, supertitulo=ACTIVO, predeterminado_id=1)
+	CUENTAS_A_COBRAR = Titulo.objects.create(comunidad=comunidad, nombre="CUENTAS A COBRAR", numero=112101, supertitulo=ACTIVO, predeterminado_id=3)
+	BIENES_DE_CAMBIO = Titulo.objects.create(comunidad=comunidad, nombre="BIENES DE CAMBIO", numero=113101, supertitulo=ACTIVO, predeterminado_id=4)
+	PROVEEDORES = Titulo.objects.create(comunidad=comunidad, nombre="PROVEEDORES", numero=211101, supertitulo=PASIVO, predeterminado_id=10)		
 		
 	# Crear usuario administrativo?
 	username = input("Usuario administrativo - username: ")

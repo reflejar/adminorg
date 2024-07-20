@@ -83,7 +83,7 @@ class Operacion(BaseModel):
 		df = read_frame(cls.get_model('Operacion').objects.filter(
 				cuenta__id__in=[cuentas.values_list('id', flat=True)], 
 				# fecha__lte=fecha,
-			).order_by('-fecha', '-comprobante__id'), fieldnames=['fecha', 'cuenta', 'cuenta__rubro', 'comprobante', 'concepto', 'proyecto__nombre', 'periodo', 'valor', 'total_pesos', 'detalle', 'comprobante__id', 'comprobante__receipt__receipt_type', 'cuenta__titulo__numero', 'cantidad', 'moneda__description', "tipo-cambio"])
+			).order_by('-fecha', '-comprobante__id'), fieldnames=['fecha', 'cuenta', 'cuenta__rubro', 'comprobante', 'concepto', 'proyecto__nombre', 'periodo', 'valor', 'total_pesos', 'detalle', 'comprobante__id', 'comprobante__receipt__receipt_type', 'cuenta__titulo__numero', 'cantidad', 'moneda__description', "tipo_cambio"])
 		df['direccion'] = df['cuenta__titulo__numero'].apply(lambda x: 1 if str(x)[0] in ["1"] else -1)
 		df['fecha'] = pd.to_datetime(df['fecha'])
 		df['fecha'] = df['fecha'].dt.strftime('%Y-%m-%d')
@@ -105,7 +105,7 @@ class Operacion(BaseModel):
 				cuenta__id__in=[cuentas.values_list('id', flat=True)], 
 				comprobante__isnull=False,
 				comprobante__fecha_anulacion__isnull=True,
-			), fieldnames=['id', 'fecha', 'comprobante', 'concepto', 'proyecto__nombre', 'periodo','valor', 'detalle', 'comprobante__id', 'comprobante__receipt__receipt_type', 'vinculo__id', 'cuenta__titulo__numero', 'cuenta__rubro', 'fecha_vencimiento', 'moneda__description', "tipo-cambio"])
+			), fieldnames=['id', 'fecha', 'comprobante', 'concepto', 'proyecto__nombre', 'periodo','valor', 'detalle', 'comprobante__id', 'comprobante__receipt__receipt_type', 'vinculo__id', 'cuenta__titulo__numero', 'cuenta__rubro', 'fecha_vencimiento', 'moneda__description', "tipo_cambio"])
 		df['direccion'] = df['cuenta__titulo__numero'].apply(lambda x: 1 if str(x)[0] in ["1"] else -1)
 		df['fecha'] = pd.to_datetime(df['fecha'])
 		df['fecha'] = df['fecha'].dt.strftime('%Y-%m-%d')
@@ -135,8 +135,8 @@ class Operacion(BaseModel):
 				df = df.drop_duplicates(subset='identifier', keep='first')
 				df['valor'] = 0
 			else:
-				df['pago_capital'] = df.groupby(['moneda', "tipo-cambio"])['valor'].transform('sum')
-				df = df.drop_duplicates(subset=['moneda', "tipo-cambio"], keep='first')
+				df['pago_capital'] = df.groupby(['moneda', "tipo_cambio"])['valor'].transform('sum')
+				df = df.drop_duplicates(subset=['moneda', "tipo_cambio"], keep='first')
 				# df['valor'] = 0
 				# suma = df['valor'].sum()
 				# df = df.head(1)
