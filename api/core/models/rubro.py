@@ -1,6 +1,6 @@
 from django.db import models
 
-class Naturaleza(models.Model):
+class Rubro(models.Model):
 
     nombre = models.CharField(max_length=100)
 

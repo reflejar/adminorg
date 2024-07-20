@@ -87,7 +87,7 @@ class Comprobante(BaseModel):
 		filtro = {
 			'asiento': identifier,
 			'vinculo__isnull': True,
-			'cuenta__naturaleza__nombre__in': ['caja', 'ingreso', 'gasto'],
+			'cuenta__rubro__nombre__in': ["caja-y-bancos", "ingresos", "gastos"],
 		}
 
 		if self.destinatario.direccion == 1:
@@ -95,7 +95,7 @@ class Comprobante(BaseModel):
 		else:
 			filtro.update({'valor__lt': 0})
 
-		if self.destinatario.naturaleza.nombre in ['caja', 'ingreso', 'gasto']:
+		if self.destinatario.rubro.nombre in ["caja-y-bancos", "ingresos", "gastos"]:
 			return []
 		return self.get_model('Operacion').objects.filter(**filtro)
 
@@ -107,7 +107,7 @@ class Comprobante(BaseModel):
 		identifier = self.operaciones.first().asiento	
 		deudas_generadas = self.get_model('Operacion').objects.filter(
 			asiento=identifier,
-			cuenta__naturaleza__nombre__in=["cliente", "proveedor"], 
+			cuenta__rubro__nombre__in=["creditos", "deudas"], 
 			vinculo__isnull=True
 		)
 		if deudas_generadas:
@@ -202,7 +202,7 @@ class Comprobante(BaseModel):
 					comunidad=self.comunidad,
 					receipt__receipt_type=self.receipt.receipt_type,
 					receipt__point_of_sales=self.receipt.point_of_sales,
-					destinatario__naturaleza=self.destinatario.naturaleza if self.destinatario else None
+					destinatario__rubro=self.destinatario.rubro if self.destinatario else None
 				).aggregate(Max('receipt__receipt_number'))['receipt__receipt_number__max'] or 0
 
 				self.receipt.receipt_number = last + 1
@@ -211,9 +211,9 @@ class Comprobante(BaseModel):
 	@property
 	def causante(self):
 		if self.destinatario:
-			return self.destinatario.naturaleza.nombre
+			return self.destinatario.rubro.nombre
 		if self.receipt.receipt_type.code == "303":
-			return "caja"
+			return "caja-y-bancos"
 		if self.receipt.receipt_type.code == "400":
 			return "asiento"
 
@@ -224,7 +224,7 @@ class Comprobante(BaseModel):
 			return str(dispatcher) if dispatcher else ''
 
 		if self.comunidad.contribuyente.certificate and \
-		self.destinatario.naturaleza.nombre == "cliente" and \
+		self.destinatario.rubro.nombre == "creditos" and \
 		self.receipt.receipt_type.code in ['11', '12', '13']:
 
 			generator = ReceiptBarcodeGenerator(self.receipt_afip)
@@ -310,7 +310,7 @@ class Comprobante(BaseModel):
 			return 
 
 		if self.destinatario:
-			if self.destinatario.naturaleza.nombre == "proveedor" and self.receipt.receipt_type.code != "301":
+			if self.destinatario.rubro.nombre == "deudas" and self.receipt.receipt_type.code != "301":
 				return 			
 
 		self.pdf = PDF.objects.create(comunidad=self.comunidad,context=self.generate_context_pdf())

@@ -64,7 +64,7 @@ class ComprobantesViewSet(custom_viewsets.CustomModelViewSet):
 
 
 	def get_serializer_context(self):
-		'''Agregado de naturaleza 'cliente' al context serializer.'''
+		'''Agregado de rubro "creditos" al context serializer.'''
 		serializer_context = super().get_serializer_context()	
 		if "pk" in self.kwargs.keys():
 			obj = self.get_object()
@@ -73,7 +73,7 @@ class ComprobantesViewSet(custom_viewsets.CustomModelViewSet):
 				description=obj.receipt.receipt_type
 			)
 			serializer_context['cuenta'] = obj.destinatario
-			serializer_context['causante'] = obj.destinatario.naturaleza.nombre
+			serializer_context['causante'] = obj.destinatario.rubro.nombre
 		else:
 			if self.request.method == 'GET':
 				serializer_context['causante'] = self.request.GET['modulo']

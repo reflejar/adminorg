@@ -22,8 +22,8 @@ class CU:
 		self.direccion = self.comprobante.destinatario.direccion
 
 		self.pesos = CurrencyType.objects.get(description="$ARS")
-		self.rdo_tipo_cambio_pos = Cuenta.objects.get(comunidad=self.comunidad, naturaleza__nombre="ingreso", taxon__nombre='tipo_cambio')
-		self.rdo_tipo_cambio_neg = Cuenta.objects.get(comunidad=self.comunidad, naturaleza__nombre="gasto", taxon__nombre='tipo_cambio')
+		self.rdo_tipo_cambio_pos = Cuenta.objects.get(comunidad=self.comunidad, rubro__nombre="ingresos", taxon__nombre="tipo-cambio")
+		self.rdo_tipo_cambio_neg = Cuenta.objects.get(comunidad=self.comunidad, rubro__nombre="gastos", taxon__nombre="tipo-cambio")
 
 
 	def hacer_cargas(self):
@@ -47,7 +47,7 @@ class CU:
 				periodo=self.fecha_operacion,
 			))
 			# Contracuenta de la carga
-			original = o['monto'] * o['tipo_cambio'] # Tipo de cambio original
+			original = o['monto'] * o["tipo-cambio"] # Tipo de cambio original
 			real = o['monto'] * self.tipo_cambio # Tipo de cambio real
 			dif = real - original   
 			moneda = o['concepto'].moneda or self.moneda_comprobante
@@ -62,7 +62,7 @@ class CU:
 				cantidad=o['cantidad'],
 				moneda=moneda,
 				valor=-original*self.direccion if moneda.description == "$ARS" else -o['monto']*self.direccion,
-				tipo_cambio=1 if moneda.description == "$ARS" else o['tipo_cambio'],
+				tipo_cambio=1 if moneda.description == "$ARS" else o["tipo-cambio"],
 				total_pesos=-original*self.direccion,
 				detalle=o['detalle'],
 				periodo=self.fecha_operacion,

@@ -1,14 +1,14 @@
 [
-    {"id": 1, "naturaleza_id": 2, "nombre": "efectivo"},
-    {"id": 2, "naturaleza_id": 2, "nombre": "banco"},
-    {"id": 3, "naturaleza_id": 2, "nombre": "billetera"},
-    {"id": 4, "naturaleza_id": 2, "nombre": "seguimiento"},
-    {"id": 5, "naturaleza_id": 7, "nombre": "tipo_cambio"},
-    {"id": 6, "naturaleza_id": 8, "nombre": "tipo_cambio"},
-    {"id": 7, "naturaleza_id": 1, "nombre": "clientes"},
-    {"id": 8, "naturaleza_id": 1, "nombre": "donantes"},
-    {"id": 9, "naturaleza_id": 1, "nombre": "socios"},
-    {"id": 10, "naturaleza_id": 5, "nombre": "proveedores"},
-    {"id": 11, "naturaleza_id": 5, "nombre": "equipo"}
+    {"id": 1, "rubro_id": 1, "nombre": "efectivo"},
+    {"id": 2, "rubro_id": 1, "nombre": "banco"},
+    {"id": 3, "rubro_id": 1, "nombre": "billetera"},
+    {"id": 4, "rubro_id": 1, "nombre": "seguimiento"},
+    {"id": 7, "rubro_id": 3, "nombre": "clientes"},
+    {"id": 8, "rubro_id": 3, "nombre": "donantes"},
+    {"id": 9, "rubro_id": 3, "nombre": "socios"},
+    {"id": 10, "rubro_id": 10, "nombre": "proveedores"},
+    {"id": 11, "rubro_id": 10, "nombre": "empleados"},
+    {"id": 12, "rubro_id": 13, "nombre": "tipo-cambio"},
+    {"id": 13, "rubro_id": 14, "nombre": "tipo-cambio"}
     
 ]

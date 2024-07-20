@@ -58,7 +58,7 @@ class ReportesViewSet(custom_viewsets.CustomModelViewSet):
 				obj = Cuenta.objects.filter(comunidad=self.comunidad, pk=self.kwargs["pk"])
 		else:
 			if 'analizar' in self.request.GET.keys():
-				obj = Cuenta.objects.filter(comunidad=self.comunidad, naturaleza__nombre__in=self.request.GET['analizar'].split(","))
+				obj = Cuenta.objects.filter(comunidad=self.comunidad, rubro__nombre__in=self.request.GET['analizar'].split(","))
 		# self.check_object_permissions(self.request, obj)
 		return obj
 		

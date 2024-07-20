@@ -63,11 +63,11 @@ def crear_grupos():
 
 def crear_cosas_core_de_aplicacion():
 	"""Crear cosas necesarias para el funcionamiento del core"""
-	# Crear Naturalezas
-	naturalezas = open('/api/scripts/naturalezas.json', 'r')
-	data = json.load(naturalezas)
+	# Crear Rubros
+	rubros = open('/api/scripts/rubros.json', 'r')
+	data = json.load(rubros)
 	for d in data:
-		Naturaleza.objects.create(**d)
+		Rubro.objects.create(**d)
 
 	# Crear Taxones
 	taxones = open('/api/scripts/taxones.json', 'r')
@@ -173,8 +173,8 @@ def crear_comunidad():
 	Cuenta.objects.create(
 		comunidad=comunidad,
 		titulo=RECURSOS,
-		naturaleza_id=7,
-		taxon_id=5,
+		rubro_id=13,
+		taxon_id=12,
 		moneda_id=1,
 		nombre="Resultado (+) TC",
 		is_active=True,
@@ -182,8 +182,8 @@ def crear_comunidad():
 	Cuenta.objects.create(
 		comunidad=comunidad,
 		titulo=GASTOS,
-		naturaleza_id=8,
-		taxon_id=6,
+		rubro_id=14,
+		taxon_id=13,
 		moneda_id=1,
 		nombre="Resultado (-) TC",
 		is_active=True,

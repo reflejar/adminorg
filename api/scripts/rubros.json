@@ -1,0 +1,16 @@
+[
+	{"id": 1, "nombre": "caja-y-bancos"},
+	{"id": 2, "nombre": "inversiones"},
+	{"id": 3, "nombre": "creditos"},
+	{"id": 4, "nombre": "bienes-de-cambio"},
+	{"id": 5, "nombre": "bienes-de-uso"},
+	{"id": 6, "nombre": "propiedades-de-inversion"},
+	{"id": 7, "nombre": "activos-intangibles"},
+	{"id": 8, "nombre": "otros-activos"},
+	{"id": 9, "nombre": "llave-de-negocio"},
+	{"id": 10, "nombre": "deudas"},
+	{"id": 11, "nombre": "previsiones"},
+    {"id": 12, "nombre": "patrimonio-neto"},
+	{"id": 13, "nombre": "ingresos"},
+	{"id": 14, "nombre": "gastos"}
+]

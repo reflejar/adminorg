@@ -20,12 +20,12 @@ from core.serializers import (
 from core.models import (
 	Cuenta,
 	Titulo,
-	Naturaleza,
+	Rubro,
 	Proyecto
 )
 
 try:
-	CUENTAS = list(Naturaleza.objects.all().values_list('nombre', flat=True))
+	CUENTAS = list(Rubro.objects.all().values_list('nombre', flat=True))
 except:
 	CUENTAS = []
 
@@ -33,7 +33,7 @@ except:
 class ParametrosViewSet(custom_viewsets.CustomModelViewSet):
 	'''
 	Parametros View Set.
-	Crea, actualiza, detalla y lista Cuentas de diferentes naturaleza.
+	Crea, actualiza, detalla y lista Cuentas de diferentes rubro.
 	Crea, actualiza, detalla y lista Titulos.
 	Crea, actualiza, detalla y lista Comprobantes.
 	Deudas pendientes de cancelacion para Clientes y Proveedores.
@@ -44,10 +44,10 @@ class ParametrosViewSet(custom_viewsets.CustomModelViewSet):
 	def get_queryset(self):
 		'''Define el queryset segun parametro de url.'''
 		try:
-			if self.kwargs['naturaleza'] in CUENTAS:
+			if self.kwargs['rubro'] in CUENTAS:
 				queryset = Cuenta.all_objects.filter(
 					comunidad=self.comunidad, 
-					naturaleza__nombre=self.kwargs['naturaleza']
+					rubro__nombre=self.kwargs['rubro']
 				).select_related(
 				"perfil", 
 				'perfil__domicilio',
@@ -55,7 +55,7 @@ class ParametrosViewSet(custom_viewsets.CustomModelViewSet):
 				"taxon",
 				"domicilio"
 				)
-			elif self.kwargs['naturaleza'] == 'titulo':
+			elif self.kwargs['rubro'] == 'titulo':
 				queryset = Titulo.all_objects.filter(
 					comunidad=self.comunidad
 				).select_related(
@@ -64,12 +64,12 @@ class ParametrosViewSet(custom_viewsets.CustomModelViewSet):
 				).prefetch_related(
 					"cuenta_set"
 				)
-			elif self.kwargs['naturaleza'] == 'punto':
+			elif self.kwargs['rubro'] == 'punto':
 				queryset = PointOfSales.objects.filter(
 					owner=self.comunidad.contribuyente
 				)
 				return queryset
-			elif self.kwargs['naturaleza'] == 'proyecto':
+			elif self.kwargs['rubro'] == 'proyecto':
 				queryset = Proyecto.all_objects.filter(
 					comunidad=self.comunidad
 				)
@@ -83,15 +83,15 @@ class ParametrosViewSet(custom_viewsets.CustomModelViewSet):
 		'''Define el serializer segun parametro de url.'''
 		try:
 			return {
-				'cliente': CuentaModelSerializer,
-				'proveedor': CuentaModelSerializer,
-				'caja': CuentaModelSerializer,
-				'ingreso': CuentaModelSerializer,
-				'gasto': CuentaModelSerializer,
+				"creditos": CuentaModelSerializer,
+				"deudas": CuentaModelSerializer,
+				"caja-y-bancos": CuentaModelSerializer,
+				"ingresos": CuentaModelSerializer,
+				"gastos": CuentaModelSerializer,
 				'titulo': TituloModelSerializer,
 				'punto': PuntoModelSerializer,
 				'proyecto': ProyectoModelSerializer
-			}[self.kwargs['naturaleza']]
+			}[self.kwargs['rubro']]
 		except:
 			raise Http404
 
@@ -100,18 +100,18 @@ class ParametrosViewSet(custom_viewsets.CustomModelViewSet):
 		permissions = [IsAuthenticated, IsAdministrativoUser]
 		if self.action in ['update', 'retrieve']:
 			permissions.append(IsComunidadMember)
-		if self.kwargs['naturaleza'] == 'punto' and self.action != "list":
+		if self.kwargs['rubro'] == 'punto' and self.action != "list":
 			permissions.append(IsAccountOwner)
 			
 		return [p() for p in permissions]
 
 	def get_serializer_context(self):
-		'''Agregado de naturaleza 'cliente' al context serializer.'''
+		'''Agregado de rubro "creditos" al context serializer.'''
 		serializer_context = super().get_serializer_context()
-		serializer_context['naturaleza'] = self.kwargs['naturaleza']
+		serializer_context['rubro'] = self.kwargs['rubro']
 		return serializer_context
 
-	def create(self, request, naturaleza=None):
+	def create(self, request, rubro=None):
 		is_many = isinstance(request.data, list)
 
 		serializer = self.get_serializer(data=request.data, many=is_many)

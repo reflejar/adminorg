@@ -1,5 +1,5 @@
 from .taxon import *
-from .naturaleza import *
+from .rubro import *
 from .titulo import *
 from .cuenta import *
 from .comprobante import *

@@ -8,7 +8,7 @@ from django.contrib import messages
 
 class CuentaAdmin(ImportExportMixin, admin.ModelAdmin):
 	list_display = ['__str__']
-	list_filter = ['comunidad', 'naturaleza']
+	list_filter = ['comunidad', 'rubro']
 
 
 admin.site.register(Cuenta, CuentaAdmin)

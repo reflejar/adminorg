@@ -25,7 +25,7 @@ class OperacionModelSerializer(serializers.ModelSerializer):
 
 		# ReadOnly
 		self.fields['moneda'] = serializers.CharField(read_only=True)
-		self.fields['tipo_cambio'] = serializers.DecimalField(decimal_places=2, max_digits=15, read_only=True)
+		self.fields["tipo-cambio"] = serializers.DecimalField(decimal_places=2, max_digits=15, read_only=True)
 		self.fields['saldo'] = serializers.DecimalField(decimal_places=2, max_digits=15, read_only=True)
 		
 

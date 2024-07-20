@@ -9,7 +9,7 @@ class DescargaModelSerializer(OperacionModelSerializer):
 		self.fields['cuenta'] = serializers.PrimaryKeyRelatedField(
 				queryset=Cuenta.objects.filter(
 						comunidad=self.context['comunidad'], 
-						naturaleza__nombre__in=["caja", "ingreso", "gasto"]
+						rubro__nombre__in=["caja-y-bancos", "ingresos", "gastos"]
 					), 
 				allow_null=True
 			)

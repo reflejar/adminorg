@@ -44,7 +44,7 @@ class TaxonRelatedField(serializers.RelatedField):
 class CuentaModelSerializer(serializers.ModelSerializer):
 	"""
 		Serializer de Cuenta
-		Cuenta de naturaleza:
+		Cuenta de rubro:
 			Cliente
 			Proveedor
 			Caja
@@ -61,21 +61,21 @@ class CuentaModelSerializer(serializers.ModelSerializer):
 		super(CuentaModelSerializer, self).__init__(*args, **kwargs)
 
 		# Incorporacion de Nombre
-		if self.context['naturaleza'] in ['caja', 'ingreso', 'gasto', 'bien_de_cambio']:
+		if self.context['rubro'] in ["caja-y-bancos", "ingresos", "gastos", 'bienes-de-cambio']:
 			self.fields['nombre'] = serializers.CharField(max_length=150, required=True)
 
 		# Incorporacion de Taxon
-		if self.context['naturaleza'] in ['caja']:
-			self.fields['taxon'] = serializers.ChoiceField(required=True, choices=list(Taxon.objects.filter(naturaleza__nombre=self.context['naturaleza']).values_list('nombre', flat=True)))
+		if self.context['rubro'] in ["caja-y-bancos"]:
+			self.fields['taxon'] = serializers.ChoiceField(required=True, choices=list(Taxon.objects.filter(rubro__nombre=self.context['rubro']).values_list('nombre', flat=True)))
 			self.fields['moneda'] = serializers.ChoiceField(choices=list(CurrencyType.objects.all().values_list('description', flat=True)),label="Moneda")
 
 		# Incorporacion de Perfil
-		if self.context['naturaleza'] in ['cliente', 'proveedor']:
+		if self.context['rubro'] in ["creditos", "deudas"]:
 			self.fields['perfil'] = PerfilModelSerializer(read_only=False, context=self.context)
 
 	def to_representation(self, instance):
 		representation = super().to_representation(instance)
-		if self.context['naturaleza'] in ['caja']:
+		if self.context['rubro'] in ["caja-y-bancos"]:
 			representation['moneda'] = instance.moneda.description  # Obtiene el código de la moneda
 		return representation
 
@@ -95,7 +95,7 @@ class CuentaModelSerializer(serializers.ModelSerializer):
 				nombre=nombre
 			)
 
-		if query and self.context['naturaleza'] in ['caja', 'ingreso', 'gasto']:
+		if query and self.context['rubro'] in ["caja-y-bancos", "ingresos", "gastos"]:
 			if not self.instance in query:
 				raise serializers.ValidationError('Ya existe una cuenta con el nombre solicitado')
 		
@@ -111,7 +111,7 @@ class CuentaModelSerializer(serializers.ModelSerializer):
 		"""
 
 		# validacion conjunta (debe existir razon social, nombre)
-		if self.context['naturaleza'] in ["cliente", "proveedor"]:
+		if self.context['rubro'] in ["creditos", "deudas"]:
 			if not 'nombre' in perfil.keys() and not 'razon_social' in perfil.keys():
 				mj_error = ['Es necesario configurar un Nombre o una Razón social']
 				raise serializers.ValidationError({'nombre': mj_error})
@@ -119,11 +119,11 @@ class CuentaModelSerializer(serializers.ModelSerializer):
 		return perfil
 
 	def validate(self, data):
-		tipo = self.context['naturaleza']
+		tipo = self.context['rubro']
 		try:
 			data['titulo'] = Titulo.objects.get(comunidad=self.context['comunidad'], predeterminado__nombre=tipo)
 		except:
-			raise serializers.ValidationError({'titulo': 'Para agregar/modificar un nuevo {} es necesario configurar un Título Contable predeterminado'.format(self.context['naturaleza'])})
+			raise serializers.ValidationError({'titulo': 'Para agregar/modificar un nuevo {} es necesario configurar un Título Contable predeterminado'.format(self.context['rubro'])})
 
 
 
@@ -140,7 +140,7 @@ class CuentaModelSerializer(serializers.ModelSerializer):
 		"""
 
 		validate_data['comunidad'] = self.context['comunidad']
-		validate_data['naturaleza'] = self.context['naturaleza']
+		validate_data['rubro'] = self.context['rubro']
 
 		cu = CU(validate_data)
 		
@@ -161,16 +161,16 @@ class CuentaModelSerializer(serializers.ModelSerializer):
 		"""
 			
 		# Actualizacion de Nombre
-		if self.context['naturaleza'] in ['caja', 'ingreso', 'gasto']:
+		if self.context['rubro'] in ["caja-y-bancos", "ingresos", "gastos"]:
 			instance.nombre = validate_data['nombre']
 
 		# Actualizacion de Taxon
-		if self.context['naturaleza'] in ['caja']:
+		if self.context['rubro'] in ["caja-y-bancos"]:
 			instance.taxon = Taxon.objects.get(nombre=validate_data['taxon'])
 			instance.moneda = CurrencyType.objects.get(description=validate_data['moneda'])
 
 		# Actualizacion de Perfil
-		if self.context['naturaleza'] in ['cliente', 'proveedor']:		
+		if self.context['rubro'] in ["creditos", "deudas"]:		
 			perfil = instance.perfil
 			domicilio = perfil.domicilio
 			perfil_data = validate_data['perfil']

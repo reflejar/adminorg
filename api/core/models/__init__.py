@@ -1,5 +1,5 @@
 from .titulo import Titulo
-from .naturaleza import Naturaleza
+from .rubro import Rubro
 from .taxon import Taxon
 from .cuenta import Cuenta
 from .comprobante import Comprobante

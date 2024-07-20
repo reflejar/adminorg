@@ -8,7 +8,7 @@ from utils.models import (
 )
 from core.models import (
 	Titulo,
-	Naturaleza,
+	Rubro,
 	Taxon,
 )
 
@@ -21,7 +21,7 @@ class Cuenta(BaseModel):
 	"""
 
 	titulo = models.ForeignKey(Titulo, on_delete=models.PROTECT) # El ordenamiento contable
-	naturaleza = models.ForeignKey(Naturaleza, on_delete=models.PROTECT) # Para definir el modulo en que se utiliza
+	rubro = models.ForeignKey(Rubro, on_delete=models.PROTECT) # Para definir el modulo en que se utiliza
 	taxon = models.ForeignKey(Taxon, blank=True, null=True, on_delete=models.PROTECT) # Para definir una caracterizacion
 	moneda = models.ForeignKey(CurrencyType, blank=True, null=True, on_delete=models.PROTECT) # Moneda por defecto
 	domicilio = models.ForeignKey(Domicilio, blank=True, null=True, on_delete=models.PROTECT)

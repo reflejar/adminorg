@@ -50,7 +50,7 @@ class ComprobanteModelSerializer(serializers.ModelSerializer):
 			self.fields['destinatario'] = serializers.PrimaryKeyRelatedField(
 					queryset=Cuenta.objects.filter(
 							comunidad=self.context['comunidad'], 
-							naturaleza__nombre=self.context['causante']
+							rubro__nombre=self.context['causante']
 						), 
 					allow_null=True
 				)
@@ -68,7 +68,7 @@ class ComprobanteModelSerializer(serializers.ModelSerializer):
 
 	def get_modulo(self, instance): 
 		if instance.destinatario:
-			return instance.destinatario.naturaleza.nombre
+			return instance.destinatario.rubro.nombre
 		return ''
 
 	def get_pdf(self, instance):
@@ -130,7 +130,7 @@ class ComprobanteModelSerializer(serializers.ModelSerializer):
 				10 dias anterior o posterior a la fecha actual
 		"""
 
-		if self.context['causante'] in ["cliente"]:
+		if self.context['causante'] in ["creditos"]:
 			point_of_sales = data["receipt"]["point_of_sales"]
 			issued_date = data["receipt"]["issued_date"]
 			receipt_type = self.context['receipt_type']
@@ -172,7 +172,7 @@ class ComprobanteModelSerializer(serializers.ModelSerializer):
 		afip = False
 		if destinatario:
 			if self.context['comunidad'].contribuyente.certificate and \
-			destinatario.naturaleza.nombre == "cliente" and \
+			destinatario.rubro.nombre == "creditos" and \
 			self.context['receipt_type'].description[-1] == "C":
 				afip = True
 			if destinatario.perfil:

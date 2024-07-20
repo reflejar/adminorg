@@ -10,7 +10,7 @@ from users.models import (
 from core.models import (
 	Titulo,
 	Taxon,
-	Naturaleza,
+	Rubro,
 	Cuenta,
 )
 from django_afip.models import CurrencyType
@@ -18,16 +18,16 @@ from django_afip.models import CurrencyType
 
 class CU:
 
-	perfiles = ['cliente', 'proveedor']
-	taxones = ['caja']
+	perfiles = ["creditos", "deudas"]
+	taxones = ["caja-y-bancos"]
 
 	def __init__(self, validate_data):
 
 		self.validate_data = validate_data
 		
-		self.naturaleza = Naturaleza.objects.get(nombre=self.validate_data.pop('naturaleza'))
+		self.rubro = Rubro.objects.get(nombre=self.validate_data.pop('rubro'))
 
-		if self.naturaleza.nombre in self.perfiles:
+		if self.rubro.nombre in self.perfiles:
 			self.perfil_data = self.validate_data.pop('perfil')
 			self.perfil_data['comunidad'] = self.validate_data['comunidad']
 			self.domicilio_data = self.perfil_data.pop('domicilio')
@@ -36,23 +36,23 @@ class CU:
 			self.provincia = Provincia.objects.get(nombre=prov) if prov else None # Llega la data en forma de string y no como objeto
 
 		# Para agarrar el taxon
-		if self.naturaleza.nombre in ['caja']:
+		if self.rubro.nombre in ["caja-y-bancos"]:
 			self.validate_data['taxon'] = Taxon.objects.get(nombre=self.validate_data.pop('taxon'))
 			self.validate_data['moneda'] = CurrencyType.objects.get(description=self.validate_data.pop('moneda'))
 			
 		
-		self.validate_data['naturaleza'] = self.naturaleza
+		self.validate_data['rubro'] = self.rubro
 
 	
 	def make_domicilio(self):
 		# Esta funcion solo se ejecuta si el domicilio se establece en la cuenta y no en el perfil
-		if self.naturaleza.nombre in self.perfiles:
+		if self.rubro.nombre in self.perfiles:
 			return Domicilio.objects.create(**self.domicilio_data, provincia=self.provincia)
 		return
 
 
 	def make_perfil(self):
-		if self.naturaleza.nombre in self.perfiles:
+		if self.rubro.nombre in self.perfiles:
 			domicilio = Domicilio.objects.create(**self.domicilio_data, provincia=self.provincia)
 			perfil = Perfil.objects.create(**self.perfil_data, domicilio=domicilio, tipo_documento=self.tipo_documento)
 			return perfil

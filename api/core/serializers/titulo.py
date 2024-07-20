@@ -2,7 +2,7 @@ from rest_framework import serializers
 from core.models import (
 	Cuenta,
 	Titulo,
-	Naturaleza
+	Rubro
 )
 
 class CuentaModelSerializer(serializers.ModelSerializer):
@@ -48,7 +48,7 @@ class TituloModelSerializer(serializers.ModelSerializer):
 				allow_null=True
 			)
 		self.fields['cuentas'] = CuentaModelSerializer(read_only=True, many=True)
-		self.fields['predeterminado'] = serializers.ChoiceField(required=True, choices=list(Naturaleza.objects.all().values_list('nombre', flat=True)))
+		self.fields['predeterminado'] = serializers.ChoiceField(required=True, choices=list(Rubro.objects.all().values_list('nombre', flat=True)))
 
 
 
@@ -116,7 +116,7 @@ class TituloModelSerializer(serializers.ModelSerializer):
 		instance.numero = validate_data['numero']
 		instance.nombre = validate_data['nombre']
 		instance.supertitulo = validate_data['supertitulo']
-		instance.predeterminado = Naturaleza.objects.get(nombre=validate_data['predeterminado'])
+		instance.predeterminado = Rubro.objects.get(nombre=validate_data['predeterminado'])
 		instance.save()
 
 

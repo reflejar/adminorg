@@ -37,8 +37,8 @@ class Operacion(BaseModel):
 
 	# Funciones Serializadoras
 	@property
-	def naturaleza(self):
-		return self.cuenta.naturaleza.nombre
+	def rubro(self):
+		return self.cuenta.rubro.nombre
 
 	@property
 	def monto(self):
@@ -67,9 +67,9 @@ class Operacion(BaseModel):
 
 	def causante(self):
 		if self.comprobante.destinatario:
-			return self.comprobante.destinatario.naturaleza.nombre
+			return self.comprobante.destinatario.rubro.nombre
 		if self.comprobante.receipt.receipt_type.code == "303":
-			return "caja"
+			return "caja-y-bancos"
 		if self.comprobante.receipt.receipt_type.code == "400":
 			return "asiento"
 
@@ -83,7 +83,7 @@ class Operacion(BaseModel):
 		df = read_frame(cls.get_model('Operacion').objects.filter(
 				cuenta__id__in=[cuentas.values_list('id', flat=True)], 
 				# fecha__lte=fecha,
-			).order_by('-fecha', '-comprobante__id'), fieldnames=['fecha', 'cuenta', 'cuenta__naturaleza', 'comprobante', 'concepto', 'proyecto__nombre', 'periodo', 'valor', 'total_pesos', 'detalle', 'comprobante__id', 'comprobante__receipt__receipt_type', 'cuenta__titulo__numero', 'cantidad', 'moneda__description', 'tipo_cambio'])
+			).order_by('-fecha', '-comprobante__id'), fieldnames=['fecha', 'cuenta', 'cuenta__rubro', 'comprobante', 'concepto', 'proyecto__nombre', 'periodo', 'valor', 'total_pesos', 'detalle', 'comprobante__id', 'comprobante__receipt__receipt_type', 'cuenta__titulo__numero', 'cantidad', 'moneda__description', "tipo-cambio"])
 		df['direccion'] = df['cuenta__titulo__numero'].apply(lambda x: 1 if str(x)[0] in ["1"] else -1)
 		df['fecha'] = pd.to_datetime(df['fecha'])
 		df['fecha'] = df['fecha'].dt.strftime('%Y-%m-%d')
@@ -100,12 +100,12 @@ class Operacion(BaseModel):
 	@classmethod
 	def saldos(cls, cuentas, fecha=None):	
 		fecha = fecha if fecha else date.today()
-		modulo = cuentas[0].naturaleza.nombre
+		modulo = cuentas[0].rubro.nombre
 		df = read_frame(cls.get_model('Operacion').objects.filter(
 				cuenta__id__in=[cuentas.values_list('id', flat=True)], 
 				comprobante__isnull=False,
 				comprobante__fecha_anulacion__isnull=True,
-			), fieldnames=['id', 'fecha', 'comprobante', 'concepto', 'proyecto__nombre', 'periodo','valor', 'detalle', 'comprobante__id', 'comprobante__receipt__receipt_type', 'vinculo__id', 'cuenta__titulo__numero', 'cuenta__naturaleza', 'fecha_vencimiento', 'moneda__description', 'tipo_cambio'])
+			), fieldnames=['id', 'fecha', 'comprobante', 'concepto', 'proyecto__nombre', 'periodo','valor', 'detalle', 'comprobante__id', 'comprobante__receipt__receipt_type', 'vinculo__id', 'cuenta__titulo__numero', 'cuenta__rubro', 'fecha_vencimiento', 'moneda__description', "tipo-cambio"])
 		df['direccion'] = df['cuenta__titulo__numero'].apply(lambda x: 1 if str(x)[0] in ["1"] else -1)
 		df['fecha'] = pd.to_datetime(df['fecha'])
 		df['fecha'] = df['fecha'].dt.strftime('%Y-%m-%d')
@@ -118,7 +118,7 @@ class Operacion(BaseModel):
 		# Si es cliente o proveedor, el saldo se obtiene desde el vinculo.
 
 		df['detalle'] = df['detalle'].fillna("")
-		if modulo in ['cliente', 'proveedor']:
+		if modulo in ["creditos", "deudas"]:
 			df['identifier'] = df['id'].astype(int).astype(str)
 			df['cancela'] = df['vinculo__id'].fillna(0).astype(int).astype(str).replace('0', '')
 			pagos_capital = df.groupby('cancela')['valor'].sum().reset_index()
@@ -127,7 +127,7 @@ class Operacion(BaseModel):
 			df = df.merge(pagos_capital, how='left', on='identifier')
 			df = df[df['cancela']==""]
 
-		elif modulo in ['caja']:
+		elif modulo in ["caja-y-bancos"]:
 			taxon = cuentas[0].taxon.nombre
 			if taxon == "seguimiento":	
 				df['identifier'] = df['detalle']
@@ -135,8 +135,8 @@ class Operacion(BaseModel):
 				df = df.drop_duplicates(subset='identifier', keep='first')
 				df['valor'] = 0
 			else:
-				df['pago_capital'] = df.groupby(['moneda', 'tipo_cambio'])['valor'].transform('sum')
-				df = df.drop_duplicates(subset=['moneda', 'tipo_cambio'], keep='first')
+				df['pago_capital'] = df.groupby(['moneda', "tipo-cambio"])['valor'].transform('sum')
+				df = df.drop_duplicates(subset=['moneda', "tipo-cambio"], keep='first')
 				# df['valor'] = 0
 				# suma = df['valor'].sum()
 				# df = df.head(1)

@@ -6,7 +6,7 @@ from .views.reportes import ReportesViewSet
 from .views.comprobantes import ComprobantesViewSet
 
 router = DefaultRouter()
-router.register(r'parametros/(?P<naturaleza>[-a-zA-Z0-0_]+)', ParametrosViewSet, basename='operative')
+router.register(r'parametros/(?P<rubro>[-a-zA-Z0-0_]+)', ParametrosViewSet, basename='operative')
 
 router.register(r'comprobantes', ComprobantesViewSet, basename='operative')
 
