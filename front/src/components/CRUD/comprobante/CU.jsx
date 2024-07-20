@@ -178,24 +178,24 @@ export default function Comprobante({ moduleHandler, destinatario, comprobanteId
                 setComprobante={setComprobante} 
                 onlyRead={onlyRead}
                 title={{
-                    cliente: "Detalle del Comprobante",
-                    proveedor: "Debitos",
-                    caja: "Cargar dinero"
+                    creditos: "Detalle del Comprobante",
+                    deudas: "Debitos",
+                    "caja-y-bancos": "Cargar dinero"
                 }[comprobante.modulo]}
                 handler="cargas"
                 fields={[           
                     {
                     type: 'select',
                     name: 'concepto',
-                    label: comprobante.modulo === "caja" ? "Desde": 'Tipo',
+                    label: comprobante.modulo === "caja-y-bancos" ? "Desde": 'Tipo',
                     choices: {
-                        caja: cajas,
-                        cliente: ingresos,
-                        proveedor: gastos
+                        "caja-y-bancos": cajas,
+                        creditos: ingresos,
+                        deudas: gastos
                     }[comprobante.modulo]
                     },
                     {
-                    type: comprobante.modulo === "caja" ? "hidden": 'select',
+                    type: comprobante.modulo === "caja-y-bancos" ? "hidden": 'select',
                     name: 'proyecto',
                     label: 'Proyecto',
                     choices: proyectos
@@ -206,12 +206,12 @@ export default function Comprobante({ moduleHandler, destinatario, comprobanteId
                     label: 'Detalle',
                     },                                            
                     {
-                    type: comprobante.modulo === "caja" ? "hidden": 'number',
+                    type: comprobante.modulo === "caja-y-bancos" ? "hidden": 'number',
                     name: 'cantidad',
                     label: 'Cantidad',
                     },
                     {
-                    type: (comprobante.modulo === "caja" && comprobante.receipt.currency !== "$ARS") ? "number": 'hidden',
+                    type: (comprobante.modulo === "caja-y-bancos" && comprobante.receipt.currency !== "$ARS") ? "number": 'hidden',
                     name: 'tipo_cambio',
                     label: 'TC Orig',
                     },
@@ -238,7 +238,7 @@ export default function Comprobante({ moduleHandler, destinatario, comprobanteId
             }
 
             {/* Clientes: Seccion de Cobros */}
-            {tipoComprobante && tipoComprobante.comportamiento === "disminucion"  && (['cliente', 'proveedor'].includes(comprobante.modulo) || onlyRead) && (loadingSaldos ? <Spinner /> : <Selectable 
+            {tipoComprobante && tipoComprobante.comportamiento === "disminucion"  && (["creditos", "deudas"].includes(comprobante.modulo) || onlyRead) && (loadingSaldos ? <Spinner /> : <Selectable 
                 comprobante={comprobante} 
                 setComprobante={setComprobante} 
                 onlyRead={onlyRead}
@@ -249,13 +249,13 @@ export default function Comprobante({ moduleHandler, destinatario, comprobanteId
             }
 
             {/* Seccion de Descargas */}
-            {comprobante.receipt.receipt_type && (['cliente', 'proveedor'].includes(comprobante.modulo) || onlyRead) && (loadingCajas ? <Spinner /> : <Appendable 
+            {comprobante.receipt.receipt_type && (["creditos", "deudas"].includes(comprobante.modulo) || onlyRead) && (loadingCajas ? <Spinner /> : <Appendable 
                 comprobante={comprobante} 
                 setComprobante={setComprobante} 
                 onlyRead={onlyRead}
                 title={{
-                    cliente: "Información para el cobro",
-                    proveedor: "Información para el pago",
+                    creditos: "Información para el cobro",
+                    deudas: "Información para el pago",
                 }[comprobante.modulo]}
                 handler="descargas"
                 fields={[

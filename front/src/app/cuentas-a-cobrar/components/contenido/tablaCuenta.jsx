@@ -65,7 +65,7 @@ export default function (props) {
             header={`${modal.item.comprobante} - ${selected.full_name}`}
             footer={false}
             component={<Comprobante 
-                moduleHandler={'cliente'}
+                moduleHandler={"creditos"}
                 destinatario={selected}
                 comprobanteId={modal.item.comprobante__id}
                 onClose={handleModal}

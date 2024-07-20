@@ -19,7 +19,7 @@ export default function Modal () {
         onToggle={handleToggle}
         button={(<button className="btn btn-outline-info mx-1 shadow" onClick={handleToggle}> Registros </button>)}
         header="Registros"
-        component={<Comprobantes causante={"proveedor"} />}
+        component={<Comprobantes causante={"deudas"} />}
         footer={false}
       />
     </>

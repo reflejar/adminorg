@@ -70,7 +70,7 @@ export default function (props) {
             header={`${modal.item.comprobante} - ${selected.full_name}`}
             footer={false}
             component={<Comprobante 
-                moduleHandler={"caja"} 
+                moduleHandler={"caja-y-bancos"} 
                 destinatario={selected}
                 comprobanteId={modal.item.comprobante__id}
                 onClose={handleModal}

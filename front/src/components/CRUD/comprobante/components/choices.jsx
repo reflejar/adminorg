@@ -1,5 +1,5 @@
 const receiptTypes = {
-    cliente: [
+    creditos: [
         {value: 'Recibo de Donación', receipt_number: "auto", comportamiento: "disminucion" },
         {value: 'Recibo C', receipt_number: "auto", comportamiento: "disminucion" },
         {value: 'Nota de Crédito C', receipt_number: "auto", comportamiento: "disminucion" },
@@ -12,7 +12,7 @@ const receiptTypes = {
         {value: "Nota de Débito X", receipt_number: "auto", comportamiento: "aumento" },
     
     ],
-    proveedor: [
+    deudas: [
         {value: "Orden de Pago X", receipt_number: "auto", comportamiento: "disminucion"},        
         {value: "Factura A", receipt_number: "manual", comportamiento: "aumento"},
         {value: "Nota de Débito A", receipt_number: "manual", comportamiento: "aumento"},
@@ -44,7 +44,7 @@ const receiptTypes = {
         {value: "Ticket Nota de Débito B", receipt_number: "manual", comportamiento: "aumento"},
         {value: "Ticket Nota de Débito C", receipt_number: "manual", comportamiento: "aumento"},
     ],
-    caja: [
+    "caja-y-bancos": [
         {value: "Transferencia X", receipt_number: "auto", comportamiento: "aumento"}
     ],  
     titulo: [
