@@ -14,7 +14,7 @@ const get_all = () => async (dispatch) => {
       {id: "ingreso",full_name: "Tipos de ingresos"},
       {id: "gasto",full_name: "Tipos de gastos"},
       {id: "",full_name: "Area Contable"},
-      {id: "titulo",full_name: "Cuentas contables"},
+      {id: "titulo",full_name: "Rubros contables"},
     ]
 
     dispatch({

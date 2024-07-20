@@ -22,7 +22,7 @@ const CU = ({ selected, onClose }) => {
   const [tituloPred, setTituloPred] = useState();
 
   useEffect(() => {
-    setTituloPred(titulos.find(titulo => titulo.predeterminado === "caja"))
+    setTituloPred(titulos.find(titulo => titulo.predeterminado === "caja-y-bancos"))
   }, [titulos])
 
   if (loadingTitulos) {
@@ -103,7 +103,7 @@ const CU = ({ selected, onClose }) => {
                 {errors.moneda && touched.moneda ? <div className="invalid-feedback">{errors.moneda}</div> : null}
               </FormGroup>              
               <FormGroup className='col-sm-4 px-3'>
-                <Label for="titulo">Titulo contable<span className='text-danger'>*</span></Label>
+                <Label for="titulo">Rubro contable<span className='text-danger'>*</span></Label>
                 <Field value={tituloPred.id} disabled component="select" name="titulo" id="titulo" className={`form-control ${errors.titulo && touched.titulo && 'is-invalid'}`}>
                   <option value={""}> --- </option>
                   {titulos.map((titulo, i) => {

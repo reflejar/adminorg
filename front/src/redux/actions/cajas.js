@@ -1,6 +1,6 @@
 import { Service } from '@/redux/services/general';
 
-let apiEndpoint = 'operative/parametros/caja/';
+let apiEndpoint = 'operative/parametros/caja-y-bancos/';
 
 const search = (term) => ({
     type: 'SEARCH_CAJA',

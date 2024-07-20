@@ -29,11 +29,11 @@ function Botonera({analizar,agrupar_por,encolumnar,totalizar,setAnalizar, setAgr
               <div className="monitor-body-without-footer text-end p-3 bg-white">
                 <label className='mt-3' htmlFor="analizar">Analizar</label>
                 <select type="select" className='form-select' multiple name='analizar' value={analizar} onChange={handleSeleccion}>
-                  <option value="cliente">Clientes</option>
-                  <option value="proveedor">Proveedores</option>
-                  <option value="caja">Tesorería</option>
-                  <option value="ingreso">Ingresos</option>
-                  <option value="gasto">Gastos</option>
+                  <option value="creditos">Clientes</option>
+                  <option value="deudas">Proveedores</option>
+                  <option value="caja-y-bancos">Tesorería</option>
+                  <option value="ingresos">Ingresos</option>
+                  <option value="gastos">Gastos</option>
                   <option value="titulo">Títulos contables</option>
                 </select>
                 <label className='mt-3' htmlFor="agrupar_por">Agrupar</label>

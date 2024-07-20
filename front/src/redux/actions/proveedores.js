@@ -1,7 +1,7 @@
 import { Service } from '@/redux/services/general';
 import get from 'lodash/get';
 
-let apiEndpoint = 'operative/parametros/proveedor/';
+let apiEndpoint = 'operative/parametros/deudas/';
 
 const search = (term) => ({
     type: 'SEARCH_PROVEEDOR',
