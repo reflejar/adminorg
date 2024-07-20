@@ -1,6 +1,6 @@
 import { Service } from '@/redux/services/general';
 
-let apiEndpoint = 'operative/parametros/ingreso/';
+let apiEndpoint = 'operative/parametros/ingresos/';
 
 const search = (term) => ({
     type: 'SEARCH_INGRESO',

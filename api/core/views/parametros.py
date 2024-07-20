@@ -69,7 +69,7 @@ class ParametrosViewSet(custom_viewsets.CustomModelViewSet):
 					owner=self.comunidad.contribuyente
 				)
 				return queryset
-			elif self.kwargs['rubro'] == 'proyecto':
+			elif self.kwargs['rubro'] == 'proyectos':
 				queryset = Proyecto.all_objects.filter(
 					comunidad=self.comunidad
 				)
@@ -90,7 +90,7 @@ class ParametrosViewSet(custom_viewsets.CustomModelViewSet):
 				"gastos": CuentaModelSerializer,
 				'titulo': TituloModelSerializer,
 				'punto': PuntoModelSerializer,
-				'proyecto': ProyectoModelSerializer
+				'proyectos': ProyectoModelSerializer
 			}[self.kwargs['rubro']]
 		except:
 			raise Http404
