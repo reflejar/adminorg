@@ -20,11 +20,11 @@ class Cuenta(BaseModel):
 		En algunos casos es cuenta y en otros es subcuenta: A traves de "nivel"
 	"""
 
-	titulo = models.ForeignKey(Titulo, on_delete=models.PROTECT) # El ordenamiento contable
 	rubro = models.ForeignKey(Rubro, on_delete=models.PROTECT) # Para definir el modulo en que se utiliza
 	taxon = models.ForeignKey(Taxon, blank=True, null=True, on_delete=models.PROTECT) # Para definir una caracterizacion
-	moneda = models.ForeignKey(CurrencyType, blank=True, null=True, on_delete=models.PROTECT) # Moneda por defecto
+	titulo = models.ForeignKey(Titulo, on_delete=models.PROTECT) # El título de la cuenta o rubro dado por la entidad. Ordenamiento contable
 	domicilio = models.ForeignKey(Domicilio, blank=True, null=True, on_delete=models.PROTECT)
+	moneda = models.ForeignKey(CurrencyType, blank=True, null=True, on_delete=models.PROTECT) # Moneda por defecto
 	nombre = models.CharField(max_length=150, blank=True, null=True)
 	perfil = models.ForeignKey("users.Perfil", blank=True, null=True, on_delete=models.SET_NULL)
 	is_active = models.BooleanField(default=True)
