@@ -82,7 +82,7 @@ export default function (props) {
   }
 
   const topRight = [...new Set(saldos.map(item => item.moneda))]
-                    .map((m, k) => <button key={k} className='btn btn-sm btn-outline-secondary mx-1' disabled>
+                    .map((m, k) => <button key={k} className='btn btn-sm btn-outline-info mx-1' disabled>
                                     {m}: {Numero(saldos.filter(item => item.moneda === m).reduce((acc, curr) => acc + curr.saldo, 0))}
                                     </button>
                         )

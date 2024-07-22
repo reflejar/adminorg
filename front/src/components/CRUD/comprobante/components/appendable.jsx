@@ -93,8 +93,8 @@ export default function Appendable ({ comprobante, setComprobante, onlyRead, han
             </table>
             </div>            
             {!onlyRead && <div className="col-md-offset-6 text-end">
-            <button onClick={RemoveLastFieldsGroup} className="btn btn-sm btn-danger mx-1 text-right"><span className="bi-dash"></span></button>
-            <button onClick={AppendCleanFieldsGroup} className="btn btn-sm btn-success mx-1 text-right"><span className="bi-plus"></span></button>
+            <button onClick={RemoveLastFieldsGroup} className="btn btn-sm btn-outline-danger mx-1 text-right"><span className="bi-dash"></span></button>
+            <button onClick={AppendCleanFieldsGroup} className="btn btn-sm btn-outline-success mx-1 text-right"><span className="bi-plus"></span></button>
             </div>}
         </div>
     )  

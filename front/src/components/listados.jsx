@@ -20,7 +20,7 @@ const Listado = ({ items, columns, topRight }) => {
             <div className="d-flex justify-content-between">
                 <div>
                     <ReactToPrint
-                        trigger={() => <button className='btn btn-sm bi-printer btn-outline-secondary me-2'/>}
+                        trigger={() => <button className='btn btn-sm bi-printer btn-outline-info me-2'/>}
                         content={() => ref.current}
                     />
 
@@ -29,7 +29,7 @@ const Listado = ({ items, columns, topRight }) => {
                     filename="listado.csv"
                     headers={columns}          
                     data={dataForTable}>
-                        <button className='btn btn-sm btn-outline-success bi-filetype-csv' />
+                        <button className='btn btn-sm btn-outline-info bi-filetype-csv' />
                     </CSVLink>
                 </div>
             
