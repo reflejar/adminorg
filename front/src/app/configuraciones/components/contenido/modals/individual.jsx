@@ -19,12 +19,12 @@ export default function Modal ({selected}) {
   };
 
   const modals = {
-    cliente: <Cliente onClose={handleToggle} />,
-    proveedor: <Proveedor onClose={handleToggle} />,
+    creditos: <Cliente onClose={handleToggle} />,
+    deudas: <Proveedor onClose={handleToggle} />,
+    'caja-y-bancos': <Caja onClose={handleToggle} />,
     proyecto: <Proyecto onClose={handleToggle} />,
-    caja: <Caja onClose={handleToggle} />,
-    ingreso: <Ingreso onClose={handleToggle} />,
-    gasto: <Gasto onClose={handleToggle} />,
+    ingresos: <Ingreso onClose={handleToggle} />,
+    gastos: <Gasto onClose={handleToggle} />,
     titulo: <Titulo onClose={handleToggle} />,      
   }
 

@@ -16,14 +16,10 @@ const select = client => ({
 const get_all = (args) => async (dispatch) => {
   const response = await Service.get(apiEndpoint + (args && args.archived ? '?archived=1': ''));
   if (response) {
-    const clientes = response.data.results.map(c => {
-      const {perfil} = c;
-      let full_name = get(perfil, 'razon_social', "");
-      if (!full_name) {
-          full_name = get(perfil, 'nombre', "")
-      }
-      return ({...c, full_name})
-  }
+    const clientes = response.data.results.map(c => ({
+        ...c,
+        full_name: c.perfil.nombre
+    })
     ).sort((a, b) => {
       let comparison = 0;
       if (a.full_name > b.full_name) {

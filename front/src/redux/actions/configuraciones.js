@@ -11,8 +11,8 @@ const get_all = () => async (dispatch) => {
       {id: "",full_name: "Area Economica"},
       {id: "proyecto",full_name: "Proyectos"},
       {id: "caja-y-bancos",full_name: "Tesorería"},
-      {id: "ingreso",full_name: "Tipos de ingresos"},
-      {id: "gasto",full_name: "Tipos de gastos"},
+      {id: "ingresos",full_name: "Tipos de ingresos"},
+      {id: "gastos",full_name: "Tipos de gastos"},
       {id: "",full_name: "Area Contable"},
       {id: "titulo",full_name: "Plan de cuentas"},
     ]

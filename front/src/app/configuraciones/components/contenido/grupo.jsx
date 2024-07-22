@@ -26,12 +26,12 @@ import { proyectosActions } from '@/redux/actions/proyectos';
 
 function Grupo({ 
     selected, 
-    cliente, 
-    proveedor,
-    caja,
+    creditos, 
+    deudas,
+    cajaYBancos,
     proyecto,
-    ingreso,
-    gasto,
+    ingresos,
+    gastos,
     titulo,
  }) {
     const [modal, setModal] = useState({open: false,item: null});
@@ -44,9 +44,9 @@ function Grupo({
       };
 
     const grupos = {
-        cliente: {
+        creditos: {
             action: clientesActions,
-            lista: cliente,
+            lista: creditos,
             columnas: [
                 { label: "Nombre", key: "perfil.nombre"},
                 { label: "Razón social", key: "perfil.razon_social" },
@@ -58,9 +58,9 @@ function Grupo({
               ],
             modal: <Cliente selected={modal.item} onClose={handleModal} />
         },
-        proveedor: {
+        deudas: {
             action: proveedoresActions,
-            lista: proveedor,
+            lista: deudas,
             columnas: [
                 { label: "Nombre", key: "perfil.nombre" },
                 { label: "Razón social", key: "perfil.razon_social" },
@@ -81,9 +81,9 @@ function Grupo({
               ],
               modal: <Proyecto selected={modal.item} onClose={handleModal} />
         },        
-        caja: {
+        'caja-y-bancos': {
             action: cajasActions,
-            lista: caja,
+            lista: cajaYBancos,
             columnas: [
                 { label: "Nombre", key: "nombre" },
                 { label: "", key: "taxon" },
@@ -92,18 +92,18 @@ function Grupo({
               ],
               modal: <Caja selected={modal.item} onClose={handleModal} />
         },
-        ingreso: {
+        ingresos: {
             action: ingresosActions,
-            lista: ingreso,
+            lista: ingresos,
             columnas: [
                 { label: "Nombre", key: "nombre" },
                 { label: "Editar", key: "", onClick: handleModal},
               ],
               modal: <Ingreso selected={modal.item} onClose={handleModal} />
         },
-        gasto: {
+        gastos: {
             action: gastosActions,
-            lista: gasto,
+            lista: gastos,
             columnas: [
                 { label: "Nombre", key: "nombre" },
                 { label: "Editar", key: "", onClick: handleModal},
@@ -116,7 +116,7 @@ function Grupo({
             columnas: [
                 { label: "Numero", key: "numero" },
                 { label: "Nombre", key: "nombre" },
-                { label: "Modulo", key: "predeterminado" },
+                { label: "Predeterminado para", key: "predeterminado" },
                 { label: "Editar", key: "", onClick: handleModal},
               ],
               modal: <Titulo selected={modal.item} onClose={handleModal} />
@@ -176,12 +176,12 @@ function Grupo({
   }
   
 const mapStateToProps = state => ({
-    cliente: state.clientes.list,
-    proveedor: state.proveedores.list,
+    creditos: state.clientes.list,
+    deudas: state.proveedores.list,
     proyecto: state.proyectos.list,
-    caja: state.cajas.list,
-    ingreso: state.ingresos.list,
-    gasto: state.gastos.list,
+    cajaYBancos: state.cajas.list,
+    ingresos: state.ingresos.list,
+    gastos: state.gastos.list,
     titulo: state.titulos.list,
 
 })

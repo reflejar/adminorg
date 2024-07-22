@@ -17,14 +17,10 @@ const get_all = () => async (dispatch) => {
 
     const response = await Service.get(apiEndpoint);
     if (response) {
-        const proveedores = response.data.results.map(c => {
-            const {perfil} = c;
-            let full_name = get(perfil, 'razon_social', "");
-            if (!full_name) {
-                full_name = get(perfil, 'nombre', "")
-            }
-            return ({...c, full_name})
-        }
+          const proveedores = response.data.results.map(c => ({
+            ...c,
+            full_name: c.perfil.nombre
+        })
         ).sort((a, b) => {
             let comparison = 0;
             if (a.full_name > b.full_name) {
