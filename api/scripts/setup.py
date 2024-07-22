@@ -56,10 +56,16 @@ def crear_cosas_de_afip():
 
 
 def crear_grupos():
-	"""Crear grupos administrativo y socios"""
+	"""Crear grupos operativo, contable y directivo"""
 	Group.objects.create(
-		name="administrativo"
+		name="operativo"
 	)	
+	Group.objects.create(
+		name="contable"
+	)
+	Group.objects.create(
+		name="directivo"
+	)
 
 def crear_cosas_core_de_aplicacion():
 	"""Crear cosas necesarias para el funcionamiento del core"""
@@ -145,12 +151,12 @@ def crear_comunidad():
 	BIENES_DE_CAMBIO = Titulo.objects.create(comunidad=comunidad, nombre="BIENES DE CAMBIO", numero=113101, supertitulo=ACTIVO, predeterminado_id=4)
 	PROVEEDORES = Titulo.objects.create(comunidad=comunidad, nombre="PROVEEDORES", numero=211101, supertitulo=PASIVO, predeterminado_id=10)		
 		
-	# Crear usuario administrativo?
-	username = input("Usuario administrativo - username: ")
-	password = input("Usuario administrativo - password: ")
-	nombre = input("Usuario administrativo - nombre: ")
-	apellido = input("Usuario administrativo - apellido: ")
-	email = input("Usuario administrativo - email: ")
+	# Crear usuario operativo?
+	username = input("Usuario operativo - username: ")
+	password = input("Usuario operativo - password: ")
+	nombre = input("Usuario operativo - nombre: ")
+	apellido = input("Usuario operativo - apellido: ")
+	email = input("Usuario operativo - email: ")
 	user_admin = User.objects.create(
 		username=username,
 		first_name=nombre,
@@ -161,7 +167,7 @@ def crear_comunidad():
 	)
 	user_admin.set_password(password)
 	user_admin.save()
-	user_admin.groups.add(Group.objects.get(name='administrativo'))
+	user_admin.groups.add(Group.objects.get(name='operativo'))
 
 	perfil_admin = Perfil.objects.create(
 		comunidad=comunidad,

@@ -6,7 +6,7 @@ from rest_framework.permissions import (
 
 from utils.serializers import ComunidadModelSerializer
 from utils.models import Comunidad
-from users.permissions import IsAdministrativoUser
+from users.permissions import IsOperativoUser
 
 class ComunidadViewSet(viewsets.ModelViewSet):
     '''Comunidad view set.'''
@@ -19,5 +19,5 @@ class ComunidadViewSet(viewsets.ModelViewSet):
         if self.action == 'list':
             permissions = [AllowAny]
         else:
-            permissions = [IsAuthenticated, IsAdministrativoUser]
+            permissions = [IsAuthenticated, IsOperativoUser]
         return [p() for p in permissions]

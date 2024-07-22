@@ -8,7 +8,7 @@ from rest_framework import status
 
 from django_afip.models import PointOfSales
 
-from users.permissions import IsAccountOwner, IsComunidadMember, IsAdministrativoUser
+from users.permissions import IsAccountOwner, IsComunidadMember, IsOperativoUser
 from utils.generics import custom_viewsets
 from core.serializers import (
 	CuentaModelSerializer,
@@ -97,7 +97,7 @@ class ParametrosViewSet(custom_viewsets.CustomModelViewSet):
 
 	def get_permissions(self):
 		'''Manejo de permisos'''
-		permissions = [IsAuthenticated, IsAdministrativoUser]
+		permissions = [IsAuthenticated, IsOperativoUser]
 		if self.action in ['update', 'retrieve']:
 			permissions.append(IsComunidadMember)
 		if self.kwargs['rubro'] == 'punto' and self.action != "list":

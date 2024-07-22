@@ -12,7 +12,7 @@ from django_afip.models import (
 	DocumentType,
 	ReceiptType,
 )
-from users.permissions import IsComunidadMember, IsAdministrativoUser
+from users.permissions import IsComunidadMember, IsOperativoUser
 from utils.generics import custom_viewsets
 from core.serializers.comprobante import ComprobanteModelSerializer
 
@@ -57,7 +57,7 @@ class ComprobantesViewSet(custom_viewsets.CustomModelViewSet):
 
 	def get_permissions(self):
 		'''Manejo de permisos'''
-		permissions = [IsAuthenticated, IsAdministrativoUser]
+		permissions = [IsAuthenticated, IsOperativoUser]
 		if self.action in ['update', 'retrieve', 'delete']:
 			permissions.append(IsComunidadMember)
 		return [p() for p in permissions]

@@ -90,7 +90,7 @@ class UserSignupSerializer(serializers.Serializer):
 		data.pop('password_confirmation')
 		user = User.objects.create_user(**data, is_verified=False)
 		self.send_email(user)
-		user.groups.add(Group.objects.get(name='socio'))
+		# user.groups.add(Group.objects.get(name='socio'))
 		return user
 
 	def send_email(self, user):

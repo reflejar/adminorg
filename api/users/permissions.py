@@ -12,11 +12,11 @@ class IsAccountOwner(BasePermission):
         return request.user in obj.perfil.users.all()
 
 
-class IsAdministrativoUser(BasePermission):
-    '''Allow acces only administrativo user'''
+class IsOperativoUser(BasePermission):
+    '''Allow acces only operativo user'''
 
     def has_permission(self, request, view):
-        return request.user.groups.all()[0].name == 'administrativo'
+        return request.user.groups.all()[0].name == 'operativo'
     
 class IsComunidadMember(BasePermission):
     """Permite acceso solo a usuarios de la comunidad."""
@@ -24,12 +24,6 @@ class IsComunidadMember(BasePermission):
     def has_object_permission(self, request, view, obj):
         """Check obj comunidad and user comunidad are the same."""
         return request.user.perfil_set.first().comunidad == obj.comunidad
-
-class IsSocioUser(BasePermission):
-    '''Allow acces only socio user'''
-
-    def has_permission(self, request, view):
-        return request.user.groups.all()[0].name == 'socio'
     
 class IsPlatformClientUser(BasePermission):
     '''Allow acces only platform client user'''

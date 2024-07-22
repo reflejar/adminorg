@@ -9,7 +9,7 @@ from django.shortcuts import get_object_or_404
 from decimal import Decimal
 
 from django_afip.models import CurrencyType
-from users.permissions import IsAccountOwner, IsComunidadMember, IsAdministrativoUser
+from users.permissions import IsAccountOwner, IsComunidadMember, IsOperativoUser
 from utils.generics import custom_viewsets
 
 from core.filters.operacion import OperacionFilter
@@ -43,10 +43,7 @@ class ReportesViewSet(custom_viewsets.CustomModelViewSet):
 	def get_permissions(self):
 		'''Manejo de permisos'''
 		permissions = [IsAuthenticated, IsComunidadMember]
-		if self.request.user.groups.all()[0].name == "socio":
-			permissions.append(IsAccountOwner)
-		else:
-			permissions.append(IsAdministrativoUser)
+		if self.request.user.groups.all()[0].name == "operativo": permissions.append(IsOperativoUser)
 		return [p() for p in permissions]
 
 	def get_object(self):
