@@ -1,5 +1,5 @@
 'use client'
-import { useState } from "react"
+import { useEffect, useState } from "react"
 
 export default function Portlet ({
     title,
@@ -10,8 +10,12 @@ export default function Portlet ({
 
     const [display, setDisplay] = useState(color === "bg-light" ? false : true)
 
+    useEffect(()=> {
+        if (color === "bg-light") setDisplay(!display)
+    }, [color])
+
 return (
-    <div className="row">
+    <div className="row animate__animated animate__faster animate__bounceInRight">
     <div className="col-md-12 accordion accordion-flush " id={`accordion-${handler}`}>
         <div className="accordion-item ">
             <h2 class="accordion-header" id={`heading-${handler}`}>

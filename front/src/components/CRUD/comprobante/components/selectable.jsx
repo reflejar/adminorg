@@ -1,8 +1,6 @@
 import { useEffect, useState } from "react"
-import Portlet from "./portlet"
 
-
-export default function Selectable ({ comprobante, setComprobante, onlyRead, color, title, handler, rows }) {
+export default function Selectable ({ comprobante, setComprobante, onlyRead, color, handler, rows }) {
 
     const [grouped, setGrouped] = useState([...rows.filter(s => s.moneda === comprobante.receipt.currency).map(obj=> ({
         vinculo: obj.id, 
@@ -65,7 +63,6 @@ export default function Selectable ({ comprobante, setComprobante, onlyRead, col
 
 
     return (
-        <Portlet title={title} handler={handler} color={color} display={"in"}>
         <div className="row">
             <div className="col-md-12">
             {grouped.length === 0 ? <div className="text-center fs-4">...No hay items...</div> : <table className="table table-condensed table-responsive">
@@ -110,6 +107,5 @@ export default function Selectable ({ comprobante, setComprobante, onlyRead, col
             </table>}
             </div>
         </div>
-        </Portlet>
     )  
 };

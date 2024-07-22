@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react"
-import Portlet from "./portlet"
 
-export default function Appendable ({ comprobante, setComprobante, onlyRead, title, handler, fields, cleanedField }) {
+export default function Appendable ({ comprobante, setComprobante, onlyRead, handler, fields, cleanedField }) {
 
     let initialGrouping = [...comprobante[handler]]
     if (!onlyRead) initialGrouping.push(cleanedField)
@@ -72,7 +71,7 @@ export default function Appendable ({ comprobante, setComprobante, onlyRead, tit
     }
 
     return (
-        <Portlet title={title} handler={handler}>
+        
         <div className="row">
             <div className="col-md-12">
             <table className="table table-condensed">
@@ -97,8 +96,6 @@ export default function Appendable ({ comprobante, setComprobante, onlyRead, tit
             <button onClick={RemoveLastFieldsGroup} className="btn btn-sm btn-danger mx-1 text-right"><span className="bi-dash"></span></button>
             <button onClick={AppendCleanFieldsGroup} className="btn btn-sm btn-success mx-1 text-right"><span className="bi-plus"></span></button>
             </div>}
-            
         </div>
-        </Portlet>
     )  
 };

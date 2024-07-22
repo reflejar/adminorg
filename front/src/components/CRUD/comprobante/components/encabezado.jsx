@@ -1,6 +1,5 @@
 import { usePuntosDeVenta } from "@/utility/hooks";
 import CHOICES from "./choices";
-import Portlet from "./portlet";
 import { monedas } from "@/utility/options/monedas";
 
 export default function Encabezado ({
@@ -33,7 +32,7 @@ export default function Encabezado ({
     }
 
     return (
-        <Portlet title="Encabezado del Comprobante" handler='Encabezado del Comprobante'>
+        
             <div className="row">
                 <div className="col-md-2 px-1">
                 <label htmlFor="receipt.receipt_type">Tipo</label>
@@ -151,7 +150,5 @@ export default function Encabezado ({
                 />
                 </div>}
             </div>
-
-        </Portlet>
     )
 };

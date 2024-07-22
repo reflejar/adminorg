@@ -40,6 +40,7 @@ export default function Comprobante({ moduleHandler, destinatario, comprobanteId
     });
 
     const [onlyRead, setOnlyRead] = useState();
+    const [step, setStep] = useState(1)
     const [ingresos, loadingIngresos] = useIngresos();
     const [proyectos, loadingProyectos] = useProyectos();
     const [gastos, loadingGastos] = useGastos();
@@ -62,7 +63,8 @@ export default function Comprobante({ moduleHandler, destinatario, comprobanteId
                 setComprobante(doc)
                 if (doc.afip || doc.modulo !== moduleHandler) setOnlyRead(true)
                 const newTipo = CHOICES.receiptTypes[doc.modulo].find(t => t.value === doc.receipt.receipt_type)
-                setTipoComprobante(newTipo)                
+                setTipoComprobante(newTipo)
+                setStep(4)
 
             })
             .finally(() => setLoading(false));
@@ -146,6 +148,11 @@ export default function Comprobante({ moduleHandler, destinatario, comprobanteId
             })        
     },[comprobante]);
 
+    const changeStep = (e) => {
+        e.preventDefault()
+        setStep(x => x+1)        
+    }
+
 
     const showPDF = async (e) => {
         e.preventDefault()
@@ -165,140 +172,172 @@ export default function Comprobante({ moduleHandler, destinatario, comprobanteId
 
     return (
         <form onSubmit={handleSubmit} name="form_cbte" method="POST">
-            <Encabezado 
-                comprobante={comprobante} 
-                tipoComprobante={tipoComprobante}
-                setComprobante={setComprobante} 
-                onlyRead={onlyRead}
-            />
+            <Portlet title="Encabezado del Comprobante" handler='Encabezado del Comprobante'>
+                <Encabezado 
+                    comprobante={comprobante} 
+                    tipoComprobante={tipoComprobante}
+                    setComprobante={setComprobante} 
+                    onlyRead={onlyRead}
+                />
+            </Portlet>
 
-            {/* Seccion de Cargas */}
-            {tipoComprobante && tipoComprobante.comportamiento === "aumento" && ((loadingIngresos || loadingCajas || loadingGastos || loadingProyectos) ? <Spinner /> : <Appendable 
-                comprobante={comprobante} 
-                setComprobante={setComprobante} 
-                onlyRead={onlyRead}
-                title={{
-                    creditos: "Detalle del Comprobante",
-                    deudas: "Debitos",
-                    "caja-y-bancos": "Cargar dinero"
-                }[comprobante.modulo]}
-                handler="cargas"
-                fields={[           
-                    {
-                    type: 'select',
-                    name: 'concepto',
-                    label: comprobante.modulo === "caja-y-bancos" ? "Desde": 'Tipo',
-                    choices: {
-                        "caja-y-bancos": cajas,
-                        creditos: ingresos,
-                        deudas: gastos
-                    }[comprobante.modulo]
-                    },
-                    {
-                    type: comprobante.modulo === "caja-y-bancos" ? "hidden": 'select',
-                    name: 'proyecto',
-                    label: 'Proyecto',
-                    choices: proyectos
-                    },
-                    {
-                    type: 'text',
-                    name: 'detalle',
-                    label: 'Detalle',
-                    },                                            
-                    {
-                    type: comprobante.modulo === "caja-y-bancos" ? "hidden": 'number',
-                    name: 'cantidad',
-                    label: 'Cantidad',
-                    },
-                    {
-                    type: (comprobante.modulo === "caja-y-bancos" && comprobante.receipt.currency !== "$ARS") ? "number": 'hidden',
-                    name: 'tipo_cambio',
-                    label: 'TC Orig',
-                    },
-                    {
-                    type: 'number',
-                    name: 'monto',
-                    label: 'Monto',
-                    },                    
-                    {
-                    type: 'number',
-                    name: 'total_pesos',
-                    label: 'Subtotal ($ARS)',
-                    },
-                ]}
-                cleanedField={{
-                    concepto: '',
-                    proyecto: '',
-                    cantidad: 1,
-                    tipo_cambio: 1,
-                    monto: null,
-                    detalle: '',
-                }}
-            />)
+            {(loadingIngresos || loadingCajas || loadingGastos || loadingProyectos) ? <Spinner /> : <div>
+                            {/* Seccion de Cargas */}
+            {step >= 1 && 
+                tipoComprobante && tipoComprobante.comportamiento === "aumento" && 
+                        <Portlet 
+                            title={{
+                                creditos: "Detalle del Comprobante",
+                                deudas: "Debitos",
+                                "caja-y-bancos": "Cargar dinero"
+                            }[comprobante.modulo]}
+                            handler='descargas'
+                            color={step > 1 ? "bg-light" : ""}
+                        >
+                            <Appendable 
+                                comprobante={comprobante} 
+                                setComprobante={setComprobante} 
+                                onlyRead={onlyRead}
+                                title={{
+                                    creditos: "Detalle del Comprobante",
+                                    deudas: "Debitos",
+                                    "caja-y-bancos": "Cargar dinero"
+                                }[comprobante.modulo]}
+                                handler="cargas"
+                                fields={[           
+                                    {
+                                    type: 'select',
+                                    name: 'concepto',
+                                    label: comprobante.modulo === "caja-y-bancos" ? "Desde": 'Tipo',
+                                    choices: {
+                                        "caja-y-bancos": cajas,
+                                        creditos: ingresos,
+                                        deudas: gastos
+                                    }[comprobante.modulo]
+                                    },
+                                    {
+                                    type: comprobante.modulo === "caja-y-bancos" ? "hidden": 'select',
+                                    name: 'proyecto',
+                                    label: 'Proyecto',
+                                    choices: proyectos
+                                    },
+                                    {
+                                    type: 'text',
+                                    name: 'detalle',
+                                    label: 'Detalle',
+                                    },                                            
+                                    {
+                                    type: comprobante.modulo === "caja-y-bancos" ? "hidden": 'number',
+                                    name: 'cantidad',
+                                    label: 'Cantidad',
+                                    },
+                                    {
+                                    type: (comprobante.modulo === "caja-y-bancos" && comprobante.receipt.currency !== "$ARS") ? "number": 'hidden',
+                                    name: 'tipo_cambio',
+                                    label: 'TC Orig',
+                                    },
+                                    {
+                                    type: 'number',
+                                    name: 'monto',
+                                    label: 'Monto',
+                                    },                    
+                                    {
+                                    type: 'number',
+                                    name: 'total_pesos',
+                                    label: 'Subtotal ($ARS)',
+                                    },
+                                ]}
+                                cleanedField={{
+                                    concepto: '',
+                                    proyecto: '',
+                                    cantidad: 1,
+                                    tipo_cambio: 1,
+                                    monto: null,
+                                    detalle: '',
+                                }}
+                            />
+                        </Portlet>
             }
 
-            {/* Clientes: Seccion de Cobros */}
-            {tipoComprobante && tipoComprobante.comportamiento === "disminucion"  && (["creditos", "deudas"].includes(comprobante.modulo) || onlyRead) && (loadingSaldos ? <Spinner /> : <Selectable 
-                comprobante={comprobante} 
-                setComprobante={setComprobante} 
-                onlyRead={onlyRead}
-                title="Saldos adeudados"
-                handler="cobros"
-                rows={comprobante.id ? comprobante.cobros.map(x => ({...x.origen})): saldos}
-            />)
+            {/* Sección de Selección de cargas anteriores */}
+            {step >= 1 && 
+                tipoComprobante && tipoComprobante.comportamiento === "disminucion"  && (["creditos", "deudas"].includes(comprobante.modulo) || onlyRead) && 
+                <Portlet 
+                    title="Saldos adeudados"
+                    handler="cobros"
+                    color={step > 1 ? "bg-light" : ""}
+                >
+                    <Selectable 
+                        comprobante={comprobante} 
+                        setComprobante={setComprobante} 
+                        onlyRead={onlyRead}
+                        handler="cobros"
+                        rows={comprobante.id ? comprobante.cobros.map(x => ({...x.origen})): saldos}
+                    />
+                </Portlet>
+
             }
 
             {/* Seccion de Descargas */}
-            {comprobante.receipt.receipt_type && (["creditos", "deudas"].includes(comprobante.modulo) || onlyRead) && (loadingCajas ? <Spinner /> : <Appendable 
-                comprobante={comprobante} 
-                setComprobante={setComprobante} 
-                onlyRead={onlyRead}
-                title={{
-                    creditos: "Información para el cobro",
-                    deudas: "Información para el pago",
-                }[comprobante.modulo]}
-                handler="descargas"
-                fields={[
-                    {
-                    type: 'select',
-                    name: 'cuenta',
-                    label: 'Cuenta',
-                    choices: comprobante.receipt.receipt_type.includes("Nota de Credito") ? [...ingresos, ...gastos] : cajas.filter(c=> c.moneda === comprobante.receipt.currency)
-                    },
-                    {
-                    type: 'text',
-                    name: 'detalle',
-                    label: 'Detalle',
-                    },                 
-                    {
-                    type: 'date',
-                    name: 'fecha_vencimiento',
-                    label: 'Vencimiento',
-                    },          
-                    {
-                    type: 'number',
-                    name: 'monto',
-                    label: 'Monto',
-                    },
-                    {
-                    type: 'number',
-                    name: 'total_pesos',
-                    label: 'Subtotal ($ARS)',
-                    },                    
-                ]}
-                cleanedField={{
-                    cuenta: '',
-                    detalle: '',
-                    fecha_vencimiento: moment().format('YYYY-MM-DD'),
-                    monto: 0,
-                }}
-            />)
-            }
+            {step >= 2 && 
+                comprobante.receipt.receipt_type && (["creditos", "deudas"].includes(comprobante.modulo) || onlyRead) &&  
+                    <Portlet 
+                        title={{
+                            creditos: "Información para el cobro",
+                            deudas: "Información para el pago",
+                        }[comprobante.modulo]}
+                        handler='descargas'
+                        color={step > 2 ? "bg-light" : ""}
+                    >
+                        <Appendable 
+                            comprobante={comprobante} 
+                            setComprobante={setComprobante} 
+                            onlyRead={onlyRead}
+                            handler="descargas"
+                            fields={[
+                                {
+                                type: 'select',
+                                name: 'cuenta',
+                                label: 'Cuenta',
+                                choices: comprobante.receipt.receipt_type.includes("Nota de Credito") ? [...ingresos, ...gastos] : cajas.filter(c=> c.moneda === comprobante.receipt.currency)
+                                },
+                                {
+                                type: 'text',
+                                name: 'detalle',
+                                label: 'Detalle',
+                                },                 
+                                {
+                                type: 'date',
+                                name: 'fecha_vencimiento',
+                                label: 'Vencimiento',
+                                },          
+                                {
+                                type: 'number',
+                                name: 'monto',
+                                label: 'Monto',
+                                },
+                                {
+                                type: 'number',
+                                name: 'total_pesos',
+                                label: 'Subtotal ($ARS)',
+                                },                    
+                            ]}
+                            cleanedField={{
+                                cuenta: '',
+                                detalle: '',
+                                fecha_vencimiento: moment().format('YYYY-MM-DD'),
+                                monto: 0,
+                            }}
+                        />
+                    </Portlet>
+                }
 
                 
-            {comprobante.receipt.receipt_type && comprobante.fecha_operacion && <Portlet 
+            {step >= 3 && comprobante.receipt.receipt_type && comprobante.fecha_operacion && <Portlet 
                 title="Observaciones"
-                handler="descripcion">
+                handler="descripcion"
+                color={step > 3 ? "bg-light" : ""}
+                >
                 <div className="row">
                     <div className="col-md-12">
                     
@@ -333,6 +372,8 @@ export default function Comprobante({ moduleHandler, destinatario, comprobanteId
                 </div>}
             </Portlet>}
 
+                </div>}
+
             <div className="panel-footer mt-3">
                 <div className="row">
                     <div className="col-sm-6">
@@ -341,7 +382,8 @@ export default function Comprobante({ moduleHandler, destinatario, comprobanteId
                     <div className="col-sm-6 text-end">
                     {comprobante.pdf && <button onClick={showPDF} target="_blank" className="btn btn-bordered btn-warning btn-block mx-1">Imprimir</button>}
                     {comprobante.link && <a href={comprobante.link} target="_blank" className="btn btn-bordered btn-warning btn-block mx-1">Ver</a>}
-                    {!onlyRead && <button disabled={!canSend} onClick={handleSubmit} type="submit" className="btn btn-bordered btn-block mx-1 btn-primary">Guardar</button>}           
+                    {comprobante.receipt.receipt_type && step < 3 && <button onClick={changeStep} disabled={!comprobante.receipt.receipt_type} className="btn btn-bordered btn-block mx-1 btn-primary">Siguiente</button>}           
+                    {!onlyRead && step === 3 && <button disabled={!canSend} onClick={handleSubmit} type="submit" className="btn btn-bordered btn-block mx-1 btn-primary">Guardar</button>}
                     </div>
                 </div>
             </div>
