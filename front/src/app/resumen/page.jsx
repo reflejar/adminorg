@@ -7,8 +7,8 @@ export default function Resumen() {
     return (
       <main className="row">
         <Sidebar />
-        <Botonera />
         <Contenido />
+        <Botonera />
       </main>
     )
   }

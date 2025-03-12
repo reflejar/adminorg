@@ -4,7 +4,7 @@ import Spinner from "@/components/spinner";
 import { analisisActions } from "@/redux/actions/analisis";
 import { connect, useDispatch } from 'react-redux';
 import * as echarts from 'echarts/core';
-import { PieChart, BarChart } from 'echarts/charts';
+import { PieChart, BarChart, LineChart } from 'echarts/charts';
 import {
     TitleComponent,
     TooltipComponent,
@@ -14,14 +14,14 @@ import {
 import {
     CanvasRenderer
 } from 'echarts/renderers';
+import { colors } from '@/utility/colors';
 
 // Register necessary components
 echarts.use(
-    [TitleComponent, TooltipComponent, LegendComponent, PieChart, BarChart, CanvasRenderer, GridComponent]
+    [TitleComponent, TooltipComponent, LegendComponent, PieChart, BarChart, LineChart, CanvasRenderer, GridComponent]
 );
 
 function Contenido({ analizar, agrupar_por, encolumnar, totalizar }) {
-    const [activeTab, setActiveTab] = useState("tabla");
     const [loading, setLoading] = useState(false);
     const dispatch = useDispatch();
     const [data, setData] = useState([]);
@@ -39,16 +39,21 @@ function Contenido({ analizar, agrupar_por, encolumnar, totalizar }) {
     }, [analizar, agrupar_por, encolumnar, totalizar]);
 
     useEffect(() => {
-        if (activeTab === 'grafico' && data.length > 0) {
-            if (encolumnar === 'periodo') {
-                renderStackedBarChart();
+        if (data.length > 0) {
+            if (analizar.length > 1) {
+                renderBarChart();
+            }
+            else if (encolumnar === 'periodo') {
+                renderStackedLineChart();
             } else {
                 renderPieChart();
             }
         }
-    }, [activeTab, data, encolumnar]);
+    }, [data, encolumnar]);
 
-    const renderStackedBarChart = () => {
+    const renderStackedLineChart = () => {
+        // reset chartRef
+        chartRef.current.innerHTML = '';
         const chartDom = chartRef.current;
         const myChart = echarts.init(chartDom);
         const nuevasColumnas = data.length > 0 ? Object.keys(data[0]).filter((o) => o !== "cuenta" && o !== "proyecto" && o !== "concepto") : [];
@@ -70,11 +75,16 @@ function Contenido({ analizar, agrupar_por, encolumnar, totalizar }) {
     
         const seriesData = Object.keys(aggregatedData).map(group => ({
             name: group,
-            type: 'bar',
+            type: 'line',
             stack: 'total',
             data: aggregatedData[group]
         }));
     
+        // const option = {
+
+
+        // };
+
         const option = {
             tooltip: {
                 trigger: 'axis',
@@ -82,20 +92,16 @@ function Contenido({ analizar, agrupar_por, encolumnar, totalizar }) {
                     type: 'shadow'
                 },
                 formatter: function (params) {
-                    return `${params[0].name}<br />${params.map(p => `${p.marker}${p.seriesName}: $${p.value.toLocaleString('de-DE', { minimumFractionDigits: 0 })}`).join('<br />')}`;
+                    return `<b>${params[0].name}</b><br />${params.map(p => `${p.marker}${p.seriesName}: $${p.value.toLocaleString('de-DE', { minimumFractionDigits: 0 })}`).join('<br />')}`;
                 }
-            },
+            },            
+            color:colors,      
             legend: {
                 data: Object.keys(aggregatedData)
-            },
-            grid: {
-                left: '3%',
-                right: '4%',
-                bottom: '3%',
-                containLabel: true
-            },
+            },            
             xAxis: {
                 type: 'category',
+                boundaryGap: false,                
                 data: nuevasColumnas
             },
             yAxis: {
@@ -105,15 +111,77 @@ function Contenido({ analizar, agrupar_por, encolumnar, totalizar }) {
                     formatter: function (value) {
                         return `$${value.toLocaleString('de-DE', { minimumFractionDigits: 0 })}`;
                     }
-                }
+                }              
             },
             series: seriesData
-        };
+          };
     
         myChart.setOption(option);
     };
     
-    
+    const renderBarChart = () => {
+        const chartDom = chartRef.current;
+        const myChart = echarts.init(chartDom);
+
+        // Determine which column to use based on agrupar_por
+        const groupByColumn = agrupar_por || 'cuenta';
+
+        // Aggregate totals by the selected column
+        const totalsByGroup = data.reduce((acc, item) => {
+            const groupKey = item[groupByColumn];
+            const total = parseFloat(item.total);
+            if (!isNaN(total)) {
+                if (acc[groupKey]) {
+                    acc[groupKey] += total;
+                } else {
+                    acc[groupKey] = total;
+                }
+            }
+            return acc;
+        }, {});
+
+        // Format data for pie chart
+        const barChartData = Object.keys(totalsByGroup).map(groupKey => ({
+            name: groupKey,
+            value: totalsByGroup[groupKey]
+        }));
+
+        const option = {
+            tooltip: {
+                trigger: 'item',
+                formatter: function (params) {
+                    return `${params.name}: $${params.value.toLocaleString()} (${params.percent}%)`;
+                }
+            },
+            color: colors,
+            xAxis: [
+                {
+                  type: 'category',
+                  data: barChartData.map(item => item.name),
+                //   axisTick: {
+                //     alignWithLabel: true
+                //   }
+                }
+              ],     
+              yAxis: [
+                {
+                  type: 'value'
+                }
+              ],                                 
+            series: [
+                {
+                    name: '', // Remove the 'Bar Chart' name
+                    type: 'bar',
+                    data: barChartData,
+                    barWidth: '25%',
+
+                }
+            ]
+        };
+
+        myChart.setOption(option);
+    };
+
 
     const renderPieChart = () => {
         const chartDom = chartRef.current;
@@ -149,18 +217,25 @@ function Contenido({ analizar, agrupar_por, encolumnar, totalizar }) {
                     return `${params.name}: $${params.value.toLocaleString()} (${params.percent}%)`;
                 }
             },
+            color: colors,
             series: [
                 {
                     name: '', // Remove the 'Pie Chart' name
                     type: 'pie',
-                    radius: '70%', // Adjust radius as needed
+                    radius: ['40%', '70%'],
                     data: pieChartData,
+                    avoidLabelOverlap: false,
+                    padAngle: 5,                    
                     label: {
                         show: true, // Show labels on the pie chart
                         formatter: function (params) {
                             return `${params.name}: $${params.value.toLocaleString()} (${params.percent}%)`;
                         }
                     },
+                    itemStyle: {
+                        borderRadius: 10
+                      },        
+                                  
                     emphasis: {
                         itemStyle: {
                             shadowBlur: 10,
@@ -177,35 +252,17 @@ function Contenido({ analizar, agrupar_por, encolumnar, totalizar }) {
 
     return (
         <div className="col-lg-8 min-vh-100">
-            <section className="monitor-head pt-3 px-4">
-                <ul className="nav nav-tabs">
-                    <li className="nav-item">
-                        <a
-                            className={`nav-link ${activeTab === "tabla" && "active"} pointer`}
-                            onClick={() => setActiveTab("tabla")}
-                        >
-                            <i className="bi-list-check me-2" /> Tablas
-                        </a>
-                    </li>
-                    <li className="nav-item">
-                        <a
-                            className={`nav-link ${activeTab === "grafico" && "active"} pointer`}
-                            onClick={() => setActiveTab("grafico")}
-                        >
-                            <i className="bi-graph-up-arrow me-2" /> Gráficos
-                        </a>
-                    </li>
-                </ul>
-            </section>
+
 
             <section className="monitor-body-without-footer bg-white p-3">
-                {loading ? <Spinner /> : (
-                    activeTab === "tabla" ? (
-                        data.length > 0 ? <Listado items={data} columns={Object.keys(data[0]).map(k => ({ key: k, label: k }))} /> : ""
-                    ) : (
-                        <div ref={chartRef} style={{ height: '400px' }} />
-                    )
-                )}
+                {loading ? <Spinner /> : data.length > 0 ? 
+                        <div>
+                            <div ref={chartRef} style={{ height: '30vh' }} />
+                            <Listado items={data} columns={Object.keys(data[0]).map(k => ({ key: k, label: k }))} />
+                        </div> 
+                        : 
+                        <p>No hay datos para mostrar</p>
+                }
             </section>
         </div>
     );
