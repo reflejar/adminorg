@@ -1,6 +1,6 @@
 import { combineReducers } from 'redux';
 
-const analizar = (state = ["creditos"], action) => {
+const analizar = (state = ["proyectos"], action) => {
     switch (action.type) {
       case 'SELECT_ANALIZAR':
         return action.payload;
