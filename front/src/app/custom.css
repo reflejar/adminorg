@@ -1,3 +1,5 @@
+
+
 .bg-gradient {
     background: linear-gradient(270deg,#43c3ff,#2a7fff)!important;
 }
@@ -76,3 +78,10 @@
     grid-template-columns: repeat(8, 1fr);
   }
   
+.form-control {
+  font-size: 0.8rem !important;
+}
+
+.fs-7 {
+  font-size: 0.8rem !important;
+}

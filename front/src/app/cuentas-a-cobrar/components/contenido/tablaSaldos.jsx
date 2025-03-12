@@ -61,17 +61,11 @@ export default function (props) {
       label: 'Proyecto',
       key: 'proyecto',
     }, {      
-      label: 'Moneda',
-      key: 'moneda',
-    }, {
-      label: 'Monto',
-      key: 'monto',
-    }, {      
-      label: 'Pagado',
-      key: 'pago_capital',      
-    }, {
       label: 'Saldo',
       key: 'saldo',
+    }, {
+      label: 'Moneda',
+      key: 'moneda',
   }];    
 
   const renderModal = () => {

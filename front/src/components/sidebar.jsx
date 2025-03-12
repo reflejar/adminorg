@@ -34,7 +34,7 @@ export default function Sidebar() {
             <nav className="navbar navbar-expand-lg bg-light flex-shrink-0t">
                 <div className="container-fluid">
                     <Link href="/" className="navbar-brand link-info text-decoration-none">
-                        <Image src={`/img/isoLogo.png`} width={50} height={50} alt="Logo de AdminOrg" /> {currentUser.community}
+                        <Image src={`/img/isoLogo.png`} width={50} height={50} alt="Logo de AdminOrg" className="me-2" /> {currentUser.community}
                     </Link>
                     <UncontrolledDropdown  inNavbar className="pr-1" direction="left">
                         <DropdownToggle nav className="d-flex align-items-center dropdown-toggle">
@@ -110,7 +110,7 @@ export default function Sidebar() {
     return (<div className="col-lg-2 d-flex flex-column flex-shrink-0 p-3 bg-light min-vh-100">
                     <Link href="/" className="d-flex align-items-center mb-md-0 me-md-auto link-info text-decoration-none">
                         <span className="fs-5">
-                            <Image src={`/img/isoLogo.png`} width={50} height={50} alt="Logo de AdminOrg" /> {currentUser.community}
+                            <Image src={`/img/isoLogo.png`} width={50} height={50} alt="Logo de AdminOrg" className="me-2" /> {currentUser.community}
                         </span>
                     </Link> 
                     <hr />
