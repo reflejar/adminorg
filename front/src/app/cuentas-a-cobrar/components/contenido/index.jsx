@@ -57,7 +57,7 @@ function Contenido({ selected }) {
 
             <section className="monitor-body position-relative bg-white p-3">
                 {selected ? showContent() : "Por favor seleccione una cuenta"}
-            <FloatingButton selected={selected} />
+                <FloatingButton selected={selected} />
             </section>
       </div>
     )

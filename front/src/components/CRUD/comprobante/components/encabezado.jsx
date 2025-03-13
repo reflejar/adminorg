@@ -88,7 +88,7 @@ export default function Encabezado ({
                     }
                 
                 </div>            
-                <div className="col-md-1 px-1">
+                <div className="col-md-2 px-1">
                 <label htmlFor="receipt.receipt_number">N°</label>
                 <input 
                     type="number" 

@@ -35,7 +35,7 @@ const FloatingButton = ({selected}) => {
         <i className="display-6 bi-plus"></i>
       </DropdownToggle>
       <DropdownMenu>
-        <DropdownItem>
+        <DropdownItem disabled={!selected}>
           <BasicModal
             open={comprobanteIsOpen}
             onToggle={() => setComprobanteIsOpen((prev) => !prev)}
@@ -50,7 +50,7 @@ const FloatingButton = ({selected}) => {
             footer={false}
           />
         </DropdownItem>
-        <DropdownItem>
+        <DropdownItem disabled={!selected}>
           <BasicModal
             open={cobroIsOpen}
             onToggle={() => setCobroIsOpen((prev) => !prev)}
