@@ -3,16 +3,24 @@
 import { useEffect, useState } from 'react';
 import { connect } from 'react-redux'
 import { proveedoresActions } from "@/redux/actions/proveedores";
-import ModalNew from './contenido/modalProveedor';
+
 import Spinner from '@/components/spinner';
+import Proveedor from "@/components/CRUD/proveedor/CU";
+import BasicModal from '@/components/modal';
 
 function Listado({searchTerm, searchOnChange, items, instance, getItems, setSelectedObject}) {
 
     const [loading, setLoading] = useState(false)
+    const [modal, setModal] = useState(false)
 
     useEffect(()=> {
       if (items.length === 0) refreshItems()
     }, [])
+
+    const handleToggle = () => {
+      setModal(!modal);
+    };    
+
 
     const refreshItems = async () => {
       setLoading(true)
@@ -24,7 +32,14 @@ function Listado({searchTerm, searchOnChange, items, instance, getItems, setSele
               <div className="monitor-head p-3 d-flex align-items-center">
                 <div className="d-flex justify-content-center align-items-center text-dark ">
                   <div className="form-control-position pointer">
-                    <ModalNew />
+                    <BasicModal
+                      open={modal}
+                      onToggle={handleToggle}
+                      button={<i onClick={handleToggle} className="bi-person-plus" ></i>}
+                      header="Nuevo Proveedor"
+                      component={<Proveedor onClose={() => handleToggle(false)} />}
+                      footer={false}
+                    />
                   </div>
                   <input
                       className="form-control mx-2 shadow-sm"
