@@ -64,12 +64,6 @@ export default function (props) {
       label: 'Moneda',
       key: 'moneda',
     }, {
-      label: 'Monto',
-      key: 'monto',
-    }, {      
-      label: 'Pagado',
-      key: 'pago_capital',      
-    }, {
       label: 'Saldo',
       key: 'saldo',
   }];    
