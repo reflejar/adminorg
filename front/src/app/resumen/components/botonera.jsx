@@ -5,20 +5,9 @@ import { analisisActions } from "@/redux/actions/analisis";
 
 function Botonera({ analizar, agrupar_por, encolumnar, totalizar, setAnalizar, setAgrupar, setColumna, setTotalizar }) {
 
-    const handleCheckboxChange = (event) => {
-        const { value, checked } = event.target;
-        setAgrupar("");
-        setColumna("");
-        setTotalizar("total_pesos");
 
-        let nuevosAnalizar = [...analizar];
-        if (checked) {
-            nuevosAnalizar.push(value);
-        } else {
-            nuevosAnalizar = nuevosAnalizar.filter(item => item !== value);
-        }
-
-        setAnalizar(nuevosAnalizar);
+    const handleChange = (event) => {
+        setAnalizar(event.target.value.split(","));
     };
 
     return (
@@ -29,69 +18,60 @@ function Botonera({ analizar, agrupar_por, encolumnar, totalizar, setAnalizar, s
                 <div>
                     <label>
                         <input
-                            type="checkbox"
+                            type="radio"
                             value="proyectos"
                             className='form-check-input'
                             checked={analizar.includes("proyectos")}
-                            onChange={handleCheckboxChange}
+                            onChange={handleChange}
+                            name="analizar"
                         /> Proyectos
                     </label>
                 </div>
-                <hr />
                 <div>
                     <label>
                         <input
-                            type="checkbox"
-                            value="ingresos"
+                            type="radio"
+                            value="ingresos,gastos"
                             className='form-check-input'
                             checked={analizar.includes("ingresos")}
-                            onChange={handleCheckboxChange}
-                        /> Ingresos
+                            onChange={handleChange}
+                            name="analizar"
+                        /> Ingresos y Gastos
                     </label>
                 </div>
                 <div>
                     <label>
                         <input
-                            type="checkbox"
-                            value="gastos"
-                            className='form-check-input'
-                            checked={analizar.includes("gastos")}
-                            onChange={handleCheckboxChange}
-                        /> Gastos
-                    </label>
-                </div>
-                <hr />
-                <div>
-                    <label>
-                        <input
-                            type="checkbox"
+                            type="radio"
                             value="creditos"
                             className='form-check-input'
                             checked={analizar.includes("creditos")}
-                            onChange={handleCheckboxChange}
-                        /> Deudas de Clientes
+                            onChange={handleChange}
+                            name="analizar"
+                        /> Deudas de Financiadores
                     </label>
                 </div>
                 <div>
                     <label>
                         <input
-                            type="checkbox"
+                            type="radio"
                             value="deudas"
                             className='form-check-input'
                             checked={analizar.includes("deudas")}
-                            onChange={handleCheckboxChange}
+                            onChange={handleChange}
+                            name="analizar"
                         /> Deudas con Proveedores
                     </label>
                 </div>
-                <hr />
                 <div>
                     <label>
                         <input
-                            type="checkbox"
+                            type="radio"
                             value="caja-y-bancos"
                             className='form-check-input'
                             checked={analizar.includes("caja-y-bancos")}
-                            onChange={handleCheckboxChange}
+                            onChange={handleChange}
+                            name="analizar"
                         /> Caja y Bancos
                     </label>
                 </div>
