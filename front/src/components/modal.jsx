@@ -13,7 +13,7 @@ const BasicModal = ({
   onToggle: handleToggle,
 }) => (
   <Fragment>
-    <div color="danger" onClick={handleToggle}>
+    <div onClick={handleToggle}>
       {button}
     </div>
 

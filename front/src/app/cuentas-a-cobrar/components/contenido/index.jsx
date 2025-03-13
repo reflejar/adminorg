@@ -6,8 +6,7 @@ import Saldos from './tablaSaldos';
 import Cuenta from './tablaCuenta';
 import Info from "@/components/CRUD/cliente/CU";
 
-import ModalComprobante from './modalComprobante';
-import ModalRegistros from './modalRegistros';
+import FloatingButton from "./floattingButton";
 
 function Contenido({ selected }) {
 
@@ -20,6 +19,7 @@ function Contenido({ selected }) {
             case "cuentas":
                 return <Cuenta selected={selected}/>
             case "info":
+                if (selected.id === "creditos") return "Seleccione una cuenta particular"
                 return <Info selected={selected} />
         }  
     }
@@ -30,7 +30,7 @@ function Contenido({ selected }) {
                 <ul className="nav nav-tabs" >
                     <li className="nav-item">
                         <a
-                            className={`nav-link ${activeTab === "saldos" && "active"} pointer`}
+                            className={`nav-link ${activeTab === "saldos" && "active"} pointer text-dark`}
                             onClick={() => {setActiveTab("saldos");}}
                         >
                             <i className="bi-currency-dollar" /> A cobrar
@@ -38,7 +38,7 @@ function Contenido({ selected }) {
                     </li>
                     <li className="nav-item">
                         <a
-                            className={`nav-link ${activeTab === "cuentas" && "active"} pointer`}
+                            className={`nav-link ${activeTab === "cuentas" && "active"} pointer text-dark`}
                             onClick={() => {setActiveTab("cuentas");}}
                         >
                             <i className="bi-list-check me-2" /> Movimientos
@@ -46,7 +46,7 @@ function Contenido({ selected }) {
                     </li>
                     <li className="nav-item">
                         <a
-                            className={`nav-link ${activeTab === "info" && "active"} pointer`}
+                            className={`nav-link ${activeTab === "info" && "active"} pointer text-dark`}
                             onClick={() => {setActiveTab("info");}}
                         >
                             <i className="bi-info-circle me-2" /> Información del cliente
@@ -55,20 +55,10 @@ function Contenido({ selected }) {
                 </ul>
             </section>
 
-            <section className="monitor-body bg-white p-3">
+            <section className="monitor-body position-relative bg-white p-3">
                 {selected ? showContent() : "Por favor seleccione una cuenta"}
+            <FloatingButton selected={selected} />
             </section>
-
-            <section className="monitor-footer p-3 d-flex justify-content-between">
-                <div className="btn-group">
-                    {selected && <ModalComprobante selected={selected} buttonName={'+ Comprobante'} comportamiento="aumento" />}
-                    {selected && <ModalComprobante selected={selected} buttonName={'+ Cobrar'} comportamiento="disminucion" />}
-                </div>
-                <div className="btn-group">
-                    <ModalRegistros />
-                </div>               
-            </section>
-
       </div>
     )
   }

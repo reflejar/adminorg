@@ -3,7 +3,7 @@ import Portlet from "./components/portlet";
 import Encabezado from "./components/encabezado";
 import Selectable from "./components/selectable";
 import Appendable from "./components/appendable";
-import { useCajas, useSaldos, useGastos, useIngresos, useProyectos } from "@/utility/hooks";
+import { useCajas, useSaldos, useGastos, useIngresos, useProyectos, useClientes, useProveedores } from "@/utility/hooks";
 import { saldosActions } from '@/redux/actions/saldos';
 import { movimientosActions } from '@/redux/actions/movimientos';
 import { comprobantesActions } from '@/redux/actions/comprobantes';
@@ -16,12 +16,14 @@ import { Service } from "@/redux/services/general";
 
 export default function Comprobante({ moduleHandler, destinatario, comprobanteId, comportamiento, onClose }) {
 
+    if (!destinatario) return null
+
     const dispatch = useDispatch();
 
     const [comprobante, setComprobante] = useState({
         id: null,
         fecha_operacion: moment().format('YYYY-MM-DD'),
-        destinatario: destinatario.id,
+        destinatario: destinatario ? destinatario.id : null,
         modulo: moduleHandler,
         comportamiento: comportamiento,
         descripcion: '',
@@ -39,6 +41,8 @@ export default function Comprobante({ moduleHandler, destinatario, comprobanteId
         descargas: [],
     });
 
+    // const [clientes, loadingClientes] = useClientes();
+    // const [proveedores, loadingProveedores] = useProveedores();
     const [onlyRead, setOnlyRead] = useState();
     const [step, setStep] = useState(1)
     const [ingresos, loadingIngresos] = useIngresos();
@@ -69,7 +73,6 @@ export default function Comprobante({ moduleHandler, destinatario, comprobanteId
             })
             .finally(() => setLoading(false));
           }
-    
     }, []);
 
     useEffect(()=> {
@@ -172,7 +175,7 @@ export default function Comprobante({ moduleHandler, destinatario, comprobanteId
 
     return (
         <form onSubmit={handleSubmit} name="form_cbte" method="POST">
-            <Portlet title="Encabezado del Comprobante" handler='Encabezado del Comprobante'>
+            <Portlet title="Encabezado del Comprobante" handler='Encabezado del Comprobante' color={step > 1 ? "bg-light" : ""}>
                 <Encabezado 
                     comprobante={comprobante} 
                     tipoComprobante={tipoComprobante}
@@ -181,7 +184,7 @@ export default function Comprobante({ moduleHandler, destinatario, comprobanteId
                 />
             </Portlet>
 
-            {(loadingIngresos || loadingCajas || loadingGastos || loadingProyectos) ? <Spinner /> : <div>
+            {(loadingIngresos || loadingCajas || loadingGastos || loadingProyectos || loadingSaldos) ? <Spinner /> : <div>
                             {/* Seccion de Cargas */}
             {step >= 1 && 
                 tipoComprobante && tipoComprobante.comportamiento === "aumento" && 
@@ -382,7 +385,7 @@ export default function Comprobante({ moduleHandler, destinatario, comprobanteId
                     <div className="col-sm-6 text-end">
                     {comprobante.pdf && <button onClick={showPDF} target="_blank" className="btn btn-bordered btn-warning btn-block mx-1">Imprimir</button>}
                     {comprobante.link && <a href={comprobante.link} target="_blank" className="btn btn-bordered btn-warning btn-block mx-1">Ver</a>}
-                    {comprobante.receipt.receipt_type && step < 3 && <button onClick={changeStep} disabled={!comprobante.receipt.receipt_type} className="btn btn-bordered btn-block mx-1 btn-primary">Siguiente</button>}           
+                    {comprobante.destinatario && comprobante.receipt.receipt_type && step < 3 && <button onClick={changeStep} disabled={!comprobante.receipt.receipt_type} className="btn btn-bordered btn-block mx-1 btn-primary">Siguiente</button>}           
                     {!onlyRead && step === 3 && <button disabled={!canSend} onClick={handleSubmit} type="submit" className="btn btn-bordered btn-block mx-1 btn-primary">Guardar</button>}
                     </div>
                 </div>

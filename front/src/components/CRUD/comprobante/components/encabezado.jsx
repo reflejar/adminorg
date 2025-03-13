@@ -3,6 +3,7 @@ import CHOICES from "./choices";
 import { monedas } from "@/utility/options/monedas";
 
 export default function Encabezado ({
+    items,
     comprobante,
     tipoComprobante,
     setComprobante,
@@ -33,9 +34,9 @@ export default function Encabezado ({
 
     return (
         
-            <div className="row">
+            <div className="row fs-7">
                 <div className="col-md-2 px-1">
-                <label htmlFor="receipt.receipt_type">Tipo</label>
+                <label htmlFor="receipt.receipt_type">Tipo Cbte.</label>
                 {comprobante.id ? 
                     <input 
                     type="text" 
@@ -59,8 +60,8 @@ export default function Encabezado ({
                     ))}
                 </select>}
                 </div>
-                <div className="col-md-2 px-1">
-                    <label htmlFor="receipt.point_of_sales">Punto de Venta</label>
+                <div className="col-md-1 px-1">
+                    <label htmlFor="receipt.point_of_sales">Pto.Venta</label>
                     {(tipoComprobante && tipoComprobante.receipt_number === "auto") && !comprobante.id && point_of_sales ? <select 
                     className="form-control"
                     name="receipt.point_of_sales" 
@@ -87,7 +88,7 @@ export default function Encabezado ({
                     }
                 
                 </div>            
-                <div className="col-md-2 px-1">
+                <div className="col-md-1 px-1">
                 <label htmlFor="receipt.receipt_number">N°</label>
                 <input 
                     type="number" 
@@ -100,7 +101,7 @@ export default function Encabezado ({
                 />
                 </div>              
                 <div className="col-md-2 px-1">
-                <label htmlFor="receipt.issued_date">Fecha Comprobante</label>
+                <label htmlFor="receipt.issued_date">F. Comprobante</label>
                 <input 
                     className="form-control" 
                     name="receipt.issued_date" 
@@ -111,7 +112,7 @@ export default function Encabezado ({
                 />
                 </div>               
                 <div className="col-md-2 px-1">
-                <label htmlFor="fecha_operacion">Fecha Operación</label>
+                <label htmlFor="fecha_operacion">F. Operación</label>
                 <input 
                     className="form-control" 
                     name="fecha_operacion" 

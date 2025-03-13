@@ -15,16 +15,16 @@ export default function Portlet ({
     }, [color])
 
 return (
-    <div className="row animate__animated animate__faster animate__bounceInRight">
+    <div className="row animate__animated animate__faster animate__fadeIn">
     <div className="col-md-12 accordion accordion-flush " id={`accordion-${handler}`}>
         <div className="accordion-item ">
-            <h2 class="accordion-header" id={`heading-${handler}`}>
-                <button class={`accordion-button ${color}`} type="button" onClick={() => setDisplay(!display)}>
+            <span className="accordion-header" id={`heading-${handler}`}>
+                <button className={`accordion-button fw-bold text-primary ${color ? color : "bg-white"} ${display ? "" :"py-1 fs-7" }`} type="button" onClick={() => setDisplay(!display)}>
                     {title}
                 </button>
-            </h2>
-            <div id={`collapse-${handler}`} class={`accordion-collapse collapse ${display && "show" }`} aria-labelledby={`heading-${handler}`}>
-                <div class="accordion-body">
+            </span>
+            <div id={`collapse-${handler}`} className={`accordion-collapse collapse ${display && "show" }`} aria-labelledby={`heading-${handler}`}>
+                <div className="accordion-body">
                     {children}
                 </div>
             </div>            
