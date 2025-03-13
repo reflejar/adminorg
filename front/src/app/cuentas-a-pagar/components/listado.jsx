@@ -35,7 +35,7 @@ function Listado({searchTerm, searchOnChange, items, instance, getItems, setSele
                     <BasicModal
                       open={modal}
                       onToggle={handleToggle}
-                      button={<i onClick={handleToggle} className="bi-person-plus" ></i>}
+                      button={<i onClick={handleToggle} className="bi-plus-circle" ></i>}
                       header="Nuevo Proveedor"
                       component={<Proveedor onClose={() => handleToggle(false)} />}
                       footer={false}

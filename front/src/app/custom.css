@@ -1,3 +1,12 @@
+:root {
+  --toastify-color-light: #f0f8ff; /* Cambia esto por el color que quieras */
+  --toastify-color-dark: #333;
+  --toastify-color-info: #3498db;
+  --toastify-color-success: #4de2c9 !important;
+  --toastify-color-warning: #ffcd7e !important;
+  --toastify-color-error: #ff787d !important;
+}
+
 
 
 .bg-gradient {

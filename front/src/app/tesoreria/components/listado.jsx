@@ -3,12 +3,20 @@
 import { useEffect, useState } from 'react';
 import { connect } from 'react-redux'
 import { cajasActions } from "@/redux/actions/cajas";
-import ModalNew from './contenido/modalCaja';
+
+
 import Spinner from '@/components/spinner';
+import Caja from "@/components/CRUD/caja/CU";
+import BasicModal from '@/components/modal';
 
 function Listado({searchTerm, searchOnChange, items, instance, getItems, setSelectedObject}) {
 
     const [loading, setLoading] = useState(false)
+    const [modal, setModal] = useState(false)
+
+    const handleToggle = () => {
+      setModal(!modal);
+    };    
 
     useEffect(()=> {
       if (items.length === 0) refreshItems()
@@ -24,7 +32,14 @@ function Listado({searchTerm, searchOnChange, items, instance, getItems, setSele
               <div className="monitor-head p-3 d-flex align-items-center">
                 <div className="d-flex justify-content-center align-items-center text-dark ">
                   <div className="form-control-position pointer">
-                    <ModalNew />
+                    <BasicModal
+                      open={modal}
+                      onToggle={handleToggle}
+                      button={<i onClick={handleToggle} className="bi-plus-circle" ></i>}
+                      header="Nuevo Caja"
+                      component={<Caja onClose={() => handleToggle(false)} />}
+                      footer={false}
+                    />
                   </div>
                   <input
                       className="form-control mx-2 shadow-sm"

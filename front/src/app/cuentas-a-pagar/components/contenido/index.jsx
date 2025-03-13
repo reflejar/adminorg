@@ -58,7 +58,6 @@ function Contenido({ selected }) {
                 {selected ? showContent() : "Por favor seleccione una cuenta"}
                 <FloatingButton selected={selected} />
             </section>
-
       </div>
     )
   }

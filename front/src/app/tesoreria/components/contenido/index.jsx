@@ -6,10 +6,7 @@ import Saldos from './tablaSaldos';
 import Cuenta from './tablaCuenta';
 import Info from "@/components/CRUD/caja/CU";
 
-import ModalComprobante from './modalComprobante';
-import ModalRegistros from './modalRegistros';
-
-
+import FloatingButton from "./floattingButton";
 
 
 function Contenido({ selected }) {
@@ -57,17 +54,9 @@ function Contenido({ selected }) {
                 </ul>
             </section>
 
-            <section className="monitor-body bg-white p-3">
+            <section className="monitor-body position-relative bg-white p-3">
                 {selected ? showContent() : "Por favor seleccione una cuenta"}
-            </section>
-
-            <section className="monitor-footer p-3 d-flex justify-content-between">
-                <div className="btn-group">
-                {selected && <ModalComprobante selected={selected} buttonName={'+ Cargar dinero'} comportamiento="aumento" />}
-                </div>
-                <div className="btn-group">
-                    <ModalRegistros />
-                </div>               
+                <FloatingButton selected={selected} />
             </section>
 
       </div>
