@@ -10,7 +10,7 @@ const get_all = () => async (dispatch) => {
       {id: "deudas",full_name: "Proveedores y Empleados"},
       {id: "",full_name: "Area Economica"},
       {id: "proyecto",full_name: "Proyectos"},
-      {id: "caja-y-bancos",full_name: "Tesorería"},
+      {id: "caja-y-bancos",full_name: "Caja y Bancos"},
       {id: "ingresos",full_name: "Tipos de ingresos"},
       {id: "gastos",full_name: "Tipos de gastos"},
       {id: "",full_name: "Area Contable"},

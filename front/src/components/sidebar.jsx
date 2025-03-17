@@ -86,18 +86,18 @@ export default function Sidebar() {
                     className="shadow-sm dropdown-toggle"
                     block
                 >
-                    {pathname === '/resumen' && <span><i className="bi-bar-chart-line" /> Resumen</span>}
+                    {pathname === '/resumen' && <span><i className="bi-bar-chart-line" /> Inicio</span>}
                     {pathname === '/cuentas-a-cobrar' && <span><i className="bi-download" /> Cuentas a cobrar</span>}
                     {pathname === '/cuentas-a-pagar' && <span><i className="bi-upload" /> Cuentas a pagar</span>}
-                    {pathname === '/tesoreria' && <span><i className="bi-currency-dollar" /> Tesorería</span>}
+                    {pathname === '/tesoreria' && <span><i className="bi-currency-dollar" /> Gestión de Fondos</span>}
                     {pathname === '/contabilidad' && currentUser.user.group === "contable" && <span><i className="bi-briefcase" /> Contabilidad</span>}
                     {pathname === '/configuraciones' && <span><i className="bi-house-gear-fill" /> Mi Organización</span>}
                 </DropdownToggle>
                 <DropdownMenu >
-                    <Link href="/resumen" className={`nav-link ${pathname == '/resumen' ? 'active' : 'link-info'}`}><i className="bi-bar-chart-line me-2" /> Resumen</Link>
+                    <Link href="/resumen" className={`nav-link ${pathname == '/resumen' ? 'active' : 'link-info'}`}><i className="bi-bar-chart-line me-2" /> Inicio</Link>
                     <Link href="/cuentas-a-cobrar" className={`nav-link ${pathname == '/cuentas-a-cobrar' ? 'active' : 'link-info'}`}> <i className="bi-download me-2" /> Cuentas a cobrar</Link>
                     <Link href="/cuentas-a-pagar" className={`nav-link ${pathname == '/cuentas-a-pagar' ? 'active' : 'link-info'}`}><i className="bi-upload me-2" /> Cuentas a pagar</Link>
-                    <Link href="/tesoreria" className={`nav-link ${pathname == '/tesoreria' ? 'active' : 'link-info'}`}><i className="bi-currency-dollar me-2" /> Tesorería</Link>
+                    <Link href="/tesoreria" className={`nav-link ${pathname == '/tesoreria' ? 'active' : 'link-info'}`}><i className="bi-currency-dollar me-2" /> Gestión de Fondos</Link>
                     {currentUser.user.group === "contable" && <Link href="/contabilidad" className={`nav-link ${pathname == '/contabilidad' ? 'active' : 'link-info'}`}><i className="bi-briefcase me-2" /> Contabilidad</Link>}
                     <Link href="/configuraciones" className={`nav-link ${pathname == '/configuraciones' ? 'active' : 'link-info'}`}><i className="bi-house-gear-fill me-2" /> Mi Organización</Link>        
 
@@ -115,10 +115,10 @@ export default function Sidebar() {
                     </Link> 
                     <hr />
                     <ul className="nav nav-pills flex-column mb-auto">
-                        <Link href="/resumen" className={`nav-link ${pathname == '/resumen' ? 'active' : 'link-info'}`}><i className="bi-bar-chart-line me-2" /> Resumen</Link>
+                        <Link href="/resumen" className={`nav-link ${pathname == '/resumen' ? 'active' : 'link-info'}`}><i className="bi-bar-chart-line me-2" /> Inicio</Link>
                         <Link href="/cuentas-a-cobrar" className={`nav-link ${pathname == '/cuentas-a-cobrar' ? 'active' : 'link-info'}`}> <i className="bi-download me-2" /> Cuentas a cobrar</Link>
                         <Link href="/cuentas-a-pagar" className={`nav-link ${pathname == '/cuentas-a-pagar' ? 'active' : 'link-info'}`}><i className="bi-upload me-2" /> Cuentas a pagar</Link>
-                        <Link href="/tesoreria" className={`nav-link ${pathname == '/tesoreria' ? 'active' : 'link-info'}`}><i className="bi-currency-dollar me-2" /> Tesorería</Link>
+                        <Link href="/tesoreria" className={`nav-link ${pathname == '/tesoreria' ? 'active' : 'link-info'}`}><i className="bi-currency-dollar me-2" /> Gestión de Fondos</Link>
                         {currentUser.user.group === "contable" && <Link href="/contabilidad" className={`nav-link ${pathname == '/contabilidad' ? 'active' : 'link-info'}`}><i className="bi-briefcase me-2" /> Contabilidad</Link>}
                         <Link href="/configuraciones" className={`nav-link ${pathname == '/configuraciones' ? 'active' : 'link-info'}`}><i className="bi-house-gear-fill me-2" /> Mi Organización</Link>
                     </ul>

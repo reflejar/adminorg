@@ -22,8 +22,8 @@ function Listado({items, instance, getItems, setSelectedObject}) {
                         onClick={() => {item.id && setSelectedObject(item)}}
                         key={key}
                       >
-                        <td className={`${item.id ? "pointer" : 'bg-light text-dark' }`}>
-                          {item.full_name}
+                        <td className={`${item.id ? "pointer" : 'text-dark fw-bold' }`}>
+                         <span className={`${item.id && "ms-3" }`}>{item.full_name}</span>
                         </td>  
                       </tr>                
                     ))}

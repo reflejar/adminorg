@@ -53,6 +53,23 @@ export default function Comprobante({ moduleHandler, destinatario, comprobanteId
     const [canSend, setCanSend] = useState(false)
     const [loading, setLoading] = useState(false)
     const [tipoComprobante, setTipoComprobante] = useState({})
+    const [titulos, setTitulos] = useState({
+        encabezado: "Encabezado del Comprobante",
+        cargas: {
+            creditos: "Detalle del Comprobante",
+            deudas: "Debitos",
+            "caja-y-bancos": "Cargar dinero"
+        }[moduleHandler],
+        cobros: {
+            creditos: "Saldos a cobrar",
+            deudas: "Saldos a pagar",
+        }[comprobante.modulo],
+        descargas: {
+            creditos: "Información para el cobro",
+            deudas: "Información para el pago",
+        }[comprobante.modulo],
+        descripcion: "Observaciones"
+    })
     const [errors, setErrors] = useState({})
 
 
@@ -117,6 +134,11 @@ export default function Comprobante({ moduleHandler, destinatario, comprobanteId
 
 
     useEffect(() => {
+        // Generación de titulos
+        setTitulos(prev => ({
+            ...prev,
+        }))
+        // Validación si se puede enviar o no
         setCanSend(validate(comprobante))
     }, [comprobante])
     
@@ -175,7 +197,11 @@ export default function Comprobante({ moduleHandler, destinatario, comprobanteId
 
     return (
         <form onSubmit={handleSubmit} name="form_cbte" method="POST">
-            <Portlet title="Encabezado del Comprobante" handler='Encabezado del Comprobante' color={step > 1 ? "bg-light" : ""}>
+            <Portlet 
+                title={titulos.encabezado} 
+                handler='Encabezado del Comprobante' 
+                color={step > 1 ? "bg-light" : ""}
+            >
                 <Encabezado 
                     comprobante={comprobante} 
                     tipoComprobante={tipoComprobante}
@@ -189,11 +215,7 @@ export default function Comprobante({ moduleHandler, destinatario, comprobanteId
             {step >= 1 && 
                 tipoComprobante && tipoComprobante.comportamiento === "aumento" && 
                         <Portlet 
-                            title={{
-                                creditos: "Detalle del Comprobante",
-                                deudas: "Debitos",
-                                "caja-y-bancos": "Cargar dinero"
-                            }[comprobante.modulo]}
+                            title={titulos.cargas}
                             handler='descargas'
                             color={step > 1 ? "bg-light" : ""}
                         >
@@ -266,7 +288,7 @@ export default function Comprobante({ moduleHandler, destinatario, comprobanteId
             {step >= 1 && 
                 tipoComprobante && tipoComprobante.comportamiento === "disminucion"  && (["creditos", "deudas"].includes(comprobante.modulo) || onlyRead) && 
                 <Portlet 
-                    title="Saldos adeudados"
+                    title={titulos.cobros}
                     handler="cobros"
                     color={step > 1 ? "bg-light" : ""}
                 >
@@ -285,10 +307,7 @@ export default function Comprobante({ moduleHandler, destinatario, comprobanteId
             {step >= 2 && 
                 comprobante.receipt.receipt_type && (["creditos", "deudas"].includes(comprobante.modulo) || onlyRead) &&  
                     <Portlet 
-                        title={{
-                            creditos: "Información para el cobro",
-                            deudas: "Información para el pago",
-                        }[comprobante.modulo]}
+                        title={titulos.descargas}
                         handler='descargas'
                         color={step > 2 ? "bg-light" : ""}
                     >
