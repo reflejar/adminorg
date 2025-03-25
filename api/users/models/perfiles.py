@@ -17,11 +17,9 @@ class Perfil(BaseModel):
     nombre = models.CharField(max_length=160, blank=True, null=True)
     razon_social = models.CharField(max_length=80, blank=True, null=True)
     tipo_documento = models.ForeignKey(DocumentType, blank=True, null=True, on_delete=models.SET_NULL)
-    numero_documento = models.CharField(max_length=13)
-    fecha_nacimiento = models.DateField(blank=True, null=True)
-    es_extranjero = models.BooleanField(default=False)
-    mail = models.EmailField(blank=True, null=True, max_length=254)
+    numero_documento = models.CharField(max_length=13, blank=True, null=True)
     domicilio = models.ForeignKey("utils.Domicilio", blank=True, null=True, on_delete=models.SET_NULL)
+    mail = models.EmailField(blank=True, null=True, max_length=254)
     telefono = models.CharField(max_length=17, blank=True)
     comunidades = models.ManyToManyField("utils.Comunidad", blank=True, related_name="admins")
 

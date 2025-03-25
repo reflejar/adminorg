@@ -17,7 +17,8 @@ from core.filters.operacion import OperacionFilter
 from core.models import (
 	Cuenta,
 	Operacion,
-	Titulo
+	Titulo,
+	Proyecto
 )
 
 
@@ -55,7 +56,10 @@ class ReportesViewSet(custom_viewsets.CustomModelViewSet):
 				obj = Cuenta.objects.filter(comunidad=self.comunidad, pk=self.kwargs["pk"])
 		else:
 			if 'analizar' in self.request.GET.keys():
-				obj = Cuenta.objects.filter(comunidad=self.comunidad, rubro__nombre__in=self.request.GET['analizar'].split(","))
+				if 'proyectos' in self.request.GET['analizar']:
+					obj = Proyecto.objects.filter(comunidad=self.comunidad)
+				else: 
+					obj = Cuenta.objects.filter(comunidad=self.comunidad, rubro__nombre__in=self.request.GET['analizar'].split(","))
 		# self.check_object_permissions(self.request, obj)
 		return obj
 		
@@ -72,7 +76,10 @@ class ReportesViewSet(custom_viewsets.CustomModelViewSet):
 			df = df[df['moneda'] == totalizar]
 			totalizar = "valor"
 		df['total'] = df.groupby('cuenta')[totalizar].transform('sum')
-		columns = ['cuenta']
+		if 'proyectos' in request.GET['analizar']:
+			columns = ['proyecto']
+		else:
+			columns = ['cuenta']
 		if request.GET['agrupar_por']:
 			columns.append(request.GET['agrupar_por'])
 		if request.GET['encolumnar']:

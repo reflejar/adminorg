@@ -48,8 +48,6 @@ const send = (values) => async (dispatch) => {
         razon_social: values.razon_social,
         tipo_documento: values.tipo_documento,
         numero_documento: values.numero_documento,
-        fecha_nacimiento: null,
-        es_extranjero: values.es_extranjero,
         mail: values.mail,
         telefono: values.telefono,
         domicilio: {
@@ -89,8 +87,6 @@ const send = (values) => async (dispatch) => {
         razon_social: x.razon_social,
         tipo_documento: x.tipo_documento,
         numero_documento: x.numero_documento,
-        fecha_nacimiento: x.fecha_nacimiento ? x.fecha_nacimiento : null,
-        es_extranjero: x.es_extranjero,
         mail: x.mail,
         telefono: x.telefono,
         domicilio: {

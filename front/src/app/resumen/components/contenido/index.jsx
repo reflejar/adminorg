@@ -76,7 +76,6 @@ function Contenido({ analizar, agrupar_por, encolumnar, totalizar }) {
         const seriesData = Object.keys(aggregatedData).map(group => ({
             name: group,
             type: 'line',
-            stack: 'total',
             data: aggregatedData[group]
         }));
     

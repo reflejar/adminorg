@@ -1,4 +1,6 @@
 export const monedas = [
-    { value: '$ARS', label: "$ARS" },
-    { value: '$USD', label: "$USD" }
+    { value: '$', label: "$" },
+    { value: 'U$D', label: "U$D" },
+    { value: '€', label: "€" },
+    { value: 'R$', label: "R$" },
 ]

@@ -18,12 +18,12 @@ function Listado({items, instance, getItems, setSelectedObject}) {
                   <tbody>
                     {items && items.map((item,key) => (
                       <tr 
-                        className={(instance && instance.id === item.id) ? "table-primary" : ""} 
+                        className={(instance && instance.full_name === item.full_name) ? "table-primary" : ""} 
                         onClick={() => {item.id && setSelectedObject(item)}}
                         key={key}
                       >
                         <td className={`${item.id ? "pointer" : 'text-dark fw-bold' }`}>
-                         <span className={`${item.id && "ms-3" }`}>{item.full_name}</span>
+                         <span className={`${item.id && "ms-3" }`}> {item.icon && <i className={item.icon}></i>} {item.full_name}</span>
                         </td>  
                       </tr>                
                     ))}

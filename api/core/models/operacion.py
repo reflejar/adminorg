@@ -80,10 +80,18 @@ class Operacion(BaseModel):
 	@classmethod
 	def mayores(cls, cuentas, fecha=None):	
 		fecha = fecha if fecha else date.today()
-		df = read_frame(cls.get_model('Operacion').objects.filter(
-				cuenta__id__in=[cuentas.values_list('id', flat=True)], 
-				# fecha__lte=fecha,
-			).order_by('-fecha', '-comprobante__id'), fieldnames=['fecha', 'cuenta', 'cuenta__rubro', 'comprobante', 'concepto', 'proyecto__nombre', 'periodo', 'valor', 'total_pesos', 'detalle', 'comprobante__id', 'comprobante__receipt__receipt_type', 'cuenta__titulo__numero', 'cantidad', 'moneda__description', "tipo_cambio"])
+		if isinstance(cuentas.first(), Proyecto):
+			queryset = cls.get_model('Operacion').objects.filter(
+					proyecto__id__in=[cuentas.values_list('id', flat=True)], 
+					# fecha__lte=fecha,
+				).order_by('-fecha', '-comprobante__id')
+		else:
+			queryset = cls.get_model('Operacion').objects.filter(
+					cuenta__id__in=[cuentas.values_list('id', flat=True)], 
+					# fecha__lte=fecha,
+				).order_by('-fecha', '-comprobante__id')
+		df = read_frame(queryset, fieldnames=['fecha', 'cuenta', 'cuenta__rubro', 'comprobante', 'concepto', 'proyecto__nombre', 'periodo', 'valor', 'total_pesos', 'detalle', 'comprobante__id', 'comprobante__receipt__receipt_type', 'cuenta__titulo__numero', 'cantidad', 'moneda__description', "tipo_cambio"])
+		df = df
 		df['direccion'] = df['cuenta__titulo__numero'].apply(lambda x: 1 if str(x)[0] in ["1"] else -1)
 		df['fecha'] = pd.to_datetime(df['fecha'])
 		df['fecha'] = df['fecha'].dt.strftime('%Y-%m-%d')
@@ -129,7 +137,7 @@ class Operacion(BaseModel):
 
 		elif modulo in ["caja-y-bancos"]:
 			taxon = cuentas[0].taxon.nombre
-			if taxon == "seguimiento":	
+			if taxon == "cheques":	
 				df['identifier'] = df['detalle']
 				df['pago_capital'] = df.groupby('identifier')['valor'].transform('sum')
 				df = df.drop_duplicates(subset='identifier', keep='first')

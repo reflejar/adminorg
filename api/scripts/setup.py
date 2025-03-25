@@ -172,10 +172,39 @@ def crear_comunidad():
 	perfil_admin = Perfil.objects.create(
 		comunidad=comunidad,
 		nombre=f'{nombre} {apellido}',
-		numero_documento="00000000",
 	)
 	perfil_admin.users.add(user_admin)
 
+	# Creación de cuentas de tesoreria
+	## Efectivo en $
+	Cuenta.objects.create(
+		comunidad=comunidad,
+		titulo=TESORERIA,
+		rubro_id=1,
+		taxon_id=1,
+		moneda_id=1,
+		nombre="Efectivo",
+	)
+	## Efectivo en U$D
+	Cuenta.objects.create(
+		comunidad=comunidad,
+		titulo=TESORERIA,
+		rubro_id=1,
+		taxon_id=1,
+		moneda_id=2,
+		nombre="Efectivo",
+	)	
+	
+	# Creación de cuentas de resultados
+	## Donaciones
+	Cuenta.objects.create(
+		comunidad=comunidad,
+		titulo=RECURSOS,
+		rubro_id=13,
+		moneda_id=1,
+		nombre="Donaciones",
+	)
+	## Resultado (+) TC
 	Cuenta.objects.create(
 		comunidad=comunidad,
 		titulo=RECURSOS,
@@ -183,8 +212,34 @@ def crear_comunidad():
 		taxon_id=12,
 		moneda_id=1,
 		nombre="Resultado (+) TC",
-		is_active=True,
 	)
+	## Sueldos
+	Cuenta.objects.create(
+		comunidad=comunidad,
+		titulo=GASTOS,
+		rubro_id=14,
+		moneda_id=1,
+		nombre="Sueldos",
+	)
+
+	## Gastos Oficina Administración
+	Cuenta.objects.create(
+		comunidad=comunidad,
+		titulo=GASTOS,
+		rubro_id=14,
+		moneda_id=1,
+		nombre="Gastos Oficina Administración",
+	)
+	
+	## Gastos Varios
+	Cuenta.objects.create(
+		comunidad=comunidad,
+		titulo=GASTOS,
+		rubro_id=14,
+		moneda_id=1,
+		nombre="Gastos Varios",
+	)	
+	## Resultado (-) TC
 	Cuenta.objects.create(
 		comunidad=comunidad,
 		titulo=GASTOS,
@@ -192,7 +247,6 @@ def crear_comunidad():
 		taxon_id=13,
 		moneda_id=1,
 		nombre="Resultado (-) TC",
-		is_active=True,
 	)	
 
 

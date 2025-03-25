@@ -75,7 +75,6 @@ const M = ({ onClose }) => {
         razon_social: x['razon social'],
         tipo_documento: x['tipo documento'],
         numero_documento: x['numero documento'],
-        fecha_nacimiento: moment(x['fecha nacimiento']).format('YYYY-MM-DD') || null,
         domicilio_provincia: x['provincia'],
         domicilio_localidad: x['localidad'],
         domicilio_calle: x['calle'],

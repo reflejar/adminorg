@@ -3,5 +3,5 @@ export const cajas = [
     { id: 'efectivo', nombre: 'Efectivo' },
     { id: 'banco', nombre: 'Banco' },
     { id: 'billetera', nombre: 'Billetera Virtual' },
-    { id: 'seguimiento', nombre: 'Seguimiento' },
+    { id: 'cheques', nombre: 'Cheques' },
 ];

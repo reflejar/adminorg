@@ -21,7 +21,7 @@ class CU:
 		self.descargas_guardadas = []
 		self.direccion = self.comprobante.destinatario.direccion
 
-		self.pesos = CurrencyType.objects.get(description="$ARS")
+		self.pesos = CurrencyType.objects.get(description="$")
 		self.rdo_tipo_cambio_pos = Cuenta.objects.get(comunidad=self.comunidad, rubro__nombre="ingresos", taxon__nombre="tipo-cambio")
 		self.rdo_tipo_cambio_neg = Cuenta.objects.get(comunidad=self.comunidad, rubro__nombre="gastos", taxon__nombre="tipo-cambio")
 
@@ -40,8 +40,8 @@ class CU:
 				proyecto=o['proyecto'],
 				cantidad=o['cantidad'],
 				moneda=moneda,
-				valor=o['total_pesos']*self.direccion if moneda.description == "$ARS" else o['monto']*self.direccion,
-				tipo_cambio=1 if moneda.description == "$ARS" else self.tipo_cambio,
+				valor=o['total_pesos']*self.direccion if moneda.description == "$" else o['monto']*self.direccion,
+				tipo_cambio=1 if moneda.description == "$" else self.tipo_cambio,
 				total_pesos=o['total_pesos']*self.direccion,
 				detalle=o['detalle'],
 				periodo=self.fecha_operacion,
@@ -61,8 +61,8 @@ class CU:
 				proyecto=o['proyecto'],
 				cantidad=o['cantidad'],
 				moneda=moneda,
-				valor=-original*self.direccion if moneda.description == "$ARS" else -o['monto']*self.direccion,
-				tipo_cambio=1 if moneda.description == "$ARS" else o["tipo_cambio"],
+				valor=-original*self.direccion if moneda.description == "$" else -o['monto']*self.direccion,
+				tipo_cambio=1 if moneda.description == "$" else o["tipo_cambio"],
 				total_pesos=-original*self.direccion,
 				detalle=o['detalle'],
 				periodo=self.fecha_operacion,
@@ -142,8 +142,8 @@ class CU:
 				concepto=self.comprobante.destinatario,
 				fecha_vencimiento=o['fecha_vencimiento'],
 				moneda=moneda,
-				valor=o['total_pesos']*self.direccion if moneda.description == "$ARS" else o['monto']*self.direccion,
-				tipo_cambio=1 if moneda.description == "$ARS" else self.tipo_cambio,				
+				valor=o['total_pesos']*self.direccion if moneda.description == "$" else o['monto']*self.direccion,
+				tipo_cambio=1 if moneda.description == "$" else self.tipo_cambio,				
 				total_pesos=o['total_pesos']*self.direccion,
 				detalle=o['detalle'],
 			))

@@ -1,5 +1,7 @@
 [
-    {"id": 1,"code": "PES", "description": "$ARS"},
-    {"id": 2,"code": "DOL", "description": "$USD"}
+    {"id": 1,"code": "PES", "description": "$"},
+    {"id": 2,"code": "DOL", "description": "U$D"},
+    {"id": 3,"code": "EUR", "description": "€"},
+    {"id": 4,"code": "BRL", "description": "R$"}
 
 ]

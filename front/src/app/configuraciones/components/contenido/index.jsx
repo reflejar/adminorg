@@ -18,7 +18,7 @@ function Contenido({ selected }) {
                     setContent(<Grupo selected={selected} />)
                     break;
                 default:
-                    setContent("<Grupo selected={selected} />")
+                    setContent("Pronto")
                     break;
             }
         } else {
@@ -35,17 +35,17 @@ function Contenido({ selected }) {
                             className={`nav-link ${activeTab === "habilitados" && "active"} pointer`}
                             onClick={() => {setActiveTab("habilitados");}}
                         >
-                            <i className="bi-check-circle-fill text-success" /> Habilitados
+                            <i className="bi-check-circle-fill text-success" /> Activos
                         </a>
                     </li>
-                    {/* <li className="nav-item">
+                    <li className="nav-item">
                         <a
                             className={`nav-link ${activeTab === "deshabilitados" && "active"} pointer`}
                             onClick={() => {setActiveTab("deshabilitados");}}
                         >
-                            <i className="bi-x-circle-fill text-danger" /> Deshabilitados
+                            <i className="bi-x-circle-fill text-danger" /> Inactivos
                         </a>
-                    </li> */}
+                    </li>
                 </ul>
             </section>
 

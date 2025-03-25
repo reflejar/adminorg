@@ -33,7 +33,7 @@ export default function Comprobante({ moduleHandler, destinatario, comprobanteId
             point_of_sales: '',
             issued_date: moment().format('YYYY-MM-DD'),
             receipt_number: '',
-            currency: '$ARS',
+            currency: '$',
             currency_quote: 1
         },
         cargas: [],
@@ -257,7 +257,7 @@ export default function Comprobante({ moduleHandler, destinatario, comprobanteId
                                     label: 'Cantidad',
                                     },
                                     {
-                                    type: (comprobante.modulo === "caja-y-bancos" && comprobante.receipt.currency !== "$ARS") ? "number": 'hidden',
+                                    type: (comprobante.modulo === "caja-y-bancos" && comprobante.receipt.currency !== "$") ? "number": 'hidden',
                                     name: 'tipo_cambio',
                                     label: 'TC Orig',
                                     },
@@ -269,7 +269,7 @@ export default function Comprobante({ moduleHandler, destinatario, comprobanteId
                                     {
                                     type: 'number',
                                     name: 'total_pesos',
-                                    label: 'Subtotal ($ARS)',
+                                    label: 'Subtotal ($)',
                                     },
                                 ]}
                                 cleanedField={{
@@ -341,7 +341,7 @@ export default function Comprobante({ moduleHandler, destinatario, comprobanteId
                                 {
                                 type: 'number',
                                 name: 'total_pesos',
-                                label: 'Subtotal ($ARS)',
+                                label: 'Subtotal ($)',
                                 },                    
                             ]}
                             cleanedField={{

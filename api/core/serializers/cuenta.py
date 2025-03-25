@@ -95,7 +95,7 @@ class CuentaModelSerializer(serializers.ModelSerializer):
 				nombre=nombre
 			)
 
-		if query and self.context['rubro'] in ["caja-y-bancos", "ingresos", "gastos"]:
+		if query and self.context['rubro'] in ["ingresos", "gastos"]:
 			if not self.instance in query:
 				raise serializers.ValidationError('Ya existe una cuenta con el nombre solicitado')
 		
@@ -184,7 +184,6 @@ class CuentaModelSerializer(serializers.ModelSerializer):
 			perfil.nombre = perfil_data.get('nombre', perfil.nombre)
 			perfil.razon_social = perfil_data.get('razon_social', perfil.razon_social)
 			perfil.numero_documento = perfil_data.get('numero_documento', perfil.numero_documento)
-			perfil.fecha_nacimiento = perfil_data.get('fecha_nacimiento', perfil.fecha_nacimiento)
 			perfil.tipo_documento = DocumentType.objects.get(description=perfil_data['tipo_documento'])
 			perfil.mail = perfil_data.get('mail', perfil.mail)
 			perfil.telefono = perfil_data.get('telefono', perfil.telefono)

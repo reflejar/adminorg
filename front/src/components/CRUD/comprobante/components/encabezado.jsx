@@ -138,7 +138,7 @@ export default function Encabezado ({
                         ))}
                     </select>
                 </div>    
-                {comprobante.receipt.currency && comprobante.receipt.currency !== '$ARS' && <div className="col-md-1 px-1">
+                {comprobante.receipt.currency && comprobante.receipt.currency !== '$' && <div className="col-md-1 px-1">
                 <label htmlFor="fecha_operacion">TC</label>
                 <input 
                     className="form-control" 

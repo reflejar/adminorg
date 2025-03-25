@@ -48,7 +48,7 @@ function Botonera({ analizar, agrupar_por, encolumnar, totalizar, setAnalizar, s
                             checked={analizar.includes("creditos")}
                             onChange={handleChange}
                             name="analizar"
-                        /> Deudas de Financiadores
+                        /> Deudas a Cobrar
                     </label>
                 </div>
                 <div>
@@ -60,7 +60,7 @@ function Botonera({ analizar, agrupar_por, encolumnar, totalizar, setAnalizar, s
                             checked={analizar.includes("deudas")}
                             onChange={handleChange}
                             name="analizar"
-                        /> Deudas con Proveedores
+                        /> Deudas a Pagar
                     </label>
                 </div>
                 <div>
@@ -97,8 +97,8 @@ function Botonera({ analizar, agrupar_por, encolumnar, totalizar, setAnalizar, s
                 <h5 className='mt-4'><label htmlFor="totalizar">Totalizar</label></h5>
                 <select type="select" className='form-select' name='totalizar' value={totalizar} onChange={(e) => setTotalizar(e.target.value)}>
                     <option value="">---</option>
-                    <option value="total_pesos">Saldos totales $ARS</option>
-                    <option value="$ARS">Saldos $ARS</option>
+                    <option value="total_pesos">Saldos totales $</option>
+                    <option value="$">Saldos $</option>
                     <option value="$USD">Saldos $USD</option>
                 </select>
             </div>

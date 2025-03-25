@@ -48,7 +48,7 @@ const CU = ({ selected, onClose }) => {
       initialValues={{
         nombre: get(selected, 'nombre', ''),
         taxon: get(selected, 'taxon', ''),
-        moneda: get(selected, 'moneda', '$ARS'),
+        moneda: get(selected, 'moneda', '$'),
         titulo: get(selected, 'titulo', tituloPred.id),
       }}
       validationSchema={Yup.object().shape({
