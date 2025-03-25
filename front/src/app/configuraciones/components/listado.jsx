@@ -14,7 +14,7 @@ function Listado({items, instance, getItems, setSelectedObject}) {
               <div className="monitor-head bg-white">
               </div>
               <div className="monitor-body-without-footer p-3 bg-white">
-              <table className="table table-sm">
+              <table className="table table-xs">
                   <tbody>
                     {items && items.map((item,key) => (
                       <tr 

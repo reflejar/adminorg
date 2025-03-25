@@ -56,7 +56,7 @@ function Listado({searchTerm, searchOnChange, items, instance, getItems, setSele
                 </div>
               </div>
               <div className="monitor-body-without-footer p-3 bg-white">
-                {loading ? <Spinner />  : <table className="table table-sm">
+                {loading ? <Spinner />  : <table className="table table-xs table-hover">
                   <tbody>
                     {items && items.map((item,key) => (
                       <tr 
@@ -64,7 +64,7 @@ function Listado({searchTerm, searchOnChange, items, instance, getItems, setSele
                         onClick={() => setSelectedObject(item)}
                         key={key}
                       >
-                        <td className=' pointer'>{item.full_name}</td>  
+                        <td className='fs-6 pointer'>{item.full_name}</td>  
                       </tr>                
                     ))}
                   </tbody>
