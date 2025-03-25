@@ -138,18 +138,18 @@ export default function Encabezado ({
                         ))}
                     </select>
                 </div>    
-                {comprobante.receipt.currency && comprobante.receipt.currency !== '$' && <div className="col-md-1 px-1">
+                <div className="col-md-1 px-1">
                 <label htmlFor="fecha_operacion">TC</label>
                 <input 
                     className="form-control" 
                     name="receipt.currency_quote" 
                     type="number" 
                     min={1}
-                    disabled={onlyRead || comprobante.id}
+                    disabled={onlyRead || comprobante.id || comprobante.receipt.currency === '$'}
                     onChange={(e) => e.target.value >= 1 && handleChange(e) }
                     value={comprobante.receipt.currency_quote || 1}
                 />
-                </div>}
+                </div>
             </div>
     )
 };
