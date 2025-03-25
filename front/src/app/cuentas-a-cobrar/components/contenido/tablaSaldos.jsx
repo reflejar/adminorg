@@ -64,7 +64,7 @@ export default function (props) {
       label: 'Saldo',
       key: 'saldo',
     }, {
-      label: 'Moneda',
+      label: '',
       key: 'moneda',
   }];    
 

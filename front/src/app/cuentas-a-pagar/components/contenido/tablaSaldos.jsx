@@ -60,12 +60,12 @@ export default function (props) {
     }, {
       label: 'Proyecto',
       key: 'proyecto',
-    }, {      
-      label: 'Moneda',
-      key: 'moneda',
     }, {
       label: 'Saldo',
       key: 'saldo',
+    }, {      
+      label: '',
+      key: 'moneda',
   }];    
 
   const renderModal = () => {
