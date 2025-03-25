@@ -30,7 +30,7 @@ function Contenido({ selected }) {
                 <ul className="nav nav-tabs" >
                     <li className="nav-item">
                         <a
-                            className={`nav-link ${activeTab === "saldos" && "active"} pointer text-dark`}
+                            className={`nav-link ${activeTab === "saldos" && "active"} pointer`}
                             onClick={() => {setActiveTab("saldos");}}
                         >
                             <i className="bi-currency-dollar" /> A cobrar
@@ -38,7 +38,7 @@ function Contenido({ selected }) {
                     </li>
                     <li className="nav-item">
                         <a
-                            className={`nav-link ${activeTab === "cuentas" && "active"} pointer text-dark`}
+                            className={`nav-link ${activeTab === "cuentas" && "active"} pointer`}
                             onClick={() => {setActiveTab("cuentas");}}
                         >
                             <i className="bi-list-check me-2" /> Movimientos
@@ -46,7 +46,7 @@ function Contenido({ selected }) {
                     </li>
                     <li className="nav-item">
                         <a
-                            className={`nav-link ${activeTab === "info" && "active"} pointer text-dark`}
+                            className={`nav-link ${activeTab === "info" && "active"} pointer`}
                             onClick={() => {setActiveTab("info");}}
                         >
                             <i className="bi-info-circle me-2" /> Información del cliente
