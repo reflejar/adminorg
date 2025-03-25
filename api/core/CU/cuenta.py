@@ -36,8 +36,10 @@ class CU:
 			self.provincia = Provincia.objects.get(nombre=prov) if prov else None # Llega la data en forma de string y no como objeto
 
 		# Para agarrar el taxon
-		if self.rubro.nombre in ["caja-y-bancos"]:
+		if self.rubro.nombre in ["caja-y-bancos", "creditos", "deudas"]:
 			self.validate_data['taxon'] = Taxon.objects.get(nombre=self.validate_data.pop('taxon'))
+		# Para agarrar la moneda			
+		if self.rubro.nombre in ["caja-y-bancos"]:
 			self.validate_data['moneda'] = CurrencyType.objects.get(description=self.validate_data.pop('moneda'))
 			
 		

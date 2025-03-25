@@ -47,13 +47,13 @@ const CU = ({ selected, onClose }) => {
       enableReinitialize
       initialValues={{
         nombre: get(selected, 'nombre', ''),
-        taxon: get(selected, 'taxon', ''),
+        taxon: get(selected, 'taxon', 'efectivo'),
         moneda: get(selected, 'moneda', '$'),
         titulo: get(selected, 'titulo', tituloPred.id),
       }}
       validationSchema={Yup.object().shape({
         nombre: Yup.string().required(empty),
-        taxon: Yup.string(),
+        taxon: Yup.string().required(empty),
         moneda: Yup.string().required(empty),
         titulo: Yup.number().required(empty),
       })}
@@ -78,14 +78,14 @@ const CU = ({ selected, onClose }) => {
       {({ errors, touched, handleSubmit, isSubmitting }) => (
         <Form onSubmit={handleSubmit}>
           <Row>
-              <h4>Datos del Tesoro</h4>
+              {/* <h4>Datos del Tesoro</h4> */}
               <FormGroup className='col-sm-4 px-3'>
                 <Label for="nombre">Nombre<span className='text-danger'>*</span></Label>
                 <Field name="nombre" id="nombre" className={`form-control ${errors.nombre && touched.nombre && 'is-invalid'}`} />
                 {errors.nombre && touched.nombre ? <div className="invalid-feedback">{errors.nombre}</div> : null}
               </FormGroup>
               <FormGroup className='col-sm-4 px-3'>
-                <Label for="taxon">Tipo de disponibilidad</Label>
+                <Label for="taxon">Tipo de disponibilidad<span className='text-danger'>*</span></Label>
                 <Field component="select" name="taxon" id="taxon" className={`form-control ${errors.taxon && touched.taxon && 'is-invalid'}`}>
                   {cajas.map((caja, i) => {
                     return <option key={i} value={caja.id}>{caja.nombre}</option>

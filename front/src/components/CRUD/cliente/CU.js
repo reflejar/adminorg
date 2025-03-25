@@ -11,11 +11,12 @@ import { clientesActions } from '@/redux/actions/clientes';
 import Spinner from '@/components/spinner';
 import { provincias } from '@/utility/options/provincias';
 import { tipo_documentos } from '@/utility/options/documentos';
+import { creditos } from '@/utility/options/taxones';
 import { useTitulos } from '@/utility/hooks';
 
 const empty = 'Campo requerido';
 
-const CU = ({ selected, onClose }) => {
+const CU = ({ selected, onClose, presetTaxon }) => {
   const dispatch = useDispatch();
   const [titulos, loadingTitulos] = useTitulos();
   const [tituloPred, setTituloPred] = useState();
@@ -45,6 +46,7 @@ const CU = ({ selected, onClose }) => {
     <Formik
       enableReinitialize
       initialValues={{
+        taxon: get(selected, 'taxon', presetTaxon || 'donantes'),
         nombre: get(selected, 'perfil.nombre', ''),
         razon_social: get(selected, 'perfil.razon_social', '') || '',
         tipo_documento: get(selected, 'perfil.tipo_documento', ''),
@@ -58,6 +60,7 @@ const CU = ({ selected, onClose }) => {
         titulo: get(selected, 'titulo', tituloPred.id),
       }}
       validationSchema={Yup.object().shape({
+        taxon: Yup.string().required(empty),
         nombre: Yup.string().required(empty),
         razon_social: Yup.string(),
         tipo_documento: Yup.string().required(empty),
@@ -91,7 +94,16 @@ const CU = ({ selected, onClose }) => {
       {({ errors, touched, setFieldValue, handleSubmit, isSubmitting, values }) => (
         <Form onSubmit={handleSubmit}>
           <Row>
-              <h4>Datos del Socio / Financiador/ Cliente</h4>
+              {/* <h4>Datos del Socio / Financiador/ Cliente</h4> */}
+              {!presetTaxon && <FormGroup className='col-sm-4 px-3'>
+                <Label for="taxon">Tipo de Relación<span className='text-danger'>*</span></Label>
+                <Field component="select" name="taxon" id="taxon" className={`form-control ${errors.taxon && touched.taxon && 'is-invalid'}`}>
+                  {creditos.map((cred, i) => {
+                    return <option key={i} value={cred.id}>{cred.nombre}</option>
+                  })}
+                </Field>
+                {errors.taxon && touched.taxon ? <div className="invalid-feedback">{errors.taxon}</div> : null}
+              </FormGroup>}     
               <FormGroup className='col-sm-4 px-3'>
                 <Label for="nombre">Nombre<span className='text-danger'>*</span></Label>
                 <Field name="nombre" id="nombre" className={`form-control ${errors.nombre && touched.nombre && 'is-invalid'}`} />

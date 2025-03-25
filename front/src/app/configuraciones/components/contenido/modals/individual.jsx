@@ -19,8 +19,11 @@ export default function Modal ({selected}) {
   };
 
   const modals = {
-    creditos: <Cliente onClose={handleToggle} />,
-    deudas: <Proveedor onClose={handleToggle} />,
+    donantes: <Cliente onClose={handleToggle} presetTaxon="donantes" />,
+    socios: <Cliente onClose={handleToggle} presetTaxon="socios" />,
+    clientes: <Cliente onClose={handleToggle} presetTaxon="clientes" />,
+    proveedores: <Proveedor onClose={handleToggle} presetTaxon="proveedores" />,
+    empleados: <Proveedor onClose={handleToggle} presetTaxon="empleados" />,
     'caja-y-bancos': <Caja onClose={handleToggle} />,
     proyecto: <Proyecto onClose={handleToggle} />,
     ingresos: <Ingreso onClose={handleToggle} />,
@@ -33,8 +36,8 @@ export default function Modal ({selected}) {
       <BasicModal
         open={modal}
         onToggle={handleToggle}
-        button={(<button className="btn btn-outline-primary mx-1 shadow" disabled={!selected} onClick={handleToggle}>Nuevo</button>)}
-        header="Nuevo"
+        button={(<button className="btn btn-outline-primary mx-1 shadow" disabled={!selected} onClick={handleToggle}>+ Nuevo</button>)}
+        header={`Agregar ${selected && selected.full_name}`}
         component={selected && modals[selected.id]}
         footer={false}
       />

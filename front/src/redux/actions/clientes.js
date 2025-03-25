@@ -41,6 +41,7 @@ const send = (values) => async (dispatch) => {
 
   let payload = {
     titulo: values.titulo,
+    taxon: values.taxon,
     is_active: true,
     perfil: {
       nombre: values.nombre,

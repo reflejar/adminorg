@@ -26,8 +26,11 @@ import { proyectosActions } from '@/redux/actions/proyectos';
 
 function Grupo({ 
     selected, 
-    creditos, 
-    deudas,
+    donantes, 
+    socios, 
+    clientes, 
+    proveedores,
+    empleados,
     cajaYBancos,
     proyecto,
     ingresos,
@@ -44,9 +47,23 @@ function Grupo({
       };
 
     const grupos = {
-        creditos: {
+          donantes: {
             action: clientesActions,
-            lista: creditos,
+            lista: donantes,
+            columnas: [
+                { label: "Nombre", key: "perfil.nombre"},
+                { label: "Razón social", key: "perfil.razon_social" },
+                { label: "Tipo de documento", key: "perfil.tipo_documento" },
+                { label: "Numero", key: "perfil.numero_documento" },
+                { label: "Mail", key: "perfil.mail" },
+                { label: "Teléfono", key: "perfil.telefono" },
+                { label: "Editar", key: "", onClick: handleModal},
+              ],
+            modal: <Cliente selected={modal.item} onClose={handleModal} />
+        },      
+        socios: {
+            action: clientesActions,
+            lista: socios,
             columnas: [
                 { label: "Nombre", key: "perfil.nombre"},
                 { label: "Razón social", key: "perfil.razon_social" },
@@ -58,9 +75,23 @@ function Grupo({
               ],
             modal: <Cliente selected={modal.item} onClose={handleModal} />
         },
-        deudas: {
+        clientes: {
+          action: clientesActions,
+          lista: clientes,
+          columnas: [
+              { label: "Nombre", key: "perfil.nombre"},
+              { label: "Razón social", key: "perfil.razon_social" },
+              { label: "Tipo de documento", key: "perfil.tipo_documento" },
+              { label: "Numero", key: "perfil.numero_documento" },
+              { label: "Mail", key: "perfil.mail" },
+              { label: "Teléfono", key: "perfil.telefono" },
+              { label: "Editar", key: "", onClick: handleModal},
+            ],
+          modal: <Cliente selected={modal.item} onClose={handleModal} />
+      },        
+        proveedores: {
             action: proveedoresActions,
-            lista: deudas,
+            lista: proveedores,
             columnas: [
                 { label: "Nombre", key: "perfil.nombre" },
                 { label: "Razón social", key: "perfil.razon_social" },
@@ -72,6 +103,20 @@ function Grupo({
               ],
               modal: <Proveedor selected={modal.item} onClose={handleModal} />
         },
+        empleados: {
+          action: proveedoresActions,
+          lista: empleados,
+          columnas: [
+              { label: "Nombre", key: "perfil.nombre" },
+              { label: "Razón social", key: "perfil.razon_social" },
+              { label: "Tipo de documento", key: "perfil.tipo_documento" },
+              { label: "Numero", key: "perfil.numero_documento" },
+              { label: "Mail", key: "perfil.mail" },
+              { label: "Teléfono", key: "perfil.telefono" },
+              { label: "Editar", key: "", onClick: handleModal},
+            ],
+            modal: <Proveedor selected={modal.item} onClose={handleModal} />
+      },        
         proyecto: {
             action: proyectosActions,
             lista: proyecto,
@@ -134,7 +179,7 @@ function Grupo({
               <BasicModal
                 open={modal.open}
                 onToggle={handleModal}
-                header={"Editar"}
+                header={`Editar ${selected.full_name}`}
                 footer={false}
                 component={grupo.modal}
               />          
@@ -176,8 +221,11 @@ function Grupo({
   }
   
 const mapStateToProps = state => ({
-    creditos: state.clientes.list,
-    deudas: state.proveedores.list,
+    donantes: state.clientes.list.filter(cliente => cliente.taxon === "donantes"),
+    socios: state.clientes.list.filter(cliente => cliente.taxon === "socios"),
+    clientes: state.clientes.list.filter(cliente => cliente.taxon === "clientes"),
+    proveedores: state.proveedores.list.filter(cliente => cliente.taxon === "proveedores"),
+    empleados: state.proveedores.list.filter(cliente => cliente.taxon === "empleados"),
     proyecto: state.proyectos.list,
     cajaYBancos: state.cajas.list,
     ingresos: state.ingresos.list,

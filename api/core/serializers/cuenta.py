@@ -65,8 +65,11 @@ class CuentaModelSerializer(serializers.ModelSerializer):
 			self.fields['nombre'] = serializers.CharField(max_length=150, required=True)
 
 		# Incorporacion de Taxon
-		if self.context['rubro'] in ["caja-y-bancos"]:
+		if self.context['rubro'] in ["caja-y-bancos", "creditos", "deudas"]:
 			self.fields['taxon'] = serializers.ChoiceField(required=True, choices=list(Taxon.objects.filter(rubro__nombre=self.context['rubro']).values_list('nombre', flat=True)))
+		
+		# Incorporacion de Moneda
+		if self.context['rubro'] in ["caja-y-bancos"]:
 			self.fields['moneda'] = serializers.ChoiceField(choices=list(CurrencyType.objects.all().values_list('description', flat=True)),label="Moneda")
 
 		# Incorporacion de Perfil
@@ -165,8 +168,11 @@ class CuentaModelSerializer(serializers.ModelSerializer):
 			instance.nombre = validate_data['nombre']
 
 		# Actualizacion de Taxon
-		if self.context['rubro'] in ["caja-y-bancos"]:
+		if self.context['rubro'] in ["caja-y-bancos", "creditos", "deudas"]:
 			instance.taxon = Taxon.objects.get(nombre=validate_data['taxon'])
+
+		# Actualizacion de la Moneda			
+		if self.context['rubro'] in ["caja-y-bancos"]:		
 			instance.moneda = CurrencyType.objects.get(description=validate_data['moneda'])
 
 		# Actualizacion de Perfil
