@@ -72,7 +72,18 @@ export default function Comprobante({ moduleHandler, destinatario, comprobanteId
     })
     const [errors, setErrors] = useState({})
 
-
+    useEffect(() => {
+        
+        if (comprobante.receipt.currency === "$") {
+            setComprobante(doc => ({
+                ...doc, 
+                receipt: {
+                    ...doc.receipt, 
+                    currency_quote: 1
+                },
+            }))
+        }
+    }, [comprobante.receipt.currency]);
 
     useEffect(() => {
         
