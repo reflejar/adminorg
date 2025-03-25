@@ -36,7 +36,7 @@ function Listado({searchTerm, searchOnChange, items, instance, getItems, setSele
                       open={modal}
                       onToggle={handleToggle}
                       button={<i onClick={handleToggle} className="bi-plus-circle" ></i>}
-                      header="Nuevo Cliente"
+                      header="Nueva Cuenta por Cobrar"
                       component={<Cliente onClose={() => handleToggle(false)} />}
                       footer={false}
                     />
