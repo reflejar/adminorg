@@ -91,6 +91,14 @@
   font-size: 0.8rem !important;
 }
 
+.fs-6 {
+  font-size: 0.9rem !important;
+}
+
 .fs-7 {
   font-size: 0.8rem !important;
+}
+
+.table-xs > :not(caption) > * > * {
+  padding: 0.12rem 0.12rem;
 }
