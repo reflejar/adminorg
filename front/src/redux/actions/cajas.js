@@ -19,7 +19,7 @@ const get_all = () => async (dispatch) => {
     if (response) {
         const cajas = response.data.results.map(c => ({
             ...c,
-            full_name: c.nombre
+            full_name: `${c.nombre} en ${c.moneda}`
         })
         ).sort((a, b) => {
             let comparison = 0;

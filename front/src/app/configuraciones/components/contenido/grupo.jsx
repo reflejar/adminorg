@@ -130,9 +130,8 @@ function Grupo({
             action: cajasActions,
             lista: cajaYBancos,
             columnas: [
-                { label: "Nombre", key: "nombre" },
-                { label: "", key: "taxon" },
-                { label: "Moneda", key: "moneda" },
+                { label: "Nombre", key: "full_name" },
+                { label: "Tipo", key: "taxon" },
                 { label: "Editar", key: "", onClick: handleModal},
               ],
               modal: <Caja selected={modal.item} onClose={handleModal} />
