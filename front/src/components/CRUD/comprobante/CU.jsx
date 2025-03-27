@@ -117,7 +117,10 @@ export default function Comprobante({ moduleHandler, destinatario, comprobanteId
         }
     }, [comprobante.receipt.currency]);
 
-
+    // Magia para que cuando se seleccionen tipo de comprobante y punto de venta te abra el paso 2
+    useEffect(()=> {
+        if (comprobante.receipt.receipt_type && comprobante.receipt.point_of_sales) setStep(1)
+    }, [comprobante.receipt])    
 
     // Generación de subtotales y validaciones
     useEffect(() => {
@@ -144,9 +147,11 @@ export default function Comprobante({ moduleHandler, destinatario, comprobanteId
             // Si se crean cargas o si se intenta pagar cobros y existen descargas
             // las descargas deben ser IGUAL a la suma de cobros y cargas
             if (totalDeudas>0 && totalDescargas>0) return totalDescargas === totalDeudas
-            
             if (totalDeudas < 0) return false// Significa que SOLAMENTE HAY SALDOS A FAVOR. No pase
-            if (totalCobros > 0) return false // Significa que SOLAMENTE HAY COBROS. No pase
+            if (totalCobros > 0) {
+                if (step < 2) return true
+                return false // Significa que SOLAMENTE HAY COBROS. No pase
+            }
             return totalCargas > 0 // Significa que SOLAMENTE HAY CARGAS. Pase pase
     
         }
@@ -425,7 +430,7 @@ export default function Comprobante({ moduleHandler, destinatario, comprobanteId
                     <a onClick={onClose} className="btn btn-outline-danger btn-block">Cancelar</a>
                     {comprobante.pdf && <button onClick={showPDF} target="_blank" className="btn btn-bordered btn-warning btn-block mx-1">Imprimir</button>}
                     {comprobante.link && <a href={comprobante.link} target="_blank" className="btn btn-bordered btn-warning btn-block mx-1">Ver</a>}
-                    {comprobante.destinatario && comprobante.receipt.receipt_type && step < 3 && <button onClick={changeStep} disabled={!comprobante.receipt.receipt_type} className="btn btn-bordered btn-block mx-1 btn-primary">Siguiente</button>}           
+                    {comprobante.destinatario && comprobante.receipt.receipt_type && step < 3 && <button onClick={changeStep} disabled={!canSend} className="btn btn-bordered btn-block mx-1 btn-primary">Siguiente</button>}           
                     {!onlyRead && step === 3 && <button disabled={!canSend} onClick={handleSubmit} type="submit" className="btn btn-bordered btn-block mx-1 btn-primary">Guardar</button>}
                     </div>
                 </div>
