@@ -77,7 +77,7 @@ export default function Appendable ({ comprobante, setComprobante, onlyRead, han
             <table className="table table-condensed">
                 <thead>
                 <tr>
-                    {fields.filter(f => f.type !== "hidden").map((field, i) => (<th key={i} style={{width: 200}}>
+                    {fields.filter(f => f.type !== "hidden").map((field, i) => (<th className="fs-6" key={i} style={{width: 200}}>
                     {field.label}
                     </th>))}
                 </tr>

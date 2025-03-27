@@ -44,7 +44,7 @@ export default function Comprobante({ moduleHandler, destinatario, comprobanteId
     // const [clientes, loadingClientes] = useClientes();
     // const [proveedores, loadingProveedores] = useProveedores();
     const [onlyRead, setOnlyRead] = useState();
-    const [step, setStep] = useState(1)
+    const [step, setStep] = useState(0)
     const [ingresos, loadingIngresos] = useIngresos();
     const [proyectos, loadingProyectos] = useProyectos();
     const [gastos, loadingGastos] = useGastos();
@@ -53,38 +53,22 @@ export default function Comprobante({ moduleHandler, destinatario, comprobanteId
     const [canSend, setCanSend] = useState(false)
     const [loading, setLoading] = useState(false)
     const [tipoComprobante, setTipoComprobante] = useState({})
+    const [subtotales, setSubtotales] = useState({
+        cargas: 0,
+        cobros: 0,
+        descargas: 0
+    })
+
     const [titulos, setTitulos] = useState({
-        encabezado: "Encabezado del Comprobante",
-        cargas: {
-            creditos: "Detalle del Comprobante",
-            deudas: "Debitos",
-            "caja-y-bancos": "Cargar dinero"
-        }[moduleHandler],
-        cobros: {
-            creditos: "Saldos a cobrar",
-            deudas: "Saldos a pagar",
-        }[comprobante.modulo],
-        descargas: {
-            creditos: "Información para el cobro",
-            deudas: "Información para el pago",
-        }[comprobante.modulo],
+        encabezado: "",
+        cargas: "",
+        cobros: "",
+        descargas: "",
         descripcion: "Observaciones"
     })
     const [errors, setErrors] = useState({})
 
-    useEffect(() => {
-        
-        if (comprobante.receipt.currency === "$") {
-            setComprobante(doc => ({
-                ...doc, 
-                receipt: {
-                    ...doc.receipt, 
-                    currency_quote: 1
-                },
-            }))
-        }
-    }, [comprobante.receipt.currency]);
-
+    // Primera interacción, trae los datos si es un comprobante ya generado
     useEffect(() => {
         
         if (comprobanteId) {
@@ -103,6 +87,7 @@ export default function Comprobante({ moduleHandler, destinatario, comprobanteId
           }
     }, []);
 
+    // Gestión del cambio en tipo de comprobantes
     useEffect(()=> {
         if (!comprobante.id) {
             setComprobante(doc => ({
@@ -116,42 +101,62 @@ export default function Comprobante({ moduleHandler, destinatario, comprobanteId
             const newTipo = CHOICES.receiptTypes[comprobante.modulo].find(t => t.value === comprobante.receipt.receipt_type)
             setTipoComprobante(newTipo)
         }
-    }, [comprobante.receipt.receipt_type])
+    }, [comprobante.receipt.receipt_type])    
 
-
-    const validate = () => {
-        if (comprobante.receipt.receipt_type === '') return false
-        if (comprobante.receipt.point_of_sales === '') return false
-        if (comprobante.receipt.currency === '') return false
-        if (comprobante.receipt.receipt_type !== '') {
-            if(tipoComprobante && tipoComprobante.receipt_number === "manual" && comprobante.receipt.receipt_number === "") 
-            return false
-        }
-
-        const totalCargas = comprobante.cargas ? comprobante.cargas.filter(c => (c.concepto !== 0 && Number(c.total_pesos) > 0)).reduce((total, current) => total + Number(current['total_pesos']), 0) : 0
-        const totalCobros = comprobante.cobros ? comprobante.cobros.reduce((total, current) => total + Number(current['total_pesos']), 0) : 0
-        const totalDescargas = comprobante.descargas ? comprobante.descargas.filter(c => (c.cuenta !== 0 && Number(c.total_pesos) > 0)).reduce((total, current) => total + Number(current['total_pesos']), 0) : 0
-        const totalDeudas = totalCargas + totalCobros
-
-        // Si se crean cargas o si se intenta pagar cobros y existen descargas
-        // las descargas deben ser IGUAL a la suma de cobros y cargas
-        if (totalDeudas>0 && totalDescargas>0) return totalDescargas === totalDeudas
-        
-        if (totalDeudas < 0) return false// Significa que SOLAMENTE HAY SALDOS A FAVOR. No pase
-        if (totalCobros > 0) return false // Significa que SOLAMENTE HAY COBROS. No pase
-        return totalCargas > 0 // Significa que SOLAMENTE HAY CARGAS. Pase pase
-
-    }
-
-
+    // Gestión de la moneda
     useEffect(() => {
-        // Generación de titulos
-        setTitulos(prev => ({
-            ...prev,
-        }))
-        // Validación si se puede enviar o no
-        setCanSend(validate(comprobante))
+        
+        if (comprobante.receipt.currency === "$") {
+            setComprobante(doc => ({
+                ...doc, 
+                receipt: {
+                    ...doc.receipt, 
+                    currency_quote: 1
+                },
+            }))
+        }
+    }, [comprobante.receipt.currency]);
+
+
+
+    // Generación de subtotales y validaciones
+    useEffect(() => {
+        const totalCargas = comprobante.cargas ? comprobante.cargas.filter(c => (c.concepto !== 0 && Number(c.total_pesos) > 0)).reduce((total, current) => total + Number(current['total_pesos']), 0) : 0
+        setSubtotales(prev => ({...prev,cargas: totalCargas}))
+        
+        const totalCobros = comprobante.cobros ? comprobante.cobros.reduce((total, current) => total + Number(current['total_pesos']), 0) : 0
+        setSubtotales(prev => ({...prev,cobros: totalCobros}))
+
+        const totalDescargas = comprobante.descargas ? comprobante.descargas.filter(c => (c.cuenta !== 0 && Number(c.total_pesos) > 0)).reduce((total, current) => total + Number(current['total_pesos']), 0) : 0
+        setSubtotales(prev => ({...prev,descargas: totalDescargas}))
+
+        const validate = () => {
+            if (comprobante.receipt.receipt_type === '') return false
+            if (comprobante.receipt.point_of_sales === '') return false
+            if (comprobante.receipt.currency === '') return false
+            if (comprobante.receipt.receipt_type !== '') {
+                if(tipoComprobante && tipoComprobante.receipt_number === "manual" && comprobante.receipt.receipt_number === "") 
+                return false
+            }
+    
+            const totalDeudas = totalCargas + totalCobros
+    
+            // Si se crean cargas o si se intenta pagar cobros y existen descargas
+            // las descargas deben ser IGUAL a la suma de cobros y cargas
+            if (totalDeudas>0 && totalDescargas>0) return totalDescargas === totalDeudas
+            
+            if (totalDeudas < 0) return false// Significa que SOLAMENTE HAY SALDOS A FAVOR. No pase
+            if (totalCobros > 0) return false // Significa que SOLAMENTE HAY COBROS. No pase
+            return totalCargas > 0 // Significa que SOLAMENTE HAY CARGAS. Pase pase
+    
+        }
+        setCanSend(validate())
+    
+
     }, [comprobante])
+
+
+
     
     const updateSituation = useCallback(() => {
         dispatch(saldosActions.get({ destinatario: destinatario.id, fecha: moment().format('YYYY-MM-DD'), save:true }));
@@ -209,8 +214,8 @@ export default function Comprobante({ moduleHandler, destinatario, comprobanteId
     return (
         <form onSubmit={handleSubmit} name="form_cbte" method="POST">
             <Portlet 
-                title={titulos.encabezado} 
-                handler='Encabezado del Comprobante' 
+                title={comprobante.receipt.receipt_type ? `${comprobante.receipt.receipt_type} - ${destinatario.full_name} - ${comprobante.receipt.issued_date}` : "Encabezado del Comprobante"} 
+                handler='comprobante-encabezado' 
                 color={step > 1 ? "bg-light" : ""}
             >
                 <Encabezado 
@@ -222,12 +227,13 @@ export default function Comprobante({ moduleHandler, destinatario, comprobanteId
             </Portlet>
 
             {(loadingIngresos || loadingCajas || loadingGastos || loadingProyectos || loadingSaldos) ? <Spinner /> : <div>
-                            {/* Seccion de Cargas */}
+            {/* Seccion de Cargas */}
             {step >= 1 && 
                 tipoComprobante && tipoComprobante.comportamiento === "aumento" && 
                         <Portlet 
-                            title={titulos.cargas}
-                            handler='descargas'
+                            title={"Detalle del Comprobante"}
+                            handler='comprobante-descargas'
+                            subtotal={subtotales.cargas}
                             color={step > 1 ? "bg-light" : ""}
                         >
                             <Appendable 
@@ -244,7 +250,11 @@ export default function Comprobante({ moduleHandler, destinatario, comprobanteId
                                     {
                                     type: 'select',
                                     name: 'concepto',
-                                    label: comprobante.modulo === "caja-y-bancos" ? "Desde": 'Tipo',
+                                    label: {
+                                        "caja-y-bancos": "Desde",
+                                        creditos: 'Ingreso',
+                                        deudas: 'Gasto'
+                                    }[comprobante.modulo],
                                     choices: {
                                         "caja-y-bancos": cajas,
                                         creditos: ingresos,
@@ -299,8 +309,9 @@ export default function Comprobante({ moduleHandler, destinatario, comprobanteId
             {step >= 1 && 
                 tipoComprobante && tipoComprobante.comportamiento === "disminucion"  && (["creditos", "deudas"].includes(comprobante.modulo) || onlyRead) && 
                 <Portlet 
-                    title={titulos.cobros}
-                    handler="cobros"
+                    title={"Listado de Saldos a Pagar"}
+                    handler="comprobante-cobros"
+                    subtotal={subtotales.cobros}
                     color={step > 1 ? "bg-light" : ""}
                 >
                     <Selectable 
@@ -318,8 +329,9 @@ export default function Comprobante({ moduleHandler, destinatario, comprobanteId
             {step >= 2 && 
                 comprobante.receipt.receipt_type && (["creditos", "deudas"].includes(comprobante.modulo) || onlyRead) &&  
                     <Portlet 
-                        title={titulos.descargas}
-                        handler='descargas'
+                        title={"Formas de Pago"}
+                        subtotal={subtotales.descargas}
+                        handler='comprobante-descargas'
                         color={step > 2 ? "bg-light" : ""}
                     >
                         <Appendable 
@@ -368,7 +380,7 @@ export default function Comprobante({ moduleHandler, destinatario, comprobanteId
                 
             {step >= 3 && comprobante.receipt.receipt_type && comprobante.fecha_operacion && <Portlet 
                 title="Observaciones"
-                handler="descripcion"
+                handler="comprobante-descripcion"
                 color={step > 3 ? "bg-light" : ""}
                 >
                 <div className="row">
@@ -409,10 +421,8 @@ export default function Comprobante({ moduleHandler, destinatario, comprobanteId
 
             <div className="panel-footer mt-3">
                 <div className="row">
-                    <div className="col-sm-6">
-                        <a onClick={onClose} className="btn btn-outline-danger btn-block">Cancelar</a>
-                    </div>
-                    <div className="col-sm-6 text-end">
+                    <div className="col-md-6 offset-md-6 text-end">
+                    <a onClick={onClose} className="btn btn-outline-danger btn-block">Cancelar</a>
                     {comprobante.pdf && <button onClick={showPDF} target="_blank" className="btn btn-bordered btn-warning btn-block mx-1">Imprimir</button>}
                     {comprobante.link && <a href={comprobante.link} target="_blank" className="btn btn-bordered btn-warning btn-block mx-1">Ver</a>}
                     {comprobante.destinatario && comprobante.receipt.receipt_type && step < 3 && <button onClick={changeStep} disabled={!comprobante.receipt.receipt_type} className="btn btn-bordered btn-block mx-1 btn-primary">Siguiente</button>}           
