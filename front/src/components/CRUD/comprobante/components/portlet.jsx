@@ -25,7 +25,7 @@ return (
                     // type="button" 
                     onClick={() => setDisplay(!display)}>
                         <div className="col-md-6 text-primary">{title}</div>
-                        {subtotal > 0 && <div className="col-md-4 text-end text-info">Subtotal: ${subtotal.toLocaleString('es-ES', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</div>}
+                        {subtotal > 0 && <div className="col-md-4 text-end text-info">Subtotal: {subtotal.toLocaleString('es-ES', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</div>}
                 </div>
             </div>
             <div id={`collapse-${handler}`} className={`accordion-collapse collapse ${display && "show" }`} aria-labelledby={`heading-${handler}`}>

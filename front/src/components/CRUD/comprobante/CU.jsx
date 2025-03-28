@@ -119,18 +119,18 @@ export default function Comprobante({ moduleHandler, destinatario, comprobanteId
 
     // Magia para que cuando se seleccionen tipo de comprobante y punto de venta te abra el paso 2
     useEffect(()=> {
-        if (comprobante.receipt.receipt_type && comprobante.receipt.point_of_sales) setStep(1)
+        if (!comprobante.id && comprobante.receipt.receipt_type && comprobante.receipt.point_of_sales) setStep(1)
     }, [comprobante.receipt])    
 
     // Generación de subtotales y validaciones
     useEffect(() => {
-        const totalCargas = comprobante.cargas ? comprobante.cargas.filter(c => (c.concepto !== 0 && Number(c.total_pesos) > 0)).reduce((total, current) => total + Number(current['total_pesos']), 0) : 0
+        const totalCargas = comprobante.cargas ? comprobante.cargas.filter(c => (c.concepto !== 0 && Number(c.monto) > 0)).reduce((total, current) => total + Number(current['monto']), 0) : 0
         setSubtotales(prev => ({...prev,cargas: totalCargas}))
         
-        const totalCobros = comprobante.cobros ? comprobante.cobros.reduce((total, current) => total + Number(current['total_pesos']), 0) : 0
+        const totalCobros = comprobante.cobros ? comprobante.cobros.reduce((total, current) => total + Number(current['monto']), 0) : 0
         setSubtotales(prev => ({...prev,cobros: totalCobros}))
 
-        const totalDescargas = comprobante.descargas ? comprobante.descargas.filter(c => (c.cuenta !== 0 && Number(c.total_pesos) > 0)).reduce((total, current) => total + Number(current['total_pesos']), 0) : 0
+        const totalDescargas = comprobante.descargas ? comprobante.descargas.filter(c => (c.cuenta !== 0 && Number(c.monto) > 0)).reduce((total, current) => total + Number(current['monto']), 0) : 0
         setSubtotales(prev => ({...prev,descargas: totalDescargas}))
 
         const validate = () => {
@@ -309,7 +309,6 @@ export default function Comprobante({ moduleHandler, destinatario, comprobanteId
                             />
                         </Portlet>
             }
-
             {/* Sección de Selección de cargas anteriores */}
             {step >= 1 && 
                 tipoComprobante && tipoComprobante.comportamiento === "disminucion"  && (["creditos", "deudas"].includes(comprobante.modulo) || onlyRead) && 
