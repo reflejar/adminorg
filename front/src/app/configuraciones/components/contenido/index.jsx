@@ -12,7 +12,7 @@ function Contenido({ selected }) {
     const [content, setContent] = useState("");
 
     useEffect(()=> {
-        if (selected) {
+        if (selected && !["perfil", "comunidad"].includes(selected.id)) {
             switch (activeTab) {
                 case "habilitados":
                     setContent(<Grupo selected={selected} />)
@@ -25,6 +25,14 @@ function Contenido({ selected }) {
             setContent("Por favor seleccione")
         }
     }, [selected, activeTab])
+
+    if (selected && ["perfil", "comunidad"].includes(selected.id)) {
+        return <div className="col-lg-8 min-vh-100">
+            <section className="monitor-body bg-white p-3">
+                Formularios
+            </section>
+        </div>
+    }
 
     return (<div className="col-lg-8 min-vh-100">
 

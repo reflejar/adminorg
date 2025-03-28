@@ -1,8 +1,10 @@
 'use client'
 
+import { useState } from "react";
 import Link from "next/link"
 import Image from "next/image"
 import { usePathname, useRouter } from "next/navigation";
+import { useDispatch } from "react-redux";
 import {
     UncontrolledDropdown,
     DropdownToggle,
@@ -12,12 +14,13 @@ import {
  } from "reactstrap";
 
 import { useAuthContext } from "@/contexts/authContext";
-import { useState } from "react";
+import { configuracionesActions } from "@/redux/actions/configuraciones";
 
 export default function Sidebar() {
 
     const [isOpen, setIsOpen] = useState(false);
     const { changeCommunity, currentUser } = useAuthContext();
+    const dispatch = useDispatch();
 
   const handleClick = () => {
     setIsOpen(!isOpen);
@@ -141,7 +144,12 @@ export default function Sidebar() {
 
                             {/* <Link to="/user-profile" className="p-0"> */}
                             <DropdownItem>
+                                <div onClick={() => {
+                                    dispatch(configuracionesActions.select({id: "perfil", icon: "bi-caret-right", full_name: "Datos del Perfil"},))
+                                    router.push('/configuraciones')
+                                }} >
                                 <i className="bi-person"></i> Ver Perfil
+                                </div>                                
                             </DropdownItem>
                             {/* </Link> */}
                             {currentUser.admin_of.length > 0 && <select
