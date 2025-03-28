@@ -1,6 +1,6 @@
 import { combineReducers } from 'redux';
 
-const analizar = (state = ["proyectos"], action) => {
+const analizar = (state = ["proyecto"], action) => {
     switch (action.type) {
       case 'SELECT_ANALIZAR':
         return action.payload;
@@ -22,9 +22,9 @@ const agrupar_por = (state = '', action) => {
   }
 
 
-const encolumnar = (state = '', action) => {
+const periodo = (state = 'hoy', action) => {
     switch (action.type) {
-      case 'SELECT_COLUMNAS':
+      case 'SELECT_PERIODO':
         return action.payload;
 
       default:
@@ -47,7 +47,7 @@ const totalizar = (state = 'total_pesos', action) => {
 export default combineReducers({
   analizar,
   agrupar_por,
-  encolumnar,
+  periodo,
   totalizar
 });
 

@@ -21,7 +21,7 @@ echarts.use(
     [TitleComponent, TooltipComponent, LegendComponent, PieChart, BarChart, LineChart, CanvasRenderer, GridComponent]
 );
 
-function Contenido({ analizar, agrupar_por, encolumnar, totalizar }) {
+function Contenido({ analizar, agrupar_por, periodo, totalizar }) {
     const [loading, setLoading] = useState(false);
     const dispatch = useDispatch();
     const [data, setData] = useState([]);
@@ -30,26 +30,26 @@ function Contenido({ analizar, agrupar_por, encolumnar, totalizar }) {
     useEffect(() => {
         if (analizar.length > 0 && totalizar !== '') {
             setLoading(true);
-            dispatch(analisisActions.fetchData({ analizar, agrupar_por, encolumnar, totalizar }))
+            dispatch(analisisActions.fetchData({ analizar, agrupar_por, periodo, totalizar }))
                 .then((response) => {
                     setData(response.data);
                 })
                 .finally(() => setLoading(false));
         }
-    }, [analizar, agrupar_por, encolumnar, totalizar]);
+    }, [analizar, agrupar_por, periodo, totalizar]);
 
     useEffect(() => {
         if (data.length > 0) {
             if (analizar.length > 1) {
                 renderBarChart();
             }
-            else if (encolumnar === 'periodo') {
+            else if (periodo === 'mensual') {
                 renderStackedLineChart();
             } else {
                 renderPieChart();
             }
         }
-    }, [data, encolumnar]);
+    }, [data, periodo]);
 
     const renderStackedLineChart = () => {
         chartRef.current.innerHTML = '';
@@ -57,7 +57,7 @@ function Contenido({ analizar, agrupar_por, encolumnar, totalizar }) {
         const myChart = echarts.init(chartDom);
         const nuevasColumnas = data.length > 0 ? Object.keys(data[0]).filter((o) => o !== "cuenta" && o !== "proyecto" && o !== "concepto") : [];
     
-        const groupByColumn = agrupar_por || 'cuenta';
+        const groupByColumn = agrupar_por || analizar[0] === "proyecto" ? "proyecto" : "cuenta";
     
         // Crear mapa para agrupar datos
         const aggregatedData = data.reduce((acc, item) => {
@@ -71,12 +71,12 @@ function Contenido({ analizar, agrupar_por, encolumnar, totalizar }) {
             return acc;
         }, {});
     
-        // Aplicar suma acumulativa por grupo
-        Object.keys(aggregatedData).forEach(group => {
-            for (let i = 1; i < nuevasColumnas.length; i++) {
-                aggregatedData[group][i] += aggregatedData[group][i - 1]; // Acumulación
-            }
-        });
+        // // Aplicar suma acumulativa por grupo
+        // Object.keys(aggregatedData).forEach(group => {
+        //     for (let i = 1; i < nuevasColumnas.length; i++) {
+        //         aggregatedData[group][i] += aggregatedData[group][i - 1]; // Acumulación
+        //     }
+        // });
     
         const seriesData = Object.keys(aggregatedData).map(group => ({
             name: group,
@@ -123,7 +123,7 @@ function Contenido({ analizar, agrupar_por, encolumnar, totalizar }) {
         const myChart = echarts.init(chartDom);
 
         // Determine which column to use based on agrupar_por
-        const groupByColumn = agrupar_por || 'cuenta';
+        const groupByColumn = agrupar_por || analizar[0] === "proyecto" ? "proyecto" : "cuenta";
 
         // Aggregate totals by the selected column
         const totalsByGroup = data.reduce((acc, item) => {
@@ -187,7 +187,7 @@ function Contenido({ analizar, agrupar_por, encolumnar, totalizar }) {
         const myChart = echarts.init(chartDom);
 
         // Determine which column to use based on agrupar_por
-        const groupByColumn = agrupar_por || 'cuenta';
+        const groupByColumn = agrupar_por || analizar[0] === "proyecto" ? "proyecto" : "cuenta";
 
         // Aggregate totals by the selected column
         const totalsByGroup = data.reduce((acc, item) => {
@@ -270,7 +270,7 @@ function Contenido({ analizar, agrupar_por, encolumnar, totalizar }) {
 const mapStateToProps = state => ({
     analizar: state.analisis.analizar,
     agrupar_por: state.analisis.agrupar_por,
-    encolumnar: state.analisis.encolumnar,
+    periodo: state.analisis.periodo,
     totalizar: state.analisis.totalizar,
 });
 

@@ -16,7 +16,7 @@ const selectAgrupar = (tipo) => ({
 })
 
 const selectColumna = (tipo) => ({
-    type: 'SELECT_COLUMNAS',
+    type: 'SELECT_PERIODO',
     payload: tipo
 })
 
@@ -31,7 +31,7 @@ const fetchData = (params) => async (dispatch) => {
         end_date: moment(new Date()).format('YYYY-MM-DD'),
         analizar: params.analizar.join(","),
         agrupar_por: params.agrupar_por || '', 
-        encolumnar: params.encolumnar  || '', 
+        periodo: params.periodo  || 'hoy', 
         totalizar: params.totalizar
     })
     const response = await Service.get(apiEndpoint + '/?' + query);

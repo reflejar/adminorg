@@ -83,6 +83,8 @@ class Operacion(BaseModel):
 		if isinstance(cuentas.first(), Proyecto):
 			queryset = cls.get_model('Operacion').objects.filter(
 					proyecto__id__in=[cuentas.values_list('id', flat=True)], 
+					cuenta__rubro__nombre__in=["creditos"],
+					valor__gte=0
 					# fecha__lte=fecha,
 				).order_by('-fecha', '-comprobante__id')
 		else:
@@ -91,7 +93,6 @@ class Operacion(BaseModel):
 					# fecha__lte=fecha,
 				).order_by('-fecha', '-comprobante__id')
 		df = read_frame(queryset, fieldnames=['fecha', 'cuenta', 'cuenta__rubro', 'comprobante', 'concepto', 'proyecto__nombre', 'periodo', 'valor', 'total_pesos', 'detalle', 'comprobante__id', 'comprobante__receipt__receipt_type', 'cuenta__titulo__numero', 'cantidad', 'moneda__description', "tipo_cambio"])
-		df = df
 		df['direccion'] = df['cuenta__titulo__numero'].apply(lambda x: 1 if str(x)[0] in ["1"] else -1)
 		df['fecha'] = pd.to_datetime(df['fecha'])
 		df['fecha'] = df['fecha'].dt.strftime('%Y-%m-%d')
