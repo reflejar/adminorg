@@ -87,7 +87,6 @@ function Botonera({ analizar, agrupar_por, encolumnar, totalizar, setAnalizar, s
                     <h5 className='mt-4'><label htmlFor="encolumnar">Período</label></h5>
                     <select type="select" className='form-select' name='encolumnar' value={encolumnar} onChange={(e) => setColumna(e.target.value)}>
                         <option value="">Hoy</option>
-                        <option value="periodo">Semanal</option>
                         <option value="periodo">Mensual</option>
                     </select>
                 </div> : null}                

@@ -52,20 +52,18 @@ function Contenido({ analizar, agrupar_por, encolumnar, totalizar }) {
     }, [data, encolumnar]);
 
     const renderStackedLineChart = () => {
-        // reset chartRef
         chartRef.current.innerHTML = '';
         const chartDom = chartRef.current;
         const myChart = echarts.init(chartDom);
         const nuevasColumnas = data.length > 0 ? Object.keys(data[0]).filter((o) => o !== "cuenta" && o !== "proyecto" && o !== "concepto") : [];
     
-        // Determine the groupByColumn based on agrupar_por
         const groupByColumn = agrupar_por || 'cuenta';
     
-        // Create a map to aggregate data
+        // Crear mapa para agrupar datos
         const aggregatedData = data.reduce((acc, item) => {
             const group = item[groupByColumn];
             if (!acc[group]) {
-                acc[group] = nuevasColumnas.map(col => 0);
+                acc[group] = nuevasColumnas.map(() => 0);
             }
             nuevasColumnas.forEach((col, index) => {
                 acc[group][index] += parseFloat(item[col]) || 0;
@@ -73,17 +71,19 @@ function Contenido({ analizar, agrupar_por, encolumnar, totalizar }) {
             return acc;
         }, {});
     
+        // Aplicar suma acumulativa por grupo
+        Object.keys(aggregatedData).forEach(group => {
+            for (let i = 1; i < nuevasColumnas.length; i++) {
+                aggregatedData[group][i] += aggregatedData[group][i - 1]; // Acumulación
+            }
+        });
+    
         const seriesData = Object.keys(aggregatedData).map(group => ({
             name: group,
             type: 'line',
             data: aggregatedData[group]
         }));
     
-        // const option = {
-
-
-        // };
-
         const option = {
             tooltip: {
                 trigger: 'axis',
@@ -93,14 +93,14 @@ function Contenido({ analizar, agrupar_por, encolumnar, totalizar }) {
                 formatter: function (params) {
                     return `<b>${params[0].name}</b><br />${params.map(p => `${p.marker}${p.seriesName}: $${p.value.toLocaleString('de-DE', { minimumFractionDigits: 0 })}`).join('<br />')}`;
                 }
-            },            
-            color:colors,      
+            },
+            color: colors,
             legend: {
                 data: Object.keys(aggregatedData)
-            },            
+            },
             xAxis: {
                 type: 'category',
-                boundaryGap: false,                
+                boundaryGap: false,
                 data: nuevasColumnas
             },
             yAxis: {
@@ -110,10 +110,10 @@ function Contenido({ analizar, agrupar_por, encolumnar, totalizar }) {
                     formatter: function (value) {
                         return `$${value.toLocaleString('de-DE', { minimumFractionDigits: 0 })}`;
                     }
-                }              
+                }
             },
             series: seriesData
-          };
+        };
     
         myChart.setOption(option);
     };
